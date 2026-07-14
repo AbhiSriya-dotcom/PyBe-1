@@ -727,6 +727,14 @@ function ThemeSelectorPage({ selectedTheme, setSelectedTheme }) {
 function DashboardPage({ username, membership, tokens, completedChallenges, challenges, setUpsellChapter, setUpsellModalOpen }) {
   const carouselRef = useRef(null);
 
+  const getRelativeLevel = (c) => {
+    if (!c) return 1;
+    const chapterChallenges = challenges.filter(ch => ch.chapter === c.chapter);
+    chapterChallenges.sort((a, b) => a.id - b.id);
+    const idx = chapterChallenges.findIndex(ch => ch.id === c.id);
+    return idx !== -1 ? idx + 1 : 1;
+  };
+
   const scrollLeft = () => {
     if (carouselRef.current) carouselRef.current.scrollBy({ left: -280, behavior: 'smooth' });
   };
@@ -768,34 +776,25 @@ function DashboardPage({ username, membership, tokens, completedChallenges, chal
   };
 
   return (
-    <section id="route-dashboard" className="page-route">
-      <div className="dashboard-hero section-container">
-        <div className="dashboard-welcome">
-          <h2>Welcome back, <span className="accent-text">{username || 'Python Cadet'}</span>! 🚀</h2>
-          <p>Ready to level up your programming skills today?</p>
+    <section className="dashboard-container">
+      
+      {/* Top Banner Row */}
+      <div className="dashboard-banner glass-panel animate-fade-in">
+        <div className="banner-left">
+          <span className="user-avatar-glow">🚀</span>
+          <div>
+            <h1>Welcome back, {username || 'Hero'}!</h1>
+            <p>Ready to continue your Python logic campaign?</p>
+          </div>
         </div>
-
-        <div className="dashboard-stats-row">
-          <div className="dash-stat-card glass-panel">
-            <span className="stat-icon">🎓</span>
-            <div className="stat-info">
-              <h4>{completedChapsCount} Chapters Completed</h4>
-              <p>Overall Level Progress</p>
-            </div>
+        <div className="banner-right">
+          <div className="stat-card">
+            <span className="stat-label">Membership Status</span>
+            <span className="stat-value text-accent">{membership} Pro</span>
           </div>
-          <div className="dash-stat-card glass-panel">
-            <span className="stat-icon">🔥</span>
-            <div className="stat-info">
-              <h4>{completedChallenges.length} / {challenges.length} Solved</h4>
-              <p>Challenges Completed</p>
-            </div>
-          </div>
-          <div className="dash-stat-card glass-panel">
-            <span className="stat-icon">✨</span>
-            <div className="stat-info">
-              <h4>{membership === 'Premium' ? '∞' : tokens} Tokens Left</h4>
-              <p>Daily Assistant Power</p>
-            </div>
+          <div className="stat-card">
+            <span className="stat-label">AI Prompt Tokens</span>
+            <span className="stat-value text-glow">{tokens} left</span>
           </div>
         </div>
       </div>
@@ -824,8 +823,10 @@ function DashboardPage({ username, membership, tokens, completedChallenges, chal
                     {ch.desc}
                   </p>
                   <div className="chapter-footer">
-                    <span className="challenge-count">{chChallenges.length} levels</span>
-                    <span className="progress-pill">{getChapterProgress(ch.num)}% Complete</span>
+                    <span>{chChallenges.length} levels</span>
+                    <span style={{ color: getChapterProgress(ch.num) === 100 ? '#00E676' : '#fff' }}>
+                      {getChapterProgress(ch.num)}% Completed
+                    </span>
                   </div>
                 </div>
               );
@@ -841,6 +842,7 @@ function DashboardPage({ username, membership, tokens, completedChallenges, chal
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '20px' }}>
           {challenges.map(c => {
             const isCompleted = completedChallenges.includes(c.id);
+            const relLvl = getRelativeLevel(c);
             return (
               <div 
                 key={c.id} 
@@ -858,7 +860,7 @@ function DashboardPage({ username, membership, tokens, completedChallenges, chal
               >
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                   <span className={`badge ${isCompleted ? 'badge-success' : 'badge-accent'}`}>
-                    Lvl {c.id} {isCompleted ? '• Unlocked' : '• Locked'}
+                    Lvl {relLvl} {isCompleted ? '• Unlocked' : '• Locked'}
                   </span>
                   <span>{isCompleted ? '💡' : '🔒'}</span>
                 </div>
@@ -866,7 +868,7 @@ function DashboardPage({ username, membership, tokens, completedChallenges, chal
                 {isCompleted ? (
                   <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', lineHeight: '1.5' }} dangerouslySetInnerHTML={{ __html: c.whyThisMatters }}></p>
                 ) : (
-                  <p style={{ fontSize: '0.85rem', color: 'var(--text-dark)', fontStyle: 'italic' }}>Complete challenge Level {c.id} to unlock this Python theory guide.</p>
+                  <p style={{ fontSize: '0.85rem', color: 'var(--text-dark)', fontStyle: 'italic' }}>Complete challenge Level {relLvl} to unlock this Python theory guide.</p>
                 )}
               </div>
             );
@@ -889,6 +891,14 @@ function WorkspacePage({
   const [code, setCode] = useState(challenge.template);
   const [actualOut, setActualOut] = useState('> Ready. Click "Run Python Code" to execute.');
   const [isError, setIsError] = useState(false);
+
+  const getRelativeLevel = (c) => {
+    if (!c) return 1;
+    const chapterChallenges = challenges.filter(ch => ch.chapter === c.chapter);
+    chapterChallenges.sort((a, b) => a.id - b.id);
+    const idx = chapterChallenges.findIndex(ch => ch.id === c.id);
+    return idx !== -1 ? idx + 1 : 1;
+  };
 
   // Quiz States
   const [quizAnswers, setQuizAnswers] = useState({});
@@ -1056,7 +1066,7 @@ function WorkspacePage({
     setChatInput('');
 
     setTimeout(() => {
-      let response = `In this challenge ("${challenge.title}"), you must output exactly "${challenge.targetOutput}". Review your variables and calculations!`;
+      let response = `In this challenge (Level ${getRelativeLevel(challenge)}), you must output exactly "${challenge.targetOutput}". Review your variables and calculations!`;
       if (text.toLowerCase().includes('error') || text.toLowerCase().includes('wrong')) {
         response = `Here is a debugger hint: ${challenge.errorTips}`;
       }
@@ -1100,7 +1110,7 @@ function WorkspacePage({
                       }}
                     >
                       <div className="challenge-label">
-                        <span className="challenge-num">Chapter {c.chapter} • Lvl {c.id}</span>
+                        <span className="challenge-num">Chapter {c.chapter} • Lvl {getRelativeLevel(c)}</span>
                         <span className="challenge-title">{c.title}</span>
                       </div>
                       {isDone ? <span style={{ color: '#00E676' }}>✓</span> : null}
@@ -1142,7 +1152,7 @@ function WorkspacePage({
           <div className="split-left" style={{ width: `${leftWidth}%` }}>
             <div className="workspace-nav-bar">
               <a href="#/dashboard" className="btn-back">← Back to Dashboard</a>
-              <div className="active-challenge-title">Challenge {challenge.id}</div>
+              <div className="active-challenge-title">Challenge {getRelativeLevel(challenge)}</div>
             </div>
 
             <div className="instructions-card glass-panel">
@@ -1472,6 +1482,14 @@ function PromptWorkspacePage({
   const [actualOut, setActualOut] = useState('> Ready. Write your prompt below and click "Evaluate Prompt".');
   const [isError, setIsError] = useState(false);
 
+  const getRelativeLevel = (c) => {
+    if (!c) return 1;
+    const chapterChallenges = challenges.filter(ch => ch.chapter === c.chapter);
+    chapterChallenges.sort((a, b) => a.id - b.id);
+    const idx = chapterChallenges.findIndex(ch => ch.id === c.id);
+    return idx !== -1 ? idx + 1 : 1;
+  };
+
   // Chat States for AI Helper
   const [messages, setMessages] = useState([
     { sender: 'bot', text: "Hello! This is the AI Helper. Stuck on how to prompt for this level? Ask me any questions!" }
@@ -1547,7 +1565,7 @@ function PromptWorkspacePage({
     setMessages(prev => [...prev, { sender: 'user', text }]);
     setChatInput('');
     setTimeout(() => {
-      let response = `To prompt for Level ${challenge.id}, describe the task requirements. For example: "Print exactly '${challenge.targetOutput}'."`;
+      let response = `To prompt for Level ${getRelativeLevel(challenge)}, describe the task requirements. For example: "Print exactly '${challenge.targetOutput}'."`;
       setMessages(prev => [...prev, { sender: 'bot', text: response }]);
     }, 600);
   };
@@ -1578,7 +1596,7 @@ function PromptWorkspacePage({
                     }}
                   >
                     <div className="challenge-label">
-                      <span className="challenge-num">Chapter {c.chapter} • Lvl {c.id}</span>
+                      <span className="challenge-num">Chapter {c.chapter} • Lvl {getRelativeLevel(c)}</span>
                       <span className="challenge-title">{c.title}</span>
                     </div>
                     {completedChallenges.includes(c.id) && <span style={{ color: '#00E676' }}>✓</span>}
@@ -1619,7 +1637,7 @@ function PromptWorkspacePage({
           <div className="split-left" style={{ width: `${leftWidth}%` }}>
             <div className="workspace-nav-bar">
               <a href="#/dashboard" className="btn-back">← Back to Dashboard</a>
-              <div className="active-challenge-title">Prompt Challenge {challenge.id}</div>
+              <div className="active-challenge-title">Prompt Challenge {getRelativeLevel(challenge)}</div>
             </div>
 
             <div className="instructions-card glass-panel">
