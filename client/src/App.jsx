@@ -806,23 +806,18 @@ function DashboardPage({ username, membership, tokens, completedChallenges, chal
             <h2 className="section-title">Coding Journey</h2>
             <p className="section-desc">{completedChapsCount} of {chaptersList.length} chapters completed</p>
           </div>
-          <div className="carousel-nav">
-            <button className="btn btn-secondary btn-icon-only" onClick={scrollLeft}>◀</button>
-            <button className="btn btn-secondary btn-icon-only" onClick={scrollRight}>▶</button>
-          </div>
         </div>
 
-        <div className="carousel-viewport" ref={carouselRef}>
-          <div className="journey-carousel">
-            {chaptersList.map(ch => {
-              const chChallenges = challenges.filter(c => c.chapter === ch.num);
-              return (
-                <div 
-                  key={ch.num} 
-                  className="chapter-card unlocked" 
-                  onClick={() => handleChapterClick(ch.num)}
-                  style={{ minWidth: '280px' }}
-                >
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '20px', marginTop: '24px' }}>
+          {chaptersList.map(ch => {
+            const chChallenges = challenges.filter(c => c.chapter === ch.num);
+            return (
+              <div 
+                key={ch.num} 
+                className="chapter-card unlocked" 
+                onClick={() => handleChapterClick(ch.num)}
+                style={{ width: '100%', cursor: 'pointer' }}
+              >
                   <div className="chapter-badge">Chapter {ch.num}</div>
                   <h3 style={{ textTransform: 'capitalize' }}>{ch.title}</h3>
                   <p style={{ display: '-webkit-box', WebkitLineClamp: '3', WebkitBoxOrient: 'vertical', overflow: 'hidden', textOverflow: 'ellipsis' }}>
@@ -835,7 +830,6 @@ function DashboardPage({ username, membership, tokens, completedChallenges, chal
                 </div>
               );
             })}
-          </div>
         </div>
       </section>
 
