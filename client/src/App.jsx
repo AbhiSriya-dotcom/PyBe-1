@@ -1238,9 +1238,12 @@ function WorkspacePage({
                 className="btn btn-primary btn-glow" 
                 onClick={() => {
                   setSuccessModalOpen(false);
-                  const nextId = challenge.id + 1;
-                  if (nextId <= challenges.length) {
-                    window.location.hash = `#/challenge/${nextId}`;
+                  const chapterChallenges = challenges.filter(c => c.chapter === challenge.chapter);
+                  chapterChallenges.sort((a, b) => a.id - b.id);
+                  const currentIndex = chapterChallenges.findIndex(c => c.id === challenge.id);
+                  if (currentIndex !== -1 && currentIndex < chapterChallenges.length - 1) {
+                    const nextChallenge = chapterChallenges[currentIndex + 1];
+                    window.location.hash = `#/challenge/${nextChallenge.id}`;
                   } else {
                     window.location.hash = '#/dashboard';
                   }
@@ -1705,9 +1708,12 @@ function PromptWorkspacePage({
                 className="btn btn-primary btn-glow" 
                 onClick={() => {
                   setSuccessModalOpen(false);
-                  const nextId = challenge.id + 1;
-                  if (nextId <= challenges.length) {
-                    window.location.hash = `#/prompt-workspace/${nextId}`;
+                  const chapterChallenges = challenges.filter(c => c.chapter === challenge.chapter);
+                  chapterChallenges.sort((a, b) => a.id - b.id);
+                  const currentIndex = chapterChallenges.findIndex(c => c.id === challenge.id);
+                  if (currentIndex !== -1 && currentIndex < chapterChallenges.length - 1) {
+                    const nextChallenge = chapterChallenges[currentIndex + 1];
+                    window.location.hash = `#/prompt-workspace/${nextChallenge.id}`;
                   } else {
                     window.location.hash = '#/dashboard';
                   }
