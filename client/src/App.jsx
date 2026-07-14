@@ -949,6 +949,14 @@ function WorkspacePage({
     setQuizAnswers({});
     setQuizFeedback({});
     setRevealedShortAnswers({});
+
+    // Auto-pop Concept Guide modal only for the first level of each chapter!
+    if (getRelativeLevel(challenge) === 1) {
+      setConceptModalOpen(true);
+    } else {
+      setConceptModalOpen(false);
+    }
+    setCurrentStep(0);
   }, [challenge]);
 
   const handleMouseDown = () => {
@@ -1304,7 +1312,17 @@ function WorkspacePage({
       {/* Concept Guide Modal Overlay */}
       {conceptModalOpen && (
         <div className="modal-overlay" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', background: 'rgba(10, 10, 18, 0.75)', backdropFilter: 'blur(8px)', zIndex: 2000 }}>
-          <div className="glass-panel" style={{ display: 'flex', alignItems: 'center', gap: '24px', maxWidth: '580px', padding: '24px', borderRadius: '12px', border: '1px solid var(--border-color)', animation: 'fadeInUp 0.3s ease-out' }}>
+          <div className="glass-panel" style={{ display: 'flex', alignItems: 'center', gap: '24px', maxWidth: '580px', padding: '24px', borderRadius: '12px', border: '1px solid var(--border-color)', animation: 'fadeInUp 0.3s ease-out', position: 'relative' }}>
+            {/* Close X Button */}
+            <button 
+              onClick={() => {
+                setConceptModalOpen(false);
+                setCurrentStep(0);
+              }}
+              style={{ position: 'absolute', top: '12px', right: '15px', background: 'none', border: 'none', color: 'var(--text-muted)', fontSize: '1.2rem', cursor: 'pointer', outline: 'none' }}
+            >
+              ✕
+            </button>
             
             {/* SVG Animated Robot Avatar */}
             <div style={{ width: '80px', height: '80px', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(0,176,255,0.08)', borderRadius: '50%', border: '2px solid var(--accent-color)', flexShrink: 0 }}>
