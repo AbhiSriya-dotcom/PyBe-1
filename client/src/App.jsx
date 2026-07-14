@@ -892,6 +892,32 @@ function WorkspacePage({
   const [actualOut, setActualOut] = useState('> Ready. Click "Run Python Code" to execute.');
   const [isError, setIsError] = useState(false);
 
+  const [conceptModalOpen, setConceptModalOpen] = useState(false);
+  const [currentStep, setCurrentStep] = useState(0);
+
+  const getDialogueSteps = () => {
+    if (challenge.chapter === 1) {
+      return [
+        "Welcome! I am BeBot, your PyBe companion robot! 🤖 Let's talk about print statements.",
+        "The print() function takes text or values and prints them directly to the console output.",
+        "Remember to wrap text in quotes: print('text') or print(\"text\"). Without quotes, Python thinks it is a variable name and will throw a NameError!"
+      ];
+    } else if (challenge.chapter === 2) {
+      return [
+        "Hey cadet! Let's understand Variables. Think of variables as labeled drawers in your computer memory. 📦",
+        "Writing 'fruits = 25' stores the value 25 inside the drawer labeled 'fruits'.",
+        "When you run print(fruits), Python opens the fruits drawer and prints its contents. No quotes needed here!"
+      ];
+    } else {
+      return [
+        `Welcome to Chapter ${challenge.chapter}! 🌟 Let's learn about ${challenge.concept}.`,
+        challenge.instructions.replace(/<[^>]*>/g, ''),
+        "Follow the starter code comments, check your output, and run Python code to progress!"
+      ];
+    }
+  };
+  const dialogueSteps = getDialogueSteps();
+
   const getRelativeLevel = (c) => {
     if (!c) return 1;
     const chapterChallenges = challenges.filter(ch => ch.chapter === c.chapter);
@@ -1150,9 +1176,18 @@ function WorkspacePage({
           
           {/* Left Split: Challenge Description */}
           <div className="split-left" style={{ width: `${leftWidth}%` }}>
-            <div className="workspace-nav-bar">
-              <a href="#/dashboard" className="btn-back">← Back to Dashboard</a>
-              <div className="active-challenge-title">Challenge {getRelativeLevel(challenge)}</div>
+            <div className="workspace-nav-bar" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
+                <a href="#/dashboard" className="btn-back">← Back to Dashboard</a>
+                <div className="active-challenge-title">Challenge {getRelativeLevel(challenge)}</div>
+              </div>
+              <button 
+                className="btn btn-secondary btn-small" 
+                onClick={() => setConceptModalOpen(true)}
+                style={{ background: 'rgba(0, 176, 255, 0.1)', border: '1px solid rgba(0, 176, 255, 0.3)', color: '#00b0ff' }}
+              >
+                🤖 Explain Concept
+              </button>
             </div>
 
             <div className="instructions-card glass-panel">
@@ -1262,6 +1297,64 @@ function WorkspacePage({
                 Next Challenge 🚀
               </button>
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* Concept Guide Modal Overlay */}
+      {conceptModalOpen && (
+        <div className="modal-overlay" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', background: 'rgba(10, 10, 18, 0.75)', backdropFilter: 'blur(8px)', zIndex: 2000 }}>
+          <div className="glass-panel" style={{ display: 'flex', alignItems: 'center', gap: '24px', maxWidth: '580px', padding: '24px', borderRadius: '12px', border: '1px solid var(--border-color)', animation: 'fadeInUp 0.3s ease-out' }}>
+            
+            {/* SVG Animated Robot Avatar */}
+            <div style={{ width: '80px', height: '80px', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(0,176,255,0.08)', borderRadius: '50%', border: '2px solid var(--accent-color)', flexShrink: 0 }}>
+              <svg width="60" height="60" viewBox="0 0 60 60" style={{ fill: 'none' }}>
+                {/* Robot Head */}
+                <rect x="15" y="18" width="30" height="24" rx="8" fill="#1e293b" stroke="#00b0ff" strokeWidth="3" />
+                {/* Antennas */}
+                <line x1="30" y1="18" x2="30" y2="10" stroke="#00b0ff" strokeWidth="3" />
+                <circle cx="30" cy="8" r="3" fill="#00e676" />
+                {/* Eyes */}
+                <circle cx="23" cy="28" r="3" fill="#00e676">
+                  <animate attributeName="opacity" values="1;1;0;1;1" keyTimes="0;0.45;0.5;0.55;1" dur="4s" repeatCount="indefinite" />
+                </circle>
+                <circle cx="37" cy="28" r="3" fill="#00e676">
+                  <animate attributeName="opacity" values="1;1;0;1;1" keyTimes="0;0.45;0.5;0.55;1" dur="4s" repeatCount="indefinite" />
+                </circle>
+                {/* Mouth Panel */}
+                <rect x="23" y="35" width="14" height="3" rx="1.5" fill="#00b0ff">
+                  <animate attributeName="height" values="3;5;2;6;3" dur="0.8s" repeatCount="indefinite" />
+                </rect>
+              </svg>
+            </div>
+
+            {/* Bubble */}
+            <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '12px', textAlign: 'left' }}>
+              <h3 style={{ margin: 0, color: 'var(--accent-color)', fontSize: '1.1rem' }}>PyCode Guide 🤖</h3>
+              <p style={{ margin: 0, fontSize: '0.9rem', color: '#fff', lineHeight: '1.5' }}>
+                {dialogueSteps[currentStep]}
+              </p>
+              <div style={{ display: 'flex', gap: '10px', marginTop: '8px' }}>
+                {currentStep > 0 && (
+                  <button className="btn btn-secondary btn-small" onClick={() => setCurrentStep(prev => prev - 1)}>
+                    Back
+                  </button>
+                )}
+                {currentStep < dialogueSteps.length - 1 ? (
+                  <button className="btn btn-accent btn-small" onClick={() => setCurrentStep(prev => prev + 1)}>
+                    Next ➔
+                  </button>
+                ) : (
+                  <button className="btn btn-success btn-small" onClick={() => {
+                    setConceptModalOpen(false);
+                    setCurrentStep(0);
+                  }}>
+                    Got It! 🚀
+                  </button>
+                )}
+              </div>
+            </div>
+
           </div>
         </div>
       )}
