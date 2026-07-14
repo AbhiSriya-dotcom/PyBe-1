@@ -1,6 +1,90 @@
 [
   {
     "chapter": 1,
+    "title": "Say Hello to the Jungle",
+    "concept": "print() — Output & What is Code?",
+    "conceptName": "Jungle of Prints!",
+    "instructions": "Use the <code>print()</code> function to output exactly the string <code>\"Hello, world\"</code> to the console.",
+    "whyThisMatters": "The <code>print()</code> statement is the fundamental way a programmer inspects values and communicates with user dashboards. Every major software journey starts with standard console output.",
+    "template": "print(\"replace me\")",
+    "targetOutput": "Hello, world",
+    "errorTips": "Make sure you type exactly <code>print(\"Hello, world\")</code>. Double check quotes and capitalization!",
+    "quizQuestions": [],
+    "promptChallenge": {},
+    "id": 1
+  },
+  {
+    "chapter": 1,
+    "title": "Printing Numbers & Math",
+    "concept": "print() — Output & What is Code?",
+    "conceptName": "Jungle of Prints!",
+    "instructions": "Output the mathematical product of multiplying <code>5</code> by <code>10</code> directly inside a print statement. e.g. <code>print(5 * 10)</code>.",
+    "whyThisMatters": "Python evaluates math expressions inside arguments before executing functions. This inline computation is extremely fast and saves storing redundant variables.",
+    "template": "print()",
+    "targetOutput": "50",
+    "errorTips": "Provide the multiplication formula inside the print parenthesis, e.g. <code>5 * 10</code>. Do not write quotes, otherwise it will print the formula text instead of the math result!",
+    "quizQuestions": [],
+    "promptChallenge": {},
+    "id": 2
+  },
+  {
+    "chapter": 2,
+    "title": "Storing Jungle Fruits",
+    "concept": "Variables & Data Storage",
+    "conceptName": "Forest Signposts",
+    "instructions": "Create a variable named <code>fruits</code> and set its value to <code>25</code>. On the next line, print the variable's value: <code>print(fruits)</code>.",
+    "whyThisMatters": "Variables store data in temporary memory blocks so they can be easily manipulated or referenced repeatedly in long scripts.",
+    "template": "# Create fruits variable below\n",
+    "targetOutput": "25",
+    "errorTips": "Ensure you assign it exactly: <code>fruits = 25</code>, and then run <code>print(fruits)</code> without wrapping the variable name in quotes.",
+    "quizQuestions": [],
+    "promptChallenge": {},
+    "id": 3
+  },
+  {
+    "chapter": 2,
+    "title": "Simple Fruit Adder",
+    "concept": "Variables & Data Storage",
+    "conceptName": "Forest Signposts",
+    "instructions": "Add two variables: <code>apples = 10</code> and <code>oranges = 15</code>. Store the sum in a variable named <code>total</code>, then print <code>total</code>.",
+    "whyThisMatters": "Mathematical addition across memory cells is the mechanical basis of web checkouts, inventory updates, and database calculations.",
+    "template": "apples = 10\noranges = 15\n# Compute total and print it below\n",
+    "targetOutput": "25",
+    "errorTips": "Write <code>total = apples + oranges</code> and then <code>print(total)</code>. Double check variable spelling!",
+    "quizQuestions": [],
+    "promptChallenge": {},
+    "id": 4
+  },
+  {
+    "chapter": 4,
+    "title": "String Length Check",
+    "concept": "String Operations & Indexing",
+    "conceptName": "Rune Slices & Matrices",
+    "instructions": "Count the number of characters in the string <code>\"Supercalifragilistic\"</code> using the built-in <code>len()</code> function, and output the length using a print statement.",
+    "whyThisMatters": "Checking length enables validation parameters, string truncation safeguards, and size indexing boundaries on servers.",
+    "template": "word = \"Supercalifragilistic\"\n# Print length here\n",
+    "targetOutput": "20",
+    "errorTips": "Pass the variable or literal string into <code>len()</code> inside your print, like: <code>print(len(word))</code>.",
+    "quizQuestions": [],
+    "promptChallenge": {},
+    "id": 5
+  },
+  {
+    "chapter": 10,
+    "title": "Jungle Pack Lists",
+    "concept": "Creating & accessing lists",
+    "conceptName": "Party Member Rosters",
+    "instructions": "Initialize a Python list named <code>pack</code> containing standard string items <code>\"rope\"</code>, <code>\"map\"</code>, and <code>\"canteen\"</code>. Print the list to inspect it.",
+    "whyThisMatters": "Arrays and list collections group multiple related elements into a single variable index, laying the track for dynamic loop runs.",
+    "template": "# Create list and print it below\n",
+    "targetOutput": "['rope', 'map', 'canteen']",
+    "errorTips": "Declare list with square brackets: <code>pack = [\"rope\", \"map\", \"canteen\"]</code> and then <code>print(pack)</code>.",
+    "quizQuestions": [],
+    "promptChallenge": {},
+    "id": 6
+  },
+  {
+    "chapter": 1,
     "title": "Village Notice Board",
     "concept": "print() — Output & What is Code?",
     "conceptName": "Jungle of Prints!",
@@ -46,7 +130,7 @@
       "description": "Write a prompt to an AI asking it to explain what print() does. Mention that you are a complete beginner and that you want to understand the difference between displaying output and returning a value inside a function.",
       "rubric": "Specificity (2pts): mentions beginner context + specific confusion point | Clarity (1pt): clear question structure | Context (2pts): explains what you already tried"
     },
-    "id": 1
+    "id": 7
   },
   {
     "chapter": 1,
@@ -95,7 +179,7 @@
       "description": "Write a prompt to an AI asking it to explain what print() does. Mention that you are a complete beginner and that you want to understand the difference between displaying output and returning a value inside a function.",
       "rubric": "Specificity (2pts): mentions beginner context + specific confusion point | Clarity (1pt): clear question structure | Context (2pts): explains what you already tried"
     },
-    "id": 2
+    "id": 8
   },
   {
     "chapter": 2,
@@ -144,7 +228,7 @@
       "description": "Write a prompt to an AI asking it to explain variables using a real-world analogy (like boxes or containers). Ask it to give 3 examples of poorly named variables and explain why each is bad.",
       "rubric": "Specificity (2pts): asks for analogy + 3 bad examples | Clarity (1pt): clear structure | Context (2pts): mentions beginner level"
     },
-    "id": 3
+    "id": 9
   },
   {
     "chapter": 2,
@@ -193,7 +277,7 @@
       "description": "Write a prompt to an AI asking it to explain variables using a real-world analogy (like boxes or containers). Ask it to give 3 examples of poorly named variables and explain why each is bad.",
       "rubric": "Specificity (2pts): asks for analogy + 3 bad examples | Clarity (1pt): clear structure | Context (2pts): mentions beginner level"
     },
-    "id": 4
+    "id": 10
   },
   {
     "chapter": 3,
@@ -242,7 +326,7 @@
       "description": "Write a prompt to an AI asking it to explain the difference between int, float, and str. Explain that you're confused about when to use each and give a specific example of a beginner mistake involving types.",
       "rubric": "Specificity (2pts): mentions confusion + concrete example | Clarity (1pt): organized | Context (2pts): describes your experience level"
     },
-    "id": 5
+    "id": 11
   },
   {
     "chapter": 3,
@@ -291,7 +375,7 @@
       "description": "Write a prompt to an AI asking it to explain the difference between int, float, and str. Explain that you're confused about when to use each and give a specific example of a beginner mistake involving types.",
       "rubric": "Specificity (2pts): mentions confusion + concrete example | Clarity (1pt): organized | Context (2pts): describes your experience level"
     },
-    "id": 6
+    "id": 12
   },
   {
     "chapter": 4,
@@ -352,7 +436,7 @@
       "description": "Write a prompt to an AI asking it to explain zero-based indexing. Specifically ask why 'hello'[0] gives 'h' not 'he', and ask for a real-world analogy that makes it intuitive.",
       "rubric": "Specificity (2pts): asks specific question + analogy | Clarity (1pt): clear structure | Context (2pts): describes confusion"
     },
-    "id": 7
+    "id": 13
   },
   {
     "chapter": 4,
@@ -413,7 +497,7 @@
       "description": "Write a prompt to an AI asking it to explain zero-based indexing. Specifically ask why 'hello'[0] gives 'h' not 'he', and ask for a real-world analogy that makes it intuitive.",
       "rubric": "Specificity (2pts): asks specific question + analogy | Clarity (1pt): clear structure | Context (2pts): describes confusion"
     },
-    "id": 8
+    "id": 14
   },
   {
     "chapter": 5,
@@ -474,7 +558,7 @@
       "description": "Write a prompt to an AI asking it to solve this word problem step by step: 'A spaceship holds 450 units of fuel. Each jump burns 120 units. How many full jumps can you make, and how much fuel is left over?' Ask it to explain the difference between / and //.",
       "rubric": "Specificity (2pts): includes specific problem | Clarity (2pts): asks for step-by-step reasoning | Context (1pt): asks about operator difference"
     },
-    "id": 9
+    "id": 15
   },
   {
     "chapter": 5,
@@ -535,7 +619,7 @@
       "description": "Write a prompt to an AI asking it to solve this word problem step by step: 'A spaceship holds 450 units of fuel. Each jump burns 120 units. How many full jumps can you make, and how much fuel is left over?' Ask it to explain the difference between / and //.",
       "rubric": "Specificity (2pts): includes specific problem | Clarity (2pts): asks for step-by-step reasoning | Context (1pt): asks about operator difference"
     },
-    "id": 10
+    "id": 16
   },
   {
     "chapter": 6,
@@ -584,7 +668,7 @@
       "description": "Write a prompt to an AI asking it to compare == and = in Python. Explain that you keep confusing them and ask for a memory trick or clear analogy to distinguish assignment from comparison.",
       "rubric": "Specificity (2pts): asks specific question + memory trick | Clarity (1pt): clear | Context (2pts): mentions repeated confusion"
     },
-    "id": 11
+    "id": 17
   },
   {
     "chapter": 6,
@@ -633,7 +717,7 @@
       "description": "Write a prompt to an AI asking it to compare == and = in Python. Explain that you keep confusing them and ask for a memory trick or clear analogy to distinguish assignment from comparison.",
       "rubric": "Specificity (2pts): asks specific question + memory trick | Clarity (1pt): clear | Context (2pts): mentions repeated confusion"
     },
-    "id": 12
+    "id": 18
   },
   {
     "chapter": 7,
@@ -682,7 +766,7 @@
       "description": "Write a prompt to an AI describing a bug you're facing: you have an if statement but it runs even when the condition should be False. Ask it to explain why indentation matters and how to debug if statements.",
       "rubric": "Specificity (2pts): describes specific bug behavior | Clarity (1pt): clear | Context (2pts): explains what you tried"
     },
-    "id": 13
+    "id": 19
   },
   {
     "chapter": 7,
@@ -731,7 +815,7 @@
       "description": "Write a prompt to an AI asking it to review your if/elif/else chain for a grading system (A/B/C/D/F). Describe the problem, show your current code, and ask whether your conditions are in the right order.",
       "rubric": "Specificity (2pts): shows code + describes the issue | Clarity (1pt): clear | Context (2pts): asks about order logic"
     },
-    "id": 14
+    "id": 20
   },
   {
     "chapter": 7,
@@ -780,7 +864,7 @@
       "description": "Write a prompt to an AI asking it to simplify a nested if/elif/else chain you wrote for a game AI. Show it your current code and ask how to flatten it using logical operators. Also ask what the 'arrow anti-pattern' is and how to avoid it.",
       "rubric": "Specificity (2pts): shows code + asks to simplify | Clarity (1pt): clear | Context (2pts): asks for anti-pattern explanation"
     },
-    "id": 15
+    "id": 21
   },
   {
     "chapter": 7,
@@ -829,7 +913,7 @@
       "description": "Write a prompt to an AI describing a bug you're facing: you have an if statement but it runs even when the condition should be False. Ask it to explain why indentation matters and how to debug if statements.",
       "rubric": "Specificity (2pts): describes specific bug behavior | Clarity (1pt): clear | Context (2pts): explains what you tried"
     },
-    "id": 16
+    "id": 22
   },
   {
     "chapter": 7,
@@ -878,7 +962,7 @@
       "description": "Write a prompt to an AI asking it to review your if/elif/else chain for a grading system (A/B/C/D/F). Describe the problem, show your current code, and ask whether your conditions are in the right order.",
       "rubric": "Specificity (2pts): shows code + describes the issue | Clarity (1pt): clear | Context (2pts): asks about order logic"
     },
-    "id": 17
+    "id": 23
   },
   {
     "chapter": 7,
@@ -927,7 +1011,7 @@
       "description": "Write a prompt to an AI asking it to simplify a nested if/elif/else chain you wrote for a game AI. Show it your current code and ask how to flatten it using logical operators. Also ask what the 'arrow anti-pattern' is and how to avoid it.",
       "rubric": "Specificity (2pts): shows code + asks to simplify | Clarity (1pt): clear | Context (2pts): asks for anti-pattern explanation"
     },
-    "id": 18
+    "id": 24
   },
   {
     "chapter": 8,
@@ -988,7 +1072,7 @@
       "description": "Write a prompt to an AI explaining the difference between 'and' and 'or'. Give a real-world scenario (like a login system) where you'd use each, and ask for 3 example expressions that return True or False to test your understanding.",
       "rubric": "Specificity (1pt): asks for concrete examples | Clarity (2pts): asks for clear scenario | Context (2pts): describes own understanding"
     },
-    "id": 19
+    "id": 25
   },
   {
     "chapter": 8,
@@ -1049,7 +1133,7 @@
       "description": "Write a prompt to an AI explaining the difference between 'and' and 'or'. Give a real-world scenario (like a login system) where you'd use each, and ask for 3 example expressions that return True or False to test your understanding.",
       "rubric": "Specificity (1pt): asks for concrete examples | Clarity (2pts): asks for clear scenario | Context (2pts): describes own understanding"
     },
-    "id": 20
+    "id": 26
   },
   {
     "chapter": 9,
@@ -1098,7 +1182,7 @@
       "description": "Write a prompt to an AI asking it to explain when to use for loops versus while loops. Include a specific scenario from your learning (iterating over a list vs waiting for a condition), and ask when each is more appropriate.",
       "rubric": "Specificity (2pts): includes specific scenario | Clarity (1pt): clear question | Context (2pts): describes what already tried"
     },
-    "id": 21
+    "id": 27
   },
   {
     "chapter": 9,
@@ -1147,7 +1231,7 @@
       "description": "Write a prompt to an AI describing a bug: your while loop is running forever and your program freezes. Ask it to explain how to avoid infinite loops and what safeguards to put in place.",
       "rubric": "Specificity (2pts): describes the freezing bug | Clarity (1pt): clear | Context (2pts): asks for safeguards"
     },
-    "id": 22
+    "id": 28
   },
   {
     "chapter": 9,
@@ -1196,7 +1280,7 @@
       "description": "Write a prompt to an AI asking it to explain when to use break vs continue. Give a specific scenario like skipping certain items in a game list or stopping a search when something is found, and ask which control flow statement to use.",
       "rubric": "Specificity (2pts): includes scenario | Clarity (1pt): clear | Context (2pts): describes use case"
     },
-    "id": 23
+    "id": 29
   },
   {
     "chapter": 9,
@@ -1245,7 +1329,7 @@
       "description": "Write a prompt to an AI asking it to explain nested loops using a real-world analogy. Describe a scenario where you need to process a 2D grid (like a chess board or spreadsheet) and ask how to decide which loop is the outer and which is the inner.",
       "rubric": "Specificity (2pts): describes 2D scenario | Clarity (1pt): clear | Context (2pts): asks for analogy"
     },
-    "id": 24
+    "id": 30
   },
   {
     "chapter": 9,
@@ -1306,7 +1390,7 @@
       "description": "Write a prompt to an AI asking it to optimize your accumulator code that sums 100 numbers. Show your current loop-based approach and ask whether Python's built-in sum() function is more efficient, and why or why not.",
       "rubric": "Specificity (2pts): shows code + asks for optimization | Clarity (1pt): clear | Context (2pts): mentions scale"
     },
-    "id": 25
+    "id": 31
   },
   {
     "chapter": 9,
@@ -1355,7 +1439,7 @@
       "description": "Write a prompt to an AI asking it to explain when to use for loops versus while loops. Include a specific scenario from your learning (iterating over a list vs waiting for a condition), and ask when each is more appropriate.",
       "rubric": "Specificity (2pts): includes specific scenario | Clarity (1pt): clear question | Context (2pts): describes what already tried"
     },
-    "id": 26
+    "id": 32
   },
   {
     "chapter": 9,
@@ -1404,7 +1488,7 @@
       "description": "Write a prompt to an AI describing a bug: your while loop is running forever and your program freezes. Ask it to explain how to avoid infinite loops and what safeguards to put in place.",
       "rubric": "Specificity (2pts): describes the freezing bug | Clarity (1pt): clear | Context (2pts): asks for safeguards"
     },
-    "id": 27
+    "id": 33
   },
   {
     "chapter": 9,
@@ -1453,7 +1537,7 @@
       "description": "Write a prompt to an AI asking it to explain when to use break vs continue. Give a specific scenario like skipping certain items in a game list or stopping a search when something is found, and ask which control flow statement to use.",
       "rubric": "Specificity (2pts): includes scenario | Clarity (1pt): clear | Context (2pts): describes use case"
     },
-    "id": 28
+    "id": 34
   },
   {
     "chapter": 9,
@@ -1502,7 +1586,7 @@
       "description": "Write a prompt to an AI asking it to explain nested loops using a real-world analogy. Describe a scenario where you need to process a 2D grid (like a chess board or spreadsheet) and ask how to decide which loop is the outer and which is the inner.",
       "rubric": "Specificity (2pts): describes 2D scenario | Clarity (1pt): clear | Context (2pts): asks for analogy"
     },
-    "id": 29
+    "id": 35
   },
   {
     "chapter": 9,
@@ -1563,7 +1647,7 @@
       "description": "Write a prompt to an AI asking it to optimize your accumulator code that sums 100 numbers. Show your current loop-based approach and ask whether Python's built-in sum() function is more efficient, and why or why not.",
       "rubric": "Specificity (2pts): shows code + asks for optimization | Clarity (1pt): clear | Context (2pts): mentions scale"
     },
-    "id": 30
+    "id": 36
   },
   {
     "chapter": 10,
@@ -1624,7 +1708,7 @@
       "description": "Write a prompt to an AI asking it to explain list indexing and why [-1] gives the last item. Ask for a mental model or diagram.",
       "rubric": "Specificity (1pt): describes confusion | Clarity (1pt): clear | Context (2pts): asks for model"
     },
-    "id": 31
+    "id": 37
   },
   {
     "chapter": 10,
@@ -1673,7 +1757,7 @@
       "description": "Write a prompt to an AI comparing list methods: append vs extend vs insert. Show a scenario where you build a list and ask which method to use at each step.",
       "rubric": "Specificity (2pts): shows scenario | Clarity (1pt): clear | Context (2pts): asks comparison"
     },
-    "id": 32
+    "id": 38
   },
   {
     "chapter": 10,
@@ -1722,7 +1806,7 @@
       "description": "Write a prompt to an AI asking it to solve: you have scores [88,92,76,95,81] and need to print each with its position number. Ask for the enumerate solution.",
       "rubric": "Specificity (1pt): specific data | Clarity (1pt): clear | Context (2pts): shows what tried"
     },
-    "id": 33
+    "id": 39
   },
   {
     "chapter": 10,
@@ -1771,7 +1855,7 @@
       "description": "Write a prompt to an AI asking it to explain list slicing vs indexing. You're confused about why [0:1] returns a list but [0] returns a single value, and ask which to use when.",
       "rubric": "Specificity (2pts): shows confusion | Clarity (1pt): clear | Context (2pts): asks for comparison"
     },
-    "id": 34
+    "id": 40
   },
   {
     "chapter": 10,
@@ -1820,7 +1904,7 @@
       "description": "Write a prompt to an AI asking it to help design a game board using a 2D list. Describe your game type and ask how to structure the data and iterate to display it.",
       "rubric": "Specificity (2pts): describes game | Clarity (1pt): clear | Context (2pts): asks for design approach"
     },
-    "id": 35
+    "id": 41
   },
   {
     "chapter": 10,
@@ -1881,7 +1965,7 @@
       "description": "Write a prompt to an AI asking it to explain list indexing and why [-1] gives the last item. Ask for a mental model or diagram.",
       "rubric": "Specificity (1pt): describes confusion | Clarity (1pt): clear | Context (2pts): asks for model"
     },
-    "id": 36
+    "id": 42
   },
   {
     "chapter": 10,
@@ -1930,7 +2014,7 @@
       "description": "Write a prompt to an AI comparing list methods: append vs extend vs insert. Show a scenario where you build a list and ask which method to use at each step.",
       "rubric": "Specificity (2pts): shows scenario | Clarity (1pt): clear | Context (2pts): asks comparison"
     },
-    "id": 37
+    "id": 43
   },
   {
     "chapter": 10,
@@ -1979,7 +2063,7 @@
       "description": "Write a prompt to an AI asking it to solve: you have scores [88,92,76,95,81] and need to print each with its position number. Ask for the enumerate solution.",
       "rubric": "Specificity (1pt): specific data | Clarity (1pt): clear | Context (2pts): shows what tried"
     },
-    "id": 38
+    "id": 44
   },
   {
     "chapter": 10,
@@ -2028,7 +2112,7 @@
       "description": "Write a prompt to an AI asking it to explain list slicing vs indexing. You're confused about why [0:1] returns a list but [0] returns a single value, and ask which to use when.",
       "rubric": "Specificity (2pts): shows confusion | Clarity (1pt): clear | Context (2pts): asks for comparison"
     },
-    "id": 39
+    "id": 45
   },
   {
     "chapter": 10,
@@ -2077,7 +2161,7 @@
       "description": "Write a prompt to an AI asking it to help design a game board using a 2D list. Describe your game type and ask how to structure the data and iterate to display it.",
       "rubric": "Specificity (2pts): describes game | Clarity (1pt): clear | Context (2pts): asks for design approach"
     },
-    "id": 40
+    "id": 46
   },
   {
     "chapter": 11,
@@ -2126,7 +2210,7 @@
       "description": "Write a prompt to an AI asking it to explain functions in Python. You understand variables but functions confuse you — specifically, why you need them and how to know what to put inside them. Ask for a real-world analogy.",
       "rubric": "Specificity (1pt): describes confusion point | Clarity (1pt): clear | Context (2pts): asks for analogy"
     },
-    "id": 41
+    "id": 47
   },
   {
     "chapter": 11,
@@ -2175,7 +2259,7 @@
       "description": "Write a prompt to an AI describing a bug: your function returns None even though you have a return statement. Ask what causes this and how to fix it.",
       "rubric": "Specificity (2pts): shows code + return None | Clarity (1pt): clear | Context (2pts): asks for fix"
     },
-    "id": 42
+    "id": 48
   },
   {
     "chapter": 11,
@@ -2229,7 +2313,7 @@
       "description": "Write a prompt to an AI asking it to review your function that calculates a student grade. You want it to return the letter grade, but it's returning None. Show the code and ask what's wrong.",
       "rubric": "Specificity (2pts): shows code | Clarity (1pt): clear | Context (2pts): asks for diagnosis"
     },
-    "id": 43
+    "id": 49
   },
   {
     "chapter": 11,
@@ -2278,7 +2362,7 @@
       "description": "Write a prompt to an AI describing a bug: you set a global counter to 0, then inside your function you increment it with counter = counter + 1, but after calling the function the counter is still 0. Ask why this happens and how to fix it.",
       "rubric": "Specificity (2pts): shows code + behavior | Clarity (1pt): clear | Context (2pts): asks for fix"
     },
-    "id": 44
+    "id": 50
   },
   {
     "chapter": 11,
@@ -2339,7 +2423,7 @@
       "description": "Write a prompt to an AI asking it to help you design a function that can accept any number of test scores and return their average. Ask how to use *args to make it flexible no matter how many scores are passed.",
       "rubric": "Specificity (2pts): describes use case | Clarity (1pt): clear | Context (2pts): asks for design"
     },
-    "id": 45
+    "id": 51
   },
   {
     "chapter": 11,
@@ -2388,7 +2472,7 @@
       "description": "Write a prompt to an AI asking it to explain functions in Python. You understand variables but functions confuse you — specifically, why you need them and how to know what to put inside them. Ask for a real-world analogy.",
       "rubric": "Specificity (1pt): describes confusion point | Clarity (1pt): clear | Context (2pts): asks for analogy"
     },
-    "id": 46
+    "id": 52
   },
   {
     "chapter": 11,
@@ -2437,7 +2521,7 @@
       "description": "Write a prompt to an AI describing a bug: your function returns None even though you have a return statement. Ask what causes this and how to fix it.",
       "rubric": "Specificity (2pts): shows code + return None | Clarity (1pt): clear | Context (2pts): asks for fix"
     },
-    "id": 47
+    "id": 53
   },
   {
     "chapter": 11,
@@ -2491,7 +2575,7 @@
       "description": "Write a prompt to an AI asking it to review your function that calculates a student grade. You want it to return the letter grade, but it's returning None. Show the code and ask what's wrong.",
       "rubric": "Specificity (2pts): shows code | Clarity (1pt): clear | Context (2pts): asks for diagnosis"
     },
-    "id": 48
+    "id": 54
   },
   {
     "chapter": 11,
@@ -2540,7 +2624,7 @@
       "description": "Write a prompt to an AI describing a bug: you set a global counter to 0, then inside your function you increment it with counter = counter + 1, but after calling the function the counter is still 0. Ask why this happens and how to fix it.",
       "rubric": "Specificity (2pts): shows code + behavior | Clarity (1pt): clear | Context (2pts): asks for fix"
     },
-    "id": 49
+    "id": 55
   },
   {
     "chapter": 11,
@@ -2601,7 +2685,7 @@
       "description": "Write a prompt to an AI asking it to help you design a function that can accept any number of test scores and return their average. Ask how to use *args to make it flexible no matter how many scores are passed.",
       "rubric": "Specificity (2pts): describes use case | Clarity (1pt): clear | Context (2pts): asks for design"
     },
-    "id": 50
+    "id": 56
   },
   {
     "chapter": 12,
@@ -2650,7 +2734,7 @@
       "description": "Write a prompt to an AI asking it to explain the difference between a list and a dictionary. You're confused about when to use each one and ask for a real-world analogy.",
       "rubric": "Specificity (1pt): describes use case | Clarity (1pt): clear | Context (2pts): asks for analogy"
     },
-    "id": 51
+    "id": 57
   },
   {
     "chapter": 12,
@@ -2699,7 +2783,7 @@
       "description": "Write a prompt to an AI describing a problem: you have a dictionary of student names to grades and need to print each student with their grade. Ask for the idiomatic Python solution using dictionary methods.",
       "rubric": "Specificity (2pts): shows dict structure | Clarity (1pt): clear | Context (2pts): asks for iteration approach"
     },
-    "id": 52
+    "id": 58
   },
   {
     "chapter": 12,
@@ -2748,7 +2832,7 @@
       "description": "Write a prompt to an AI describing a data management task: you have a dictionary of product prices, need to update 3 prices, add 2 new products, and remove 1 old product. Ask for a clean way to do all these operations.",
       "rubric": "Specificity (2pts): describes all operations | Clarity (1pt): clear | Context (2pts): asks for approach"
     },
-    "id": 53
+    "id": 59
   },
   {
     "chapter": 12,
@@ -2797,7 +2881,7 @@
       "description": "Write a prompt to an AI asking it to design a data structure for a student record system. Each student has multiple test scores, personal info, and attendance records. Ask how to model this with nested dictionaries.",
       "rubric": "Specificity (2pts): describes all data types | Clarity (1pt): clear | Context (2pts): asks for design"
     },
-    "id": 54
+    "id": 60
   },
   {
     "chapter": 12,
@@ -2846,7 +2930,7 @@
       "description": "Write a prompt to an AI asking it to solve a word frequency problem: count how many times each word appears in a paragraph. Ask for the dictionary-based approach and explain the get() method usage.",
       "rubric": "Specificity (2pts): shows text | Clarity (1pt): clear | Context (2pts): asks for counting approach"
     },
-    "id": 55
+    "id": 61
   },
   {
     "chapter": 12,
@@ -2895,7 +2979,7 @@
       "description": "Write a prompt to an AI asking it to explain the difference between a list and a dictionary. You're confused about when to use each one and ask for a real-world analogy.",
       "rubric": "Specificity (1pt): describes use case | Clarity (1pt): clear | Context (2pts): asks for analogy"
     },
-    "id": 56
+    "id": 62
   },
   {
     "chapter": 12,
@@ -2944,7 +3028,7 @@
       "description": "Write a prompt to an AI describing a problem: you have a dictionary of student names to grades and need to print each student with their grade. Ask for the idiomatic Python solution using dictionary methods.",
       "rubric": "Specificity (2pts): shows dict structure | Clarity (1pt): clear | Context (2pts): asks for iteration approach"
     },
-    "id": 57
+    "id": 63
   },
   {
     "chapter": 12,
@@ -2993,7 +3077,7 @@
       "description": "Write a prompt to an AI describing a data management task: you have a dictionary of product prices, need to update 3 prices, add 2 new products, and remove 1 old product. Ask for a clean way to do all these operations.",
       "rubric": "Specificity (2pts): describes all operations | Clarity (1pt): clear | Context (2pts): asks for approach"
     },
-    "id": 58
+    "id": 64
   },
   {
     "chapter": 12,
@@ -3042,7 +3126,7 @@
       "description": "Write a prompt to an AI asking it to design a data structure for a student record system. Each student has multiple test scores, personal info, and attendance records. Ask how to model this with nested dictionaries.",
       "rubric": "Specificity (2pts): describes all data types | Clarity (1pt): clear | Context (2pts): asks for design"
     },
-    "id": 59
+    "id": 65
   },
   {
     "chapter": 12,
@@ -3091,7 +3175,7 @@
       "description": "Write a prompt to an AI asking it to solve a word frequency problem: count how many times each word appears in a paragraph. Ask for the dictionary-based approach and explain the get() method usage.",
       "rubric": "Specificity (2pts): shows text | Clarity (1pt): clear | Context (2pts): asks for counting approach"
     },
-    "id": 60
+    "id": 66
   },
   {
     "chapter": 13,
@@ -3140,7 +3224,7 @@
       "description": "Write a prompt to an AI describing a bug: you're trying to read a file but get a FileNotFoundError. Ask why this happens and how to handle it properly.",
       "rubric": "Specificity (1pt): shows error | Clarity (1pt): clear | Context (2pts): asks for handling approach"
     },
-    "id": 61
+    "id": 67
   },
   {
     "chapter": 13,
@@ -3189,7 +3273,7 @@
       "description": "Write a prompt to an AI describing a problem: you want to save game scores to a file that grows over time (not overwrites). Ask how to use file append mode and why 'w' would be wrong.",
       "rubric": "Specificity (2pts): shows use case | Clarity (1pt): clear | Context (2pts): asks for mode difference"
     },
-    "id": 62
+    "id": 68
   },
   {
     "chapter": 13,
@@ -3243,7 +3327,7 @@
       "description": "Write a prompt to an AI asking it to help you clean up messy data: a CSV line with extra spaces, mixed case, and typos. Ask how to use string methods to clean each field.",
       "rubric": "Specificity (2pts): shows messy data | Clarity (1pt): clear | Context (2pts): asks for cleaning pipeline"
     },
-    "id": 63
+    "id": 69
   },
   {
     "chapter": 13,
@@ -3292,7 +3376,7 @@
       "description": "Write a prompt to an AI asking it to help you format a table of data using f-strings. You have columns of different widths and need right-aligned numbers and left-aligned text. Show a sample and ask for the format spec syntax.",
       "rubric": "Specificity (2pts): shows data | Clarity (1pt): clear | Context (2pts): asks for formatting"
     },
-    "id": 64
+    "id": 70
   },
   {
     "chapter": 13,
@@ -3341,7 +3425,7 @@
       "description": "Write a prompt to an AI asking it to help you process a CSV file of student grades. Show a few rows and describe what you need: average grade per student, class average, identify failures. Ask for a complete pipeline with file reading, parsing, and computation.",
       "rubric": "Specificity (2pts): shows sample data | Clarity (1pt): clear | Context (2pts): asks for full pipeline"
     },
-    "id": 65
+    "id": 71
   },
   {
     "chapter": 13,
@@ -3390,7 +3474,7 @@
       "description": "Write a prompt to an AI: you need to process a CSV file with 10000 rows and extract the top 10 highest-scoring entries. Ask how to read the file efficiently, how to parse CSV rows, and how to handle the case where the file might be malformed or too large to fit in memory.",
       "rubric": "Specificity (2pts): shows CSV/data context. Clarity (1pt): clear request. Context (2pts): asks about efficiency and error handling"
     },
-    "id": 66
+    "id": 72
   },
   {
     "chapter": 13,
@@ -3439,7 +3523,7 @@
       "description": "Write a prompt to an AI: you need a script that backs up a config file by copying it with a timestamp name (config_backup_2024_01_15.txt). Ask how to read the original file, construct the timestamped filename, and write the backup safely.",
       "rubric": "Specificity (2pts): shows backup context. Clarity (1pt): clear. Context (2pts): asks about safety/error handling"
     },
-    "id": 67
+    "id": 73
   },
   {
     "chapter": 13,
@@ -3488,7 +3572,7 @@
       "description": "Write a prompt to an AI describing a bug: you're trying to read a file but get a FileNotFoundError. Ask why this happens and how to handle it properly.",
       "rubric": "Specificity (1pt): shows error | Clarity (1pt): clear | Context (2pts): asks for handling approach"
     },
-    "id": 68
+    "id": 74
   },
   {
     "chapter": 13,
@@ -3537,7 +3621,7 @@
       "description": "Write a prompt to an AI describing a problem: you want to save game scores to a file that grows over time (not overwrites). Ask how to use file append mode and why 'w' would be wrong.",
       "rubric": "Specificity (2pts): shows use case | Clarity (1pt): clear | Context (2pts): asks for mode difference"
     },
-    "id": 69
+    "id": 75
   },
   {
     "chapter": 13,
@@ -3591,7 +3675,7 @@
       "description": "Write a prompt to an AI asking it to help you clean up messy data: a CSV line with extra spaces, mixed case, and typos. Ask how to use string methods to clean each field.",
       "rubric": "Specificity (2pts): shows messy data | Clarity (1pt): clear | Context (2pts): asks for cleaning pipeline"
     },
-    "id": 70
+    "id": 76
   },
   {
     "chapter": 13,
@@ -3640,7 +3724,7 @@
       "description": "Write a prompt to an AI asking it to help you format a table of data using f-strings. You have columns of different widths and need right-aligned numbers and left-aligned text. Show a sample and ask for the format spec syntax.",
       "rubric": "Specificity (2pts): shows data | Clarity (1pt): clear | Context (2pts): asks for formatting"
     },
-    "id": 71
+    "id": 77
   },
   {
     "chapter": 13,
@@ -3689,7 +3773,7 @@
       "description": "Write a prompt to an AI asking it to help you process a CSV file of student grades. Show a few rows and describe what you need: average grade per student, class average, identify failures. Ask for a complete pipeline with file reading, parsing, and computation.",
       "rubric": "Specificity (2pts): shows sample data | Clarity (1pt): clear | Context (2pts): asks for full pipeline"
     },
-    "id": 72
+    "id": 78
   },
   {
     "chapter": 13,
@@ -3738,7 +3822,7 @@
       "description": "Write a prompt to an AI: you need to process a CSV file with 10000 rows and extract the top 10 highest-scoring entries. Ask how to read the file efficiently, how to parse CSV rows, and how to handle the case where the file might be malformed or too large to fit in memory.",
       "rubric": "Specificity (2pts): shows CSV/data context. Clarity (1pt): clear request. Context (2pts): asks about efficiency and error handling"
     },
-    "id": 73
+    "id": 79
   },
   {
     "chapter": 13,
@@ -3787,7 +3871,7 @@
       "description": "Write a prompt to an AI: you need a script that backs up a config file by copying it with a timestamp name (config_backup_2024_01_15.txt). Ask how to read the original file, construct the timestamped filename, and write the backup safely.",
       "rubric": "Specificity (2pts): shows backup context. Clarity (1pt): clear. Context (2pts): asks about safety/error handling"
     },
-    "id": 74
+    "id": 80
   },
   {
     "chapter": 14,
@@ -3836,7 +3920,7 @@
       "description": "Write a prompt to an AI asking it to help you convert a list of temperatures from Celsius to Fahrenheit using a list comprehension. Show the formula F = C * 9/5 + 32 and ask for the one-liner.",
       "rubric": "Specificity (1pt): shows data | Clarity (1pt): clear | Context (2pts): asks for compact solution"
     },
-    "id": 75
+    "id": 81
   },
   {
     "chapter": 14,
@@ -3885,7 +3969,7 @@
       "description": "Write a prompt to an AI asking it to help you invert a word-frequency dictionary: given {'the':5,'and':3,'a':2}, produce {5:'the',3:'and',2:'a'}. Ask about handling duplicate values when inverting.",
       "rubric": "Specificity (2pts): shows dict | Clarity (1pt): clear | Context (2pts): asks for edge case"
     },
-    "id": 76
+    "id": 82
   },
   {
     "chapter": 14,
@@ -3934,7 +4018,7 @@
       "description": "Write a prompt to an AI describing a filtering task: you have a list of student records as dicts [{'name':'Ana','grade':72},{'name':'Bob','grade':85},...] and need to separate passing (>60) from failing students. Ask for a comprehension-based solution.",
       "rubric": "Specificity (2pts): shows data | Clarity (1pt): clear | Context (2pts): asks for approach"
     },
-    "id": 77
+    "id": 83
   },
   {
     "chapter": 14,
@@ -3983,7 +4067,7 @@
       "description": "Write a prompt to an AI asking for help with a matrix transposition problem: given a 3x3 grid [[1,2,3],[4,5,6],[7,8,9]], produce its transpose [[1,4,7],[2,5,8],[3,6,9]] using nested list comprehensions.",
       "rubric": "Specificity (2pts): shows grid | Clarity (1pt): clear | Context (2pts): asks for transformation"
     },
-    "id": 78
+    "id": 84
   },
   {
     "chapter": 14,
@@ -4032,7 +4116,7 @@
       "description": "Write a prompt to an AI: you have two lists of equal length — quiz scores and max scores — and need to calculate the percentage for each. Ask how to use zip() in a list comprehension to compute all percentages at once.",
       "rubric": "Specificity (2pts): shows data | Clarity (1pt): clear | Context (2pts): asks for solution"
     },
-    "id": 79
+    "id": 85
   },
   {
     "chapter": 14,
@@ -4081,7 +4165,7 @@
       "description": "Write a prompt to an AI asking it to help you convert a list of temperatures from Celsius to Fahrenheit using a list comprehension. Show the formula F = C * 9/5 + 32 and ask for the one-liner.",
       "rubric": "Specificity (1pt): shows data | Clarity (1pt): clear | Context (2pts): asks for compact solution"
     },
-    "id": 80
+    "id": 86
   },
   {
     "chapter": 14,
@@ -4130,7 +4214,7 @@
       "description": "Write a prompt to an AI asking it to help you invert a word-frequency dictionary: given {'the':5,'and':3,'a':2}, produce {5:'the',3:'and',2:'a'}. Ask about handling duplicate values when inverting.",
       "rubric": "Specificity (2pts): shows dict | Clarity (1pt): clear | Context (2pts): asks for edge case"
     },
-    "id": 81
+    "id": 87
   },
   {
     "chapter": 14,
@@ -4179,7 +4263,7 @@
       "description": "Write a prompt to an AI describing a filtering task: you have a list of student records as dicts [{'name':'Ana','grade':72},{'name':'Bob','grade':85},...] and need to separate passing (>60) from failing students. Ask for a comprehension-based solution.",
       "rubric": "Specificity (2pts): shows data | Clarity (1pt): clear | Context (2pts): asks for approach"
     },
-    "id": 82
+    "id": 88
   },
   {
     "chapter": 14,
@@ -4228,7 +4312,7 @@
       "description": "Write a prompt to an AI asking for help with a matrix transposition problem: given a 3x3 grid [[1,2,3],[4,5,6],[7,8,9]], produce its transpose [[1,4,7],[2,5,8],[3,6,9]] using nested list comprehensions.",
       "rubric": "Specificity (2pts): shows grid | Clarity (1pt): clear | Context (2pts): asks for transformation"
     },
-    "id": 83
+    "id": 89
   },
   {
     "chapter": 14,
@@ -4277,7 +4361,7 @@
       "description": "Write a prompt to an AI: you have two lists of equal length — quiz scores and max scores — and need to calculate the percentage for each. Ask how to use zip() in a list comprehension to compute all percentages at once.",
       "rubric": "Specificity (2pts): shows data | Clarity (1pt): clear | Context (2pts): asks for solution"
     },
-    "id": 84
+    "id": 90
   },
   {
     "chapter": 15,
@@ -4326,7 +4410,7 @@
       "description": "Write a prompt to an AI asking it to explain how to use the Python statistics module. You need mean and median but don't know what's available. Show a sample data list and ask for the import and usage.",
       "rubric": "Specificity (1pt): shows data | Clarity (1pt): clear | Context (2pts): asks for module functions"
     },
-    "id": 85
+    "id": 91
   },
   {
     "chapter": 15,
@@ -4375,7 +4459,7 @@
       "description": "Write a prompt to an AI describing a game scenario: you need a combat system that randomly selects an enemy attack from a list, calculates damage using a formula, and rounds it properly. Ask how to use random and math modules together.",
       "rubric": "Specificity (2pts): shows game scenario | Clarity (1pt): clear | Context (2pts): asks for combined approach"
     },
-    "id": 86
+    "id": 92
   },
   {
     "chapter": 15,
@@ -4424,7 +4508,7 @@
       "description": "Write a prompt to an AI: you need to work with dates in Python — calculate how many days between two dates, add 30 days to today, format a date as 'Month Day, Year'. Ask what modules to use and how to do each calculation.",
       "rubric": "Specificity (2pts): shows use cases | Clarity (1pt): clear | Context (2pts): asks for specific solutions"
     },
-    "id": 87
+    "id": 93
   },
   {
     "chapter": 15,
@@ -4473,7 +4557,7 @@
       "description": "Write a prompt to an AI: your teammate used 'from math import *' and now your variable named 'sqrt' is overwritten. Ask what happened and what they should have done instead. Include a specific example of the conflict.",
       "rubric": "Specificity (2pts): shows conflict | Clarity (1pt): clear | Context (2pts): asks for solution"
     },
-    "id": 88
+    "id": 94
   },
   {
     "chapter": 15,
@@ -4522,7 +4606,7 @@
       "description": "Write a prompt to an AI describing a project with 5 related functions. You want to organize them into a module that can be imported, but also run directly for testing. Ask how to structure the file and use the __name__ == '__main__' pattern.",
       "rubric": "Specificity (2pts): describes functions | Clarity (1pt): clear | Context (2pts): asks for organization"
     },
-    "id": 89
+    "id": 95
   },
   {
     "chapter": 15,
@@ -4571,7 +4655,7 @@
       "description": "Write a prompt to an AI asking it to explain how to use the Python statistics module. You need mean and median but don't know what's available. Show a sample data list and ask for the import and usage.",
       "rubric": "Specificity (1pt): shows data | Clarity (1pt): clear | Context (2pts): asks for module functions"
     },
-    "id": 90
+    "id": 96
   },
   {
     "chapter": 15,
@@ -4620,7 +4704,7 @@
       "description": "Write a prompt to an AI describing a game scenario: you need a combat system that randomly selects an enemy attack from a list, calculates damage using a formula, and rounds it properly. Ask how to use random and math modules together.",
       "rubric": "Specificity (2pts): shows game scenario | Clarity (1pt): clear | Context (2pts): asks for combined approach"
     },
-    "id": 91
+    "id": 97
   },
   {
     "chapter": 15,
@@ -4669,7 +4753,7 @@
       "description": "Write a prompt to an AI: you need to work with dates in Python — calculate how many days between two dates, add 30 days to today, format a date as 'Month Day, Year'. Ask what modules to use and how to do each calculation.",
       "rubric": "Specificity (2pts): shows use cases | Clarity (1pt): clear | Context (2pts): asks for specific solutions"
     },
-    "id": 92
+    "id": 98
   },
   {
     "chapter": 15,
@@ -4718,7 +4802,7 @@
       "description": "Write a prompt to an AI: your teammate used 'from math import *' and now your variable named 'sqrt' is overwritten. Ask what happened and what they should have done instead. Include a specific example of the conflict.",
       "rubric": "Specificity (2pts): shows conflict | Clarity (1pt): clear | Context (2pts): asks for solution"
     },
-    "id": 93
+    "id": 99
   },
   {
     "chapter": 15,
@@ -4767,7 +4851,7 @@
       "description": "Write a prompt to an AI describing a project with 5 related functions. You want to organize them into a module that can be imported, but also run directly for testing. Ask how to structure the file and use the __name__ == '__main__' pattern.",
       "rubric": "Specificity (2pts): describes functions | Clarity (1pt): clear | Context (2pts): asks for organization"
     },
-    "id": 94
+    "id": 100
   },
   {
     "chapter": 16,
@@ -4816,7 +4900,7 @@
       "description": "Write a prompt to an AI describing a bug: your program crashes when the user types 'abc' into an age input. You want it to show a friendly error message instead of crashing. Ask how to use try/except to handle this.",
       "rubric": "Specificity (2pts): shows crash scenario | Clarity (1pt): clear | Context (2pts): asks for solution"
     },
-    "id": 95
+    "id": 101
   },
   {
     "chapter": 16,
@@ -4865,7 +4949,7 @@
       "description": "Write a prompt to an AI: you have a function that converts user input to a number and looks up a dictionary entry. It can fail in 3 ways (not a number, number not in dict, other bugs). Ask how to handle each case distinctly and show the complete try/except/else pattern.",
       "rubric": "Specificity (2pts): shows 3 failure types | Clarity (1pt): clear | Context (2pts): asks for specific handling"
     },
-    "id": 96
+    "id": 102
   },
   {
     "chapter": 16,
@@ -4914,7 +4998,7 @@
       "description": "Write a prompt to an AI: you're building a login function. If the password is wrong, you want to tell the user 'Invalid credentials' but you don't want to just print — you want the program to stop and show an error. Ask about using raise to enforce this.",
       "rubric": "Specificity (2pts): shows use case | Clarity (1pt): clear | Context (2pts): asks for enforcement"
     },
-    "id": 97
+    "id": 103
   },
   {
     "chapter": 16,
@@ -4963,7 +5047,7 @@
       "description": "Write a prompt to an AI: you got this traceback and don't understand it:",
       "rubric": "Specificity (2pts): shows traceback | Clarity (1pt): clear | Context (2pts): asks for interpretation"
     },
-    "id": 98
+    "id": 104
   },
   {
     "chapter": 16,
@@ -5012,7 +5096,7 @@
       "description": "Write a prompt to an AI: you're debugging a function that calculates a student's average grade. The function sometimes returns 0 when it shouldn't. You suspect the grade list might be empty sometimes. Ask how to use assertions and print statements to find the bug systematically.",
       "rubric": "Specificity (2pts): shows buggy function | Clarity (1pt): clear | Context (2pts): asks for debug strategy"
     },
-    "id": 99
+    "id": 105
   },
   {
     "chapter": 16,
@@ -5061,7 +5145,7 @@
       "description": "Write a prompt to an AI describing a bug: your program crashes when the user types 'abc' into an age input. You want it to show a friendly error message instead of crashing. Ask how to use try/except to handle this.",
       "rubric": "Specificity (2pts): shows crash scenario | Clarity (1pt): clear | Context (2pts): asks for solution"
     },
-    "id": 100
+    "id": 106
   },
   {
     "chapter": 16,
@@ -5110,7 +5194,7 @@
       "description": "Write a prompt to an AI: you have a function that converts user input to a number and looks up a dictionary entry. It can fail in 3 ways (not a number, number not in dict, other bugs). Ask how to handle each case distinctly and show the complete try/except/else pattern.",
       "rubric": "Specificity (2pts): shows 3 failure types | Clarity (1pt): clear | Context (2pts): asks for specific handling"
     },
-    "id": 101
+    "id": 107
   },
   {
     "chapter": 16,
@@ -5159,7 +5243,7 @@
       "description": "Write a prompt to an AI: you're building a login function. If the password is wrong, you want to tell the user 'Invalid credentials' but you don't want to just print — you want the program to stop and show an error. Ask about using raise to enforce this.",
       "rubric": "Specificity (2pts): shows use case | Clarity (1pt): clear | Context (2pts): asks for enforcement"
     },
-    "id": 102
+    "id": 108
   },
   {
     "chapter": 16,
@@ -5208,7 +5292,7 @@
       "description": "Write a prompt to an AI: you got this traceback and don't understand it:",
       "rubric": "Specificity (2pts): shows traceback | Clarity (1pt): clear | Context (2pts): asks for interpretation"
     },
-    "id": 103
+    "id": 109
   },
   {
     "chapter": 16,
@@ -5257,7 +5341,7 @@
       "description": "Write a prompt to an AI: you're debugging a function that calculates a student's average grade. The function sometimes returns 0 when it shouldn't. You suspect the grade list might be empty sometimes. Ask how to use assertions and print statements to find the bug systematically.",
       "rubric": "Specificity (2pts): shows buggy function | Clarity (1pt): clear | Context (2pts): asks for debug strategy"
     },
-    "id": 104
+    "id": 110
   },
   {
     "chapter": 17,
@@ -5306,7 +5390,7 @@
       "description": "Write a prompt to an AI: you want to model a bookstore. Each book has a title, author, and price. Ask how to design a Book class with an __init__ method and how to create 3 book objects from it.",
       "rubric": "Specificity (2pts): shows data | Clarity (1pt): clear | Context (2pts): asks for class design"
     },
-    "id": 105
+    "id": 111
   },
   {
     "chapter": 17,
@@ -5355,7 +5439,7 @@
       "description": "Write a prompt to an AI: you have a BankAccount class with a balance attribute. Ask how to design methods for deposit(amount) and withdraw(amount) that modify the balance, and what validation to add for withdrawals.",
       "rubric": "Specificity (2pts): shows scenario | Clarity (1pt): clear | Context (2pts): asks for method design"
     },
-    "id": 106
+    "id": 112
   },
   {
     "chapter": 17,
@@ -5404,7 +5488,7 @@
       "description": "Write a prompt to an AI: you want a Student class where each student has their own name and grades (instance variables), but all students share the same school name. Ask how to use class variables for the shared school name and instance variables for student-specific data.",
       "rubric": "Specificity (2pts): shows need | Clarity (1pt): clear | Context (2pts): asks for shared vs per-instance"
     },
-    "id": 107
+    "id": 113
   },
   {
     "chapter": 17,
@@ -5453,7 +5537,7 @@
       "description": "Write a prompt to an AI: you have a Point class with x and y coordinates. Ask how to define __repr__ so that eval(repr(point)) works (returns an equivalent Point), and __str__ for a clean display like 'Point at (3, 4)'.",
       "rubric": "Specificity (2pts): shows use case | Clarity (1pt): clear | Context (2pts): asks for both methods"
     },
-    "id": 108
+    "id": 114
   },
   {
     "chapter": 17,
@@ -5491,7 +5575,7 @@
       "description": "Write a prompt to an AI: you have a Thermometer class with a _temperature attribute that stores Celsius. Users should be able to get and set temperature, but only in valid range (-273 to 1000). Ask how to implement get_temperature and set_temperature methods that enforce this validation.",
       "rubric": "Specificity (2pts): shows constraint | Clarity (1pt): clear | Context (2pts): asks for validation"
     },
-    "id": 109
+    "id": 115
   },
   {
     "chapter": 17,
@@ -5540,7 +5624,7 @@
       "description": "Write a prompt to an AI: you want to model a bookstore. Each book has a title, author, and price. Ask how to design a Book class with an __init__ method and how to create 3 book objects from it.",
       "rubric": "Specificity (2pts): shows data | Clarity (1pt): clear | Context (2pts): asks for class design"
     },
-    "id": 110
+    "id": 116
   },
   {
     "chapter": 17,
@@ -5589,7 +5673,7 @@
       "description": "Write a prompt to an AI: you have a BankAccount class with a balance attribute. Ask how to design methods for deposit(amount) and withdraw(amount) that modify the balance, and what validation to add for withdrawals.",
       "rubric": "Specificity (2pts): shows scenario | Clarity (1pt): clear | Context (2pts): asks for method design"
     },
-    "id": 111
+    "id": 117
   },
   {
     "chapter": 17,
@@ -5638,7 +5722,7 @@
       "description": "Write a prompt to an AI: you want a Student class where each student has their own name and grades (instance variables), but all students share the same school name. Ask how to use class variables for the shared school name and instance variables for student-specific data.",
       "rubric": "Specificity (2pts): shows need | Clarity (1pt): clear | Context (2pts): asks for shared vs per-instance"
     },
-    "id": 112
+    "id": 118
   },
   {
     "chapter": 17,
@@ -5687,7 +5771,7 @@
       "description": "Write a prompt to an AI: you have a Point class with x and y coordinates. Ask how to define __repr__ so that eval(repr(point)) works (returns an equivalent Point), and __str__ for a clean display like 'Point at (3, 4)'.",
       "rubric": "Specificity (2pts): shows use case | Clarity (1pt): clear | Context (2pts): asks for both methods"
     },
-    "id": 113
+    "id": 119
   },
   {
     "chapter": 17,
@@ -5725,7 +5809,7 @@
       "description": "Write a prompt to an AI: you have a Thermometer class with a _temperature attribute that stores Celsius. Users should be able to get and set temperature, but only in valid range (-273 to 1000). Ask how to implement get_temperature and set_temperature methods that enforce this validation.",
       "rubric": "Specificity (2pts): shows constraint | Clarity (1pt): clear | Context (2pts): asks for validation"
     },
-    "id": 114
+    "id": 120
   },
   {
     "chapter": 18,
@@ -5774,7 +5858,7 @@
       "description": "Write a prompt to an AI: you have a Shape class with an area() method. You need a Rectangle class that inherits from Shape and also a Circle class. Ask how to design the parent class and how each child class would implement its own area().",
       "rubric": "Specificity (2pts): shows parent class | Clarity (1pt): clear | Context (2pts): asks for inheritance design"
     },
-    "id": 115
+    "id": 121
   },
   {
     "chapter": 18,
@@ -5823,7 +5907,7 @@
       "description": "Write a prompt to an AI: you have a Dog class with a speak() method that returns 'Woof!'. You want a SmallDog subclass that says 'yip yip!' instead. Ask how to override the speak method and how to use super() if you also want to track the parent behavior.",
       "rubric": "Specificity (2pts): shows parent method | Clarity (1pt): clear | Context (2pts): asks for override design"
     },
-    "id": 116
+    "id": 122
   },
   {
     "chapter": 18,
@@ -5872,7 +5956,7 @@
       "description": "Write a prompt to an AI: you need a FlyingCar class that inherits from both Car and Airplane. Ask what happens when both parents have a start_engine() method with different behavior, and how you could call both implementations in the child class.",
       "rubric": "Specificity (2pts): shows conflict | Clarity (1pt): clear | Context (2pts): asks for MRO solution"
     },
-    "id": 117
+    "id": 123
   },
   {
     "chapter": 18,
@@ -5921,7 +6005,7 @@
       "description": "Write a prompt to an AI: you have a function process_vehicle(v) that accepts Vehicle objects. A FighterShip is a subclass of Vehicle. Ask how isinstance(v, Vehicle) can be used to safely check if a passed object is a Vehicle or subclass before processing it.",
       "rubric": "Specificity (2pts): shows use case | Clarity (1pt): clear | Context (2pts): asks for type check"
     },
-    "id": 118
+    "id": 124
   },
   {
     "chapter": 18,
@@ -5970,7 +6054,7 @@
       "description": "Write a prompt to an AI: you're designing a game where Characters can have abilities. Should you use inheritance (MageCharacter inherits from Character) or composition (Character has a list of Ability objects)? Ask about the tradeoffs and which is more maintainable.",
       "rubric": "Specificity (2pts): shows design problem | Clarity (1pt): clear | Context (2pts): asks for design guidance"
     },
-    "id": 119
+    "id": 125
   },
   {
     "chapter": 18,
@@ -6019,7 +6103,7 @@
       "description": "Write a prompt to an AI: you have a Shape class with an area() method. You need a Rectangle class that inherits from Shape and also a Circle class. Ask how to design the parent class and how each child class would implement its own area().",
       "rubric": "Specificity (2pts): shows parent class | Clarity (1pt): clear | Context (2pts): asks for inheritance design"
     },
-    "id": 120
+    "id": 126
   },
   {
     "chapter": 18,
@@ -6068,7 +6152,7 @@
       "description": "Write a prompt to an AI: you have a Dog class with a speak() method that returns 'Woof!'. You want a SmallDog subclass that says 'yip yip!' instead. Ask how to override the speak method and how to use super() if you also want to track the parent behavior.",
       "rubric": "Specificity (2pts): shows parent method | Clarity (1pt): clear | Context (2pts): asks for override design"
     },
-    "id": 121
+    "id": 127
   },
   {
     "chapter": 18,
@@ -6117,7 +6201,7 @@
       "description": "Write a prompt to an AI: you need a FlyingCar class that inherits from both Car and Airplane. Ask what happens when both parents have a start_engine() method with different behavior, and how you could call both implementations in the child class.",
       "rubric": "Specificity (2pts): shows conflict | Clarity (1pt): clear | Context (2pts): asks for MRO solution"
     },
-    "id": 122
+    "id": 128
   },
   {
     "chapter": 18,
@@ -6166,7 +6250,7 @@
       "description": "Write a prompt to an AI: you have a function process_vehicle(v) that accepts Vehicle objects. A FighterShip is a subclass of Vehicle. Ask how isinstance(v, Vehicle) can be used to safely check if a passed object is a Vehicle or subclass before processing it.",
       "rubric": "Specificity (2pts): shows use case | Clarity (1pt): clear | Context (2pts): asks for type check"
     },
-    "id": 123
+    "id": 129
   },
   {
     "chapter": 18,
@@ -6215,7 +6299,7 @@
       "description": "Write a prompt to an AI: you're designing a game where Characters can have abilities. Should you use inheritance (MageCharacter inherits from Character) or composition (Character has a list of Ability objects)? Ask about the tradeoffs and which is more maintainable.",
       "rubric": "Specificity (2pts): shows design problem | Clarity (1pt): clear | Context (2pts): asks for design guidance"
     },
-    "id": 124
+    "id": 130
   },
   {
     "chapter": 19,
@@ -6264,7 +6348,7 @@
       "description": "Write a prompt to an AI: you have a Person class with a birth_year attribute. You want to provide a computed 'age' property that calculates from the current year, and also a 'name' property that capitalizes the stored name automatically. Ask how to implement both using @property.",
       "rubric": "Specificity (2pts): shows attributes | Clarity (1pt): clear | Context (2pts): asks for implementation"
     },
-    "id": 125
+    "id": 131
   },
   {
     "chapter": 19,
@@ -6313,7 +6397,7 @@
       "description": "Write a prompt to an AI: you have a Temperature class with celsius in __init__. You want a @classmethod from_fahrenheit(cls, f) that creates a Temperature from Fahrenheit. Ask how to implement it so Temperature.from_fahrenheit(32) equals Temperature(0).",
       "rubric": "Specificity (2pts): shows use case | Clarity (1pt): clear | Context (2pts): asks for factory method"
     },
-    "id": 126
+    "id": 132
   },
   {
     "chapter": 19,
@@ -6362,7 +6446,7 @@
       "description": "Write a prompt to an AI: you need a StringUtil class with static methods: is_palindrome(s), reverse_string(s), word_count(s). Ask whether @staticmethod is appropriate here and how to implement all three methods without self or cls.",
       "rubric": "Specificity (2pts): shows utilities | Clarity (1pt): clear | Context (2pts): asks for staticmethod"
     },
-    "id": 127
+    "id": 133
   },
   {
     "chapter": 19,
@@ -6411,7 +6495,7 @@
       "description": "Write a prompt to an AI: you have a Product class with a price attribute that must be between 0 and 10000. Ask how to make it a property with a setter that validates the range and raises ValueError, and a deleter that resets the price to 0.",
       "rubric": "Specificity (2pts): shows validation | Clarity (1pt): clear | Context (2pts): asks for lifecycle"
     },
-    "id": 128
+    "id": 134
   },
   {
     "chapter": 19,
@@ -6460,7 +6544,7 @@
       "description": "Write a prompt to an AI: design a complete BankAccount class. It should have: (1) _balance with a property and setter that rejects negative amounts, (2) @classmethod from_savings() that creates an account with starting balance 100, (3) @staticmethod format_currency(amount) that returns '$100.00', (4) __str__ for display. Ask how to organize all of this.",
       "rubric": "Specificity (2pts): shows all requirements | Clarity (1pt): clear | Context (2pts): asks for complete design"
     },
-    "id": 129
+    "id": 135
   },
   {
     "chapter": 19,
@@ -6509,7 +6593,7 @@
       "description": "Write a prompt to an AI: you have a Person class with a birth_year attribute. You want to provide a computed 'age' property that calculates from the current year, and also a 'name' property that capitalizes the stored name automatically. Ask how to implement both using @property.",
       "rubric": "Specificity (2pts): shows attributes | Clarity (1pt): clear | Context (2pts): asks for implementation"
     },
-    "id": 130
+    "id": 136
   },
   {
     "chapter": 19,
@@ -6558,7 +6642,7 @@
       "description": "Write a prompt to an AI: you have a Temperature class with celsius in __init__. You want a @classmethod from_fahrenheit(cls, f) that creates a Temperature from Fahrenheit. Ask how to implement it so Temperature.from_fahrenheit(32) equals Temperature(0).",
       "rubric": "Specificity (2pts): shows use case | Clarity (1pt): clear | Context (2pts): asks for factory method"
     },
-    "id": 131
+    "id": 137
   },
   {
     "chapter": 19,
@@ -6607,7 +6691,7 @@
       "description": "Write a prompt to an AI: you need a StringUtil class with static methods: is_palindrome(s), reverse_string(s), word_count(s). Ask whether @staticmethod is appropriate here and how to implement all three methods without self or cls.",
       "rubric": "Specificity (2pts): shows utilities | Clarity (1pt): clear | Context (2pts): asks for staticmethod"
     },
-    "id": 132
+    "id": 138
   },
   {
     "chapter": 19,
@@ -6656,7 +6740,7 @@
       "description": "Write a prompt to an AI: you have a Product class with a price attribute that must be between 0 and 10000. Ask how to make it a property with a setter that validates the range and raises ValueError, and a deleter that resets the price to 0.",
       "rubric": "Specificity (2pts): shows validation | Clarity (1pt): clear | Context (2pts): asks for lifecycle"
     },
-    "id": 133
+    "id": 139
   },
   {
     "chapter": 19,
@@ -6705,7 +6789,7 @@
       "description": "Write a prompt to an AI: design a complete BankAccount class. It should have: (1) _balance with a property and setter that rejects negative amounts, (2) @classmethod from_savings() that creates an account with starting balance 100, (3) @staticmethod format_currency(amount) that returns '$100.00', (4) __str__ for display. Ask how to organize all of this.",
       "rubric": "Specificity (2pts): shows all requirements | Clarity (1pt): clear | Context (2pts): asks for complete design"
     },
-    "id": 134
+    "id": 140
   },
   {
     "chapter": 20,
@@ -6754,7 +6838,7 @@
       "description": "Write a prompt to an AI: you need a recursive function sum_list(nums) that adds all numbers in a list using recursion (not a loop). Ask how to design the base case and recursive case, and how to handle an empty list.",
       "rubric": "Specificity (2pts): shows list input. Clarity (1pt): clear. Context (2pts): asks for base/recursive case"
     },
-    "id": 135
+    "id": 141
   },
   {
     "chapter": 20,
@@ -6803,7 +6887,7 @@
       "description": "Write a prompt to an AI: you have a nested folder structure (folders contain folders). You want a recursive function count_files(folder) that returns the total number of files in that folder and all subfolders. Ask how to design this using recursion.",
       "rubric": "Specificity (2pts): shows nested structure. Clarity (1pt): clear. Context (2pts): asks for recursion design"
     },
-    "id": 136
+    "id": 142
   },
   {
     "chapter": 20,
@@ -6852,7 +6936,7 @@
       "description": "Write a prompt to an AI: you need to sort a large list of student records by their GPA. You want to use merge sort. Ask how merge sort works step by step, why it is appropriate for large datasets, and how you would modify it to sort by a specific field.",
       "rubric": "Specificity (2pts): shows large dataset. Clarity (1pt): clear. Context (2pts): asks for algorithm understanding"
     },
-    "id": 137
+    "id": 143
   },
   {
     "chapter": 20,
@@ -6901,7 +6985,7 @@
       "description": "Write a prompt to an AI: you need to sort words alphabetically. You are choosing between merge sort and quick sort. Ask about the tradeoffs: which is faster for strings, which uses less memory, and what the average vs worst case performance looks like for text data.",
       "rubric": "Specificity (2pts): shows string data. Clarity (1pt): clear. Context (2pts): asks for algorithm comparison"
     },
-    "id": 138
+    "id": 144
   },
   {
     "chapter": 20,
@@ -6950,7 +7034,7 @@
       "description": "Write a prompt to an AI: you have a list of 1 million player names and need to find if a given name exists. Ask how to choose between a linear search O(n), sorting the list then binary searching O(n log n), and using a dictionary/hash set O(1). Which is fastest for one lookup vs many lookups?",
       "rubric": "Specificity (2pts): shows dataset. Clarity (1pt): clear. Context (2pts): asks for algorithm choice"
     },
-    "id": 139
+    "id": 145
   },
   {
     "chapter": 20,
@@ -6999,7 +7083,7 @@
       "description": "Write a prompt to an AI: you need a recursive function sum_list(nums) that adds all numbers in a list using recursion (not a loop). Ask how to design the base case and recursive case, and how to handle an empty list.",
       "rubric": "Specificity (2pts): shows list input. Clarity (1pt): clear. Context (2pts): asks for base/recursive case"
     },
-    "id": 140
+    "id": 146
   },
   {
     "chapter": 20,
@@ -7048,7 +7132,7 @@
       "description": "Write a prompt to an AI: you have a nested folder structure (folders contain folders). You want a recursive function count_files(folder) that returns the total number of files in that folder and all subfolders. Ask how to design this using recursion.",
       "rubric": "Specificity (2pts): shows nested structure. Clarity (1pt): clear. Context (2pts): asks for recursion design"
     },
-    "id": 141
+    "id": 147
   },
   {
     "chapter": 20,
@@ -7097,7 +7181,7 @@
       "description": "Write a prompt to an AI: you need to sort a large list of student records by their GPA. You want to use merge sort. Ask how merge sort works step by step, why it is appropriate for large datasets, and how you would modify it to sort by a specific field.",
       "rubric": "Specificity (2pts): shows large dataset. Clarity (1pt): clear. Context (2pts): asks for algorithm understanding"
     },
-    "id": 142
+    "id": 148
   },
   {
     "chapter": 20,
@@ -7146,7 +7230,7 @@
       "description": "Write a prompt to an AI: you need to sort words alphabetically. You are choosing between merge sort and quick sort. Ask about the tradeoffs: which is faster for strings, which uses less memory, and what the average vs worst case performance looks like for text data.",
       "rubric": "Specificity (2pts): shows string data. Clarity (1pt): clear. Context (2pts): asks for algorithm comparison"
     },
-    "id": 143
+    "id": 149
   },
   {
     "chapter": 20,
@@ -7195,7 +7279,7 @@
       "description": "Write a prompt to an AI: you have a list of 1 million player names and need to find if a given name exists. Ask how to choose between a linear search O(n), sorting the list then binary searching O(n log n), and using a dictionary/hash set O(1). Which is fastest for one lookup vs many lookups?",
       "rubric": "Specificity (2pts): shows dataset. Clarity (1pt): clear. Context (2pts): asks for algorithm choice"
     },
-    "id": 144
+    "id": 150
   },
   {
     "chapter": 21,
@@ -7244,7 +7328,7 @@
       "description": "Write a prompt to an AI: you need to find all files with a .json extension in a directory tree (including subdirectories), read each one, and collect some data from them. Ask how to use pathlib to walk the directory tree and filter by extension.",
       "rubric": "Specificity (2pts): shows directory tree context. Clarity (1pt): clear. Context (2pts): asks about filtering and traversal"
     },
-    "id": 145
+    "id": 151
   },
   {
     "chapter": 21,
@@ -7293,7 +7377,7 @@
       "description": "Write a prompt to an AI: you need to find the largest file in a directory and all its subdirectories, then print its path and size. Ask how to walk the directory tree, compare file sizes, and handle the case where the directory might be empty or inaccessible.",
       "rubric": "Specificity (2pts): shows file size context. Clarity (1pt): clear. Context (2pts): asks about error handling and traversal"
     },
-    "id": 146
+    "id": 152
   },
   {
     "chapter": 21,
@@ -7342,7 +7426,7 @@
       "description": "Write a prompt to an AI: you have a CSV file with 50 columns and 10000 rows of player data. You need to filter rows where a specific column meets a condition, then write the filtered results to a new CSV. Ask about efficient approaches, whether to load the whole file or process line by line, and how to handle the filtering cleanly.",
       "rubric": "Specificity (2pts): shows data volume/context. Clarity (1pt): clear. Context (2pts): asks about efficiency"
     },
-    "id": 147
+    "id": 153
   },
   {
     "chapter": 21,
@@ -7391,7 +7475,7 @@
       "description": "Write a prompt to an AI: you need to find all files with a .json extension in a directory tree (including subdirectories), read each one, and collect some data from them. Ask how to use pathlib to walk the directory tree and filter by extension.",
       "rubric": "Specificity (2pts): shows directory tree context. Clarity (1pt): clear. Context (2pts): asks about filtering and traversal"
     },
-    "id": 148
+    "id": 154
   },
   {
     "chapter": 21,
@@ -7440,7 +7524,7 @@
       "description": "Write a prompt to an AI: you need to find the largest file in a directory and all its subdirectories, then print its path and size. Ask how to walk the directory tree, compare file sizes, and handle the case where the directory might be empty or inaccessible.",
       "rubric": "Specificity (2pts): shows file size context. Clarity (1pt): clear. Context (2pts): asks about error handling and traversal"
     },
-    "id": 149
+    "id": 155
   },
   {
     "chapter": 21,
@@ -7489,6 +7573,6 @@
       "description": "Write a prompt to an AI: you have a CSV file with 50 columns and 10000 rows of player data. You need to filter rows where a specific column meets a condition, then write the filtered results to a new CSV. Ask about efficient approaches, whether to load the whole file or process line by line, and how to handle the filtering cleanly.",
       "rubric": "Specificity (2pts): shows data volume/context. Clarity (1pt): clear. Context (2pts): asks about efficiency"
     },
-    "id": 150
+    "id": 156
   }
 ]

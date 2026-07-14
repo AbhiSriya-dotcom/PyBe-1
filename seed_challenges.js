@@ -98,9 +98,91 @@ const conceptToChapterMap = {
   'Reading and writing structured files — CSV and JSON': { num: 21, name: 'Gateways of Path Finder' }
 };
 
+// 6 Original preseeded challenges
+const originalChallenges = [
+  {
+    chapter: 1,
+    title: "Say Hello to the Jungle",
+    concept: "print() — Output & What is Code?",
+    conceptName: "Jungle of Prints!",
+    instructions: `Use the <code>print()</code> function to output exactly the string <code>"Hello, world"</code> to the console.`,
+    whyThisMatters: "The <code>print()</code> statement is the fundamental way a programmer inspects values and communicates with user dashboards. Every major software journey starts with standard console output.",
+    template: `print("replace me")`,
+    targetOutput: "Hello, world",
+    errorTips: "Make sure you type exactly <code>print(\"Hello, world\")</code>. Double check quotes and capitalization!",
+    quizQuestions: [],
+    promptChallenge: {}
+  },
+  {
+    chapter: 1,
+    title: "Printing Numbers & Math",
+    concept: "print() — Output & What is Code?",
+    conceptName: "Jungle of Prints!",
+    instructions: `Output the mathematical product of multiplying <code>5</code> by <code>10</code> directly inside a print statement. e.g. <code>print(5 * 10)</code>.`,
+    whyThisMatters: "Python evaluates math expressions inside arguments before executing functions. This inline computation is extremely fast and saves storing redundant variables.",
+    template: `print()`,
+    targetOutput: "50",
+    errorTips: "Provide the multiplication formula inside the print parenthesis, e.g. <code>5 * 10</code>. Do not write quotes, otherwise it will print the formula text instead of the math result!",
+    quizQuestions: [],
+    promptChallenge: {}
+  },
+  {
+    chapter: 2,
+    title: "Storing Jungle Fruits",
+    concept: "Variables & Data Storage",
+    conceptName: "Forest Signposts",
+    instructions: `Create a variable named <code>fruits</code> and set its value to <code>25</code>. On the next line, print the variable's value: <code>print(fruits)</code>.`,
+    whyThisMatters: "Variables store data in temporary memory blocks so they can be easily manipulated or referenced repeatedly in long scripts.",
+    template: `# Create fruits variable below\n`,
+    targetOutput: "25",
+    errorTips: "Ensure you assign it exactly: <code>fruits = 25</code>, and then run <code>print(fruits)</code> without wrapping the variable name in quotes.",
+    quizQuestions: [],
+    promptChallenge: {}
+  },
+  {
+    chapter: 2,
+    title: "Simple Fruit Adder",
+    concept: "Variables & Data Storage",
+    conceptName: "Forest Signposts",
+    instructions: `Add two variables: <code>apples = 10</code> and <code>oranges = 15</code>. Store the sum in a variable named <code>total</code>, then print <code>total</code>.`,
+    whyThisMatters: "Mathematical addition across memory cells is the mechanical basis of web checkouts, inventory updates, and database calculations.",
+    template: `apples = 10\noranges = 15\n# Compute total and print it below\n`,
+    targetOutput: "25",
+    errorTips: "Write <code>total = apples + oranges</code> and then <code>print(total)</code>. Double check variable spelling!",
+    quizQuestions: [],
+    promptChallenge: {}
+  },
+  {
+    chapter: 4,
+    title: "String Length Check",
+    concept: "String Operations & Indexing",
+    conceptName: "Rune Slices & Matrices",
+    instructions: `Count the number of characters in the string <code>"Supercalifragilistic"</code> using the built-in <code>len()</code> function, and output the length using a print statement.`,
+    whyThisMatters: "Checking length enables validation parameters, string truncation safeguards, and size indexing boundaries on servers.",
+    template: `word = "Supercalifragilistic"\n# Print length here\n`,
+    targetOutput: "20",
+    errorTips: "Pass the variable or literal string into <code>len()</code> inside your print, like: <code>print(len(word))</code>.",
+    quizQuestions: [],
+    promptChallenge: {}
+  },
+  {
+    chapter: 10,
+    title: "Jungle Pack Lists",
+    concept: "Creating & accessing lists",
+    conceptName: "Party Member Rosters",
+    instructions: `Initialize a Python list named <code>pack</code> containing standard string items <code>"rope"</code>, <code>"map"</code>, and <code>"canteen"</code>. Print the list to inspect it.`,
+    whyThisMatters: "Arrays and list collections group multiple related elements into a single variable index, laying the track for dynamic loop runs.",
+    template: `# Create list and print it below\n`,
+    targetOutput: "['rope', 'map', 'canteen']",
+    errorTips: "Declare list with square brackets: <code>pack = [\"rope\", \"map\", \"canteen\"]</code> and then <code>print(pack)</code>.",
+    quizQuestions: [],
+    promptChallenge: {}
+  }
+];
+
 // Parse MD Sections
 const sections = content.split(/(?=## Case:)/);
-const challenges = [];
+const parsedChallenges = [];
 
 sections.forEach(sec => {
   if (!sec.trim() || !sec.includes('## Case:')) return;
@@ -233,11 +315,11 @@ sections.forEach(sec => {
       targetOutput = '0\n1\n2';
     }
 
-    challenges.push({
+    parsedChallenges.push({
       chapter: chapInfo.num,
       title: title,
       concept: concept,
-      conceptName: chapInfo.name, // save the theme name directly
+      conceptName: chapInfo.name,
       instructions: `Master the concept of <strong>${concept}</strong> by executing the code and completing the prompting/quiz tasks.`,
       whyThisMatters: `This level explores the essential logic of <strong>${concept}</strong>. Understanding this is key to structuring functional Python routines.`,
       template: template,
@@ -252,9 +334,14 @@ sections.forEach(sec => {
   }
 });
 
-// Sort challenges by chapter number, then assign sequential level IDs
-challenges.sort((a, b) => a.chapter - b.chapter);
-challenges.forEach((c, idx) => {
+// Sort parsed challenges by chapter number
+parsedChallenges.sort((a, b) => a.chapter - b.chapter);
+
+// Merge: Original 6 challenges come first, then all 150 parsed challenges!
+const allChallenges = [...originalChallenges, ...parsedChallenges];
+
+// Assign sequential Level IDs starting from 1 to 156
+allChallenges.forEach((c, idx) => {
   c.id = idx + 1;
 });
 
@@ -263,11 +350,11 @@ mongoose.connect(mongoURI)
   .then(async () => {
     console.log('Connected to MongoDB. Resetting challenges collection...');
     await Challenge.deleteMany({});
-    await Challenge.insertMany(challenges);
-    console.log(`Seeded ${challenges.length} challenges successfully grouped into ${new Set(challenges.map(c => c.chapter)).size} core concept chapters.`);
+    await Challenge.insertMany(allChallenges);
+    console.log(`Seeded ${allChallenges.length} challenges successfully (6 original + 150 parsed).`);
     
     // Also save local json backup
-    fs.writeFileSync('./parsed_challenges.json', JSON.stringify(challenges, null, 2));
+    fs.writeFileSync('./parsed_challenges.json', JSON.stringify(allChallenges, null, 2));
     console.log('Saved parsed_challenges.json locally.');
     process.exit(0);
   })
