@@ -1095,7 +1095,7 @@ function WorkspacePage({
                 <h3>Chapter Progression</h3>
               </div>
               <div className="challenge-menu-list">
-                {challenges.map(c => {
+                {challenges.filter(c => c.chapter === challenge.chapter).map(c => {
                   const isLocked = false;
                   const isDone = completedChallenges.includes(c.id);
                   return (
@@ -1668,7 +1668,7 @@ function PromptWorkspacePage({
                 <h3>Chapter Progression</h3>
               </div>
               <div className="challenge-menu-list">
-                {challenges.map(c => (
+                {challenges.filter(c => c.chapter === challenge.chapter).map(c => (
                   <div 
                     key={c.id} 
                     className={`challenge-item ${c.id === challenge.id ? 'active' : ''}`}
