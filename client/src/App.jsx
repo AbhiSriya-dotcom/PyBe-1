@@ -894,6 +894,7 @@ function WorkspacePage({
 
   const [conceptModalOpen, setConceptModalOpen] = useState(false);
   const [currentStep, setCurrentStep] = useState(0);
+  const prevChapterRef = useRef(null);
 
   const getDialogueSteps = () => {
     if (challenge.chapter === 1) {
@@ -950,9 +951,14 @@ function WorkspacePage({
     setQuizFeedback({});
     setRevealedShortAnswers({});
 
-    // Auto-pop Concept Guide modal only for the first level of each chapter!
-    if (getRelativeLevel(challenge) === 1) {
-      setConceptModalOpen(true);
+    // Auto-pop Concept Guide modal only if entering a new chapter for the first time at Level 1!
+    if (prevChapterRef.current !== challenge.chapter) {
+      if (getRelativeLevel(challenge) === 1) {
+        setConceptModalOpen(true);
+      } else {
+        setConceptModalOpen(false);
+      }
+      prevChapterRef.current = challenge.chapter;
     } else {
       setConceptModalOpen(false);
     }
