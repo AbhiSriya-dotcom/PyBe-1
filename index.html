@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PyBe - Code Python with your AI Assistant</title>
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="PyBe is an interactive, browser-based Python learning platform powered by an AI assistant. Learn Python from beginner to pro with real-time feedback.">
+  <meta name="keywords" content="Python, Learn Python, Coding, AI coding assistant, interactive coding sandbox">
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;700&family=Outfit:wght@300;400;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Global Header / Navbar (Shared across app where appropriate) -->
+  <header id="global-header" class="main-header hidden">
+    <div class="header-logo" onclick="window.location.hash = '#/home'">
+      <span class="logo-icon">🐍</span>
+      <span class="logo-text">Py<span class="accent-text">Be</span></span>
+    </div>
+    <nav class="nav-links">
+      <a href="#/dashboard" class="nav-link" id="nav-dashboard-link">Dashboard</a>
+      <a href="#/challenge/1" class="nav-link" id="nav-workspace-link">Workspace</a>
+    </nav>
+    <div class="header-status-panel">
+      <div class="status-pill premium-badge free" id="global-membership-pill">
+        <span class="pill-dot"></span>
+        <span class="pill-text">Free Access</span>
+      </div>
+      <div class="status-pill token-pill">
+        <span class="pill-icon">✨</span>
+        <span id="global-token-count">10 Tokens</span>
+      </div>
+      <div class="profile-menu-container">
+        <button class="profile-trigger" id="profile-menu-btn" aria-label="User Profile">
+          <div class="profile-avatar">S</div>
+          <span class="profile-arrow">▼</span>
+        </button>
+        <div class="profile-dropdown hidden" id="profile-dropdown-menu">
+          <div class="dropdown-user-info">
+            <p class="user-name">Python Coder</p>
+            <p class="user-status" id="dropdown-status-text">Free Account</p>
+          </div>
+          <hr class="dropdown-divider">
+          <button class="dropdown-item" id="btn-upgrade-membership">🚀 Upgrade to Premium</button>
+          <button class="dropdown-item" id="btn-reset-session">🔄 Reset Progress</button>
+          <hr class="dropdown-divider">
+          <button class="dropdown-item logout" onclick="window.location.hash = '#/home'">🚪 Sign Out</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Route Containers -->
+  <main id="app-container">
+
+    <!-- Page 1: Landing Page (/home) -->
+    <section id="route-home" class="page-route active">
+      <div class="hero-container">
+        <!-- Interactive node web canvas background -->
+        <canvas id="node-web-canvas" class="hero-canvas"></canvas>
+        
+        <div class="hero-content">
+          <div class="hero-badge animate-pulse">✨ Introducing PyBe 2.0</div>
+          <h1 class="hero-title">Code <span class="gradient-text">🐍 Python</span> with your <span class="accent-text glow-text">AI assistant!</span></h1>
+          <p class="hero-subtitle">Interactive playground, gamified challenges, and immediate smart AI debugging guidance.</p>
+          <div class="hero-cta-wrapper">
+            <button class="btn btn-primary btn-large btn-glow" onclick="window.location.hash = '#/login'">
+              Continue Coding <span class="arrow">→</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Feature Grid -->
+      <section class="section-container">
+        <h2 class="section-title text-center">Engineered for Fast Learning</h2>
+        <div class="feature-grid">
+          <!-- Column 1 -->
+          <div class="feature-card">
+            <div class="feature-illustration">
+              <svg class="snake-svg" viewBox="0 0 100 100" width="80" height="80">
+                <!-- Glowing Background -->
+                <circle cx="50" cy="50" r="40" fill="url(#grad-snake)" opacity="0.15" />
+                <!-- Snake Reading Laptop -->
+                <path d="M20 70 Q 30 40, 50 45 T 80 40" fill="none" stroke="#00E676" stroke-width="8" stroke-linecap="round" class="animated-path" />
+                <rect x="65" y="30" width="20" height="15" rx="2" fill="#1e1e2e" stroke="#00E676" stroke-width="2" />
+                <line x1="60" x2="90" y1="46" y2="46" stroke="#00E676" stroke-width="3" />
+                <!-- Snake eyes -->
+                <circle cx="78" cy="37" r="1.5" fill="#fff" />
+              </svg>
+            </div>
+            <h3>From Python Beginner to Pro</h3>
+            <p>Step-by-step interactive chapters built to take you from printing variables to structuring enterprise applications.</p>
+          </div>
+
+          <!-- Column 2 -->
+          <div class="feature-card">
+            <div class="feature-illustration">
+              <svg class="chat-svg" viewBox="0 0 100 100" width="80" height="80">
+                <circle cx="50" cy="50" r="40" fill="url(#grad-chat)" opacity="0.15" />
+                <!-- Laptop -->
+                <rect x="25" y="40" width="50" height="30" rx="3" fill="#151522" stroke="#00b0ff" stroke-width="2" />
+                <line x1="20" x2="80" y1="71" y2="71" stroke="#00b0ff" stroke-width="4" stroke-linecap="round" />
+                <!-- Chat Bubble -->
+                <path d="M40 25 h20 a5 5 0 0 1 5 5 v10 a5 5 0 0 1 -5 5 h-12 l-5 5 v-5 h-3 a5 5 0 0 1 -5 -5 v-10 a5 5 0 0 1 5 -5 z" fill="#00b0ff" />
+                <line x1="45" x2="55" y1="30" y2="30" stroke="#fff" stroke-width="1.5" stroke-linecap="round" />
+                <line x1="45" x2="52" y1="34" y2="34" stroke="#fff" stroke-width="1.5" stroke-linecap="round" />
+              </svg>
+            </div>
+            <h3>Integrated AI Chat</h3>
+            <p>Never get stuck. Ask your embedded AI tutor to explain errors, debug logic, or detail syntax quirks right inside your workspace.</p>
+          </div>
+
+          <!-- Column 3 -->
+          <div class="feature-card">
+            <div class="feature-illustration">
+              <svg class="wizard-svg" viewBox="0 0 100 100" width="80" height="80">
+                <circle cx="50" cy="50" r="40" fill="url(#grad-wizard)" opacity="0.15" />
+                <!-- Wizard Hat Snake -->
+                <path d="M30 75 C 30 55, 50 60, 50 40 C 50 25, 70 30, 70 45" fill="none" stroke="#d500f9" stroke-width="8" stroke-linecap="round" />
+                <!-- Hat -->
+                <polygon points="50,15 35,38 65,38" fill="#d500f9" />
+                <ellipse cx="50" cy="38" rx="18" ry="4" fill="#a600c8" />
+                <!-- Sparkles -->
+                <polygon points="25,25 27,30 32,32 27,34 25,39 23,34 18,32 23,30" fill="#ffeb3b" />
+              </svg>
+            </div>
+            <h3>Build Your Own Projects</h3>
+            <p>Deploy code directly onto our virtual platform and share custom creations with fellow student programmers.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Gradients for SVG illustrations -->
+      <svg width="0" height="0">
+        <defs>
+          <linearGradient id="grad-snake" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#00E676" />
+            <stop offset="100%" stop-color="#004d40" />
+          </linearGradient>
+          <linearGradient id="grad-chat" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#00b0ff" />
+            <stop offset="100%" stop-color="#00227b" />
+          </linearGradient>
+          <linearGradient id="grad-wizard" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#d500f9" />
+            <stop offset="100%" stop-color="#4a0072" />
+          </linearGradient>
+        </defs>
+      </svg>
+
+      <!-- Interactive Teaser Section -->
+      <section class="section-container teaser-section">
+        <div class="teaser-grid">
+          <div class="teaser-text-panel">
+            <h2 class="section-title">How It Works</h2>
+            <p class="section-desc">Write real Python code, run it directly in your browser, and see instant terminal output. Try executing the simple print statement on the right.</p>
+            <div class="teaser-run-indicator" id="teaser-success-indicator">
+              Ready to execute...
+            </div>
+          </div>
+          <div class="teaser-editor-panel glass-panel">
+            <div class="teaser-header">
+              <span class="red-dot"></span>
+              <span class="yellow-dot"></span>
+              <span class="green-dot"></span>
+              <span class="window-title">interactive_teaser.py</span>
+            </div>
+            <div class="teaser-body">
+              <div class="line-nums">
+                <div>1</div>
+              </div>
+              <div class="teaser-editor">
+                <span class="syntax-keyword">print</span>(<span class="syntax-string">"Hello, world"</span>)
+              </div>
+            </div>
+            <div class="teaser-footer">
+              <button class="btn btn-accent btn-small" id="btn-run-teaser">Run Code</button>
+              <div class="teaser-output" id="teaser-output-terminal">
+                &gt; Click run to execute statement...
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Informational Section -->
+      <section class="section-container info-section">
+        <div class="info-content text-center">
+          <h2 class="section-title">Why Learn Python?</h2>
+          <p class="info-text">
+            Python is the ultimate <span class="highlight-term">beginner-friendly</span> language, serving as the launchpad for <span class="highlight-term">new coders</span>. It powerhouses modern <span class="highlight-term">AI development</span>, automated scripting, and server-side web platforms. Learning it sets the stage for <span class="highlight-term">developing</span> state-of-the-art intelligent systems.
+          </p>
+        </div>
+      </section>
+
+      <!-- FAQ Accordion & Grid -->
+      <section class="section-container faq-section">
+        <h2 class="section-title text-center">Frequently Asked Questions</h2>
+        <div class="faq-grid">
+          <div class="faq-item">
+            <h4 class="faq-question">Do I need to install anything?</h4>
+            <p class="faq-answer">No! Everything executes entirely in your browser using our built-in virtual environment sandbox.</p>
+          </div>
+          <div class="faq-item">
+            <h4 class="faq-question">How quickly can I learn?</h4>
+            <p class="faq-answer">Most students complete Chapter 1 (Jungle of Prints!) and Chapter 2 within their first afternoon.</p>
+          </div>
+          <div class="faq-item">
+            <h4 class="faq-question">What are AI Assistant Tokens?</h4>
+            <p class="faq-answer">Tokens power the interactive debugger. Free accounts get 10 tokens daily, while Premium accounts get unlimited assistance.</p>
+          </div>
+          <div class="faq-item">
+            <h4 class="faq-question">Can I build personal projects?</h4>
+            <p class="faq-answer">Yes, you can save custom sandbox scripts and deploy web apps on our Projects Shelf.</p>
+          </div>
+          <div class="faq-item">
+            <h4 class="faq-question">Is the premium plan a subscription?</h4>
+            <p class="faq-answer">Yes! It unlocks Chapters 3 and 4, removes all AI helper token boundaries, and grants immediate beta project workspace access.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Footer -->
+      <footer class="dark-footer">
+        <div class="footer-grid">
+          <div class="footer-col-logo">
+            <div class="header-logo">
+              <span class="logo-icon">🐍</span>
+              <span class="logo-text">Py<span class="accent-text">Be</span></span>
+            </div>
+            <p>Modern browser-based playground for future Python wizards.</p>
+          </div>
+          <div class="footer-col">
+            <h5>Product</h5>
+            <a href="#/dashboard">Dashboard</a>
+            <a href="#/challenge/1">Workspace</a>
+            <a href="#/home">Landing Page</a>
+          </div>
+          <div class="footer-col">
+            <h5>Resources</h5>
+            <a href="#">Python Docs</a>
+            <a href="#">Cheat Sheet</a>
+            <a href="#">FAQ Guide</a>
+          </div>
+          <div class="footer-col">
+            <h5>Support</h5>
+            <a href="#">Contact Us</a>
+            <a href="#">Bug Report</a>
+            <a href="#">Help Center</a>
+          </div>
+          <div class="footer-col">
+            <h5>Legal</h5>
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms of Use</a>
+            <a href="#">License Info</a>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>&copy; 2026 PyBe Inc. All rights reserved. Designed with premium dark coding aesthetics.</p>
+        </div>
+      </footer>
+    </section>
+
+    <!-- Onboarding Page 1: Login & Profile Setup (/login) -->
+    <section id="route-login" class="page-route hidden">
+      <div class="onboarding-container">
+        <div class="progress-header">
+          <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 25%"></div></div>
+          <div class="progress-label">STEP 1: IDENTITY // 25%</div>
+        </div>
+        
+        <div class="auth-card glass-panel">
+          <div class="character-box">
+            <div class="pixel-art-canvas" id="onboarding-pixel-canvas">
+              <!-- Pixel Art Snake / Penguin loaded dynamically -->
+            </div>
+            <div class="speech-bubble">
+              <p id="auth-speech-txt">Hi! What should I call you?</p>
+            </div>
+          </div>
+
+          <div class="auth-form">
+            <div class="input-group">
+              <label for="auth-username-input">Your Name</label>
+              <input type="text" id="auth-username-input" placeholder="Enter name or nickname" required>
+            </div>
+
+            <div class="input-group email-field hidden" id="auth-email-group">
+              <label for="auth-email-input">Email Address</label>
+              <input type="email" id="auth-email-input" placeholder="name@domain.com">
+            </div>
+
+            <div class="action-row">
+              <button class="btn btn-secondary active" id="auth-mode-guest">Guest</button>
+              <button class="btn btn-secondary" id="auth-mode-signin">Sign In</button>
+              <button class="btn btn-secondary" id="auth-mode-signup">Sign Up</button>
+            </div>
+
+            <div class="msg-display" id="auth-status-msg"></div>
+
+            <button class="btn btn-primary btn-glow btn-block" id="btn-submit-auth">GO →</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Onboarding Page 2: Self Assessment (/assessment) -->
+    <section id="route-assessment" class="page-route hidden">
+      <div class="onboarding-container wide">
+        <div class="progress-header">
+          <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 50%"></div></div>
+          <div class="progress-label">STEP 2: ASSESSMENT // 50%</div>
+        </div>
+
+        <div class="assessment-layout">
+          <!-- Left Panel -->
+          <div class="assessment-left glass-panel text-center">
+            <div class="character-box">
+              <div class="pixel-art-canvas" id="assessment-pixel-canvas"></div>
+              <div class="speech-bubble">
+                <p>"Check the Python modules you already know so we can dynamically adjust your roadmap."</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Panel -->
+          <div class="assessment-right glass-panel">
+            <div class="module-header-tag">SELECT ALL TOPICS THAT YOU KNOW</div>
+            <div class="assessment-list">
+              <div class="assessment-card" data-module="1">
+                <div class="card-left">
+                  <div class="custom-checkbox"></div>
+                  <div class="module-info">
+                    <span class="module-title">Variables & Data Types</span>
+                    <span class="module-subtitle">MODULE_01 // CORE_FUNDAMENTALS</span>
+                  </div>
+                </div>
+                <div class="module-icon">🗄️</div>
+              </div>
+
+              <div class="assessment-card" data-module="2">
+                <div class="card-left">
+                  <div class="custom-checkbox"></div>
+                  <div class="module-info">
+                    <span class="module-title">Conditionals (if/else)</span>
+                    <span class="module-subtitle">MODULE_02 // FLOW_CONTROL</span>
+                  </div>
+                </div>
+                <div class="module-icon">🌿</div>
+              </div>
+
+              <div class="assessment-card" data-module="3">
+                <div class="card-left">
+                  <div class="custom-checkbox"></div>
+                  <div class="module-info">
+                    <span class="module-title">Loops (while/for)</span>
+                    <span class="module-subtitle">MODULE_03 // ITERATION</span>
+                  </div>
+                </div>
+                <div class="module-icon">🔄</div>
+              </div>
+
+              <div class="assessment-card" data-module="4">
+                <div class="card-left">
+                  <div class="custom-checkbox"></div>
+                  <div class="module-info">
+                    <span class="module-title">Lists & Dictionaries</span>
+                    <span class="module-subtitle">MODULE_04 // DATA_STRUCTURES</span>
+                  </div>
+                </div>
+                <div class="module-icon">📊</div>
+              </div>
+
+              <div class="assessment-card" data-module="5">
+                <div class="card-left">
+                  <div class="custom-checkbox"></div>
+                  <div class="module-info">
+                    <span class="module-title">Functions & Scope</span>
+                    <span class="module-subtitle">MODULE_05 // ABSTRACTION</span>
+                  </div>
+                </div>
+                <div class="module-icon">&lt;/&gt;</div>
+              </div>
+            </div>
+
+            <button class="btn btn-primary btn-glow btn-block" id="btn-submit-assessment">NEXT: CHOOSE DIMENSION →</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Onboarding Page 3: Theme Selector (/theme-selector) -->
+    <section id="route-theme-selector" class="page-route hidden">
+      <div class="onboarding-container wide">
+        <div class="progress-header">
+          <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 75%"></div></div>
+          <div class="progress-label">STEP 3: INTERFACE DIMENSION // 75%</div>
+        </div>
+
+        <div class="main-title-container text-center">
+          <h2 class="section-title">Select Your Interface Dimension</h2>
+          <p class="section-desc text-center">Choose a theme to skin your learning workspace environment.</p>
+        </div>
+
+        <div class="themes-grid">
+          <!-- GENERAL -->
+          <div class="theme-card-custom selected" data-theme-id="general">
+            <div class="theme-card-visual">
+              <svg width="80" height="80" viewBox="0 0 16 16">
+                <rect x="5" y="3" width="6" height="6" fill="#00E676" />
+                <rect x="4" y="6" width="8" height="6" fill="#00E676" />
+                <rect x="5" y="12" width="2" height="2" fill="#cbd5e1" />
+                <rect x="9" y="12" width="2" height="2" fill="#cbd5e1" />
+                <circle cx="6.5" cy="5.5" r="0.7" fill="#ffffff" />
+                <circle cx="9.5" cy="5.5" r="0.7" fill="#ffffff" />
+              </svg>
+            </div>
+            <div class="theme-card-body">
+              <span class="theme-badge">Dimension_01</span>
+              <h3>General</h3>
+              <p>Classic 16-Bit Retro System</p>
+              <div class="theme-tags">
+                <span class="theme-tag">Retro</span>
+                <span class="theme-tag">Terminal</span>
+                <span class="theme-tag">Pixel_Art</span>
+              </div>
+              <div class="theme-status">✓ Selected</div>
+            </div>
+          </div>
+
+          <!-- MARVEL -->
+          <div class="theme-card-custom locked-theme" data-theme-id="marvel">
+            <div class="theme-lock-overlay">
+              <span class="lock-icon">🔒</span>
+              <span class="lock-text">Marvel Theme Locked</span>
+            </div>
+            <div class="theme-card-visual">
+              <svg width="80" height="80" viewBox="0 0 140 110">
+                <polygon points="70,35 87,45 87,65 70,75 53,65 53,45" fill="none" stroke="#00b0ff" stroke-width="1.5" />
+                <circle cx="70" cy="55" r="3" fill="#00b0ff" />
+              </svg>
+            </div>
+            <div class="theme-card-body">
+              <span class="theme-badge">Dimension_02</span>
+              <h3>Marvel</h3>
+              <p>Holographic Tech Grid Theme</p>
+              <div class="theme-tags">
+                <span class="theme-tag">Holo</span>
+                <span class="theme-tag">Tech_Grid</span>
+                <span class="theme-tag">Avengers</span>
+              </div>
+              <div class="theme-status">Locked</div>
+            </div>
+          </div>
+
+          <!-- HARRY POTTER -->
+          <div class="theme-card-custom locked-theme" data-theme-id="harry-potter">
+            <div class="theme-lock-overlay">
+              <span class="lock-icon">🔒</span>
+              <span class="lock-text">Harry Potter Theme Locked</span>
+            </div>
+            <div class="theme-card-visual">
+              <svg width="80" height="80" viewBox="0 0 140 110">
+                <circle cx="70" cy="55" r="32" fill="none" stroke="#d500f9" stroke-width="1" opacity="0.5" />
+                <polygon points="70,23 98,71 42,71" fill="none" stroke="#d500f9" stroke-width="0.8" opacity="0.6" />
+              </svg>
+            </div>
+            <div class="theme-card-body">
+              <span class="theme-badge">Dimension_03</span>
+              <h3>Harry Potter</h3>
+              <p>Wizarding Alchemy Grid Theme</p>
+              <div class="theme-tags">
+                <span class="theme-tag">Wizard</span>
+                <span class="theme-tag">Alchemy</span>
+                <span class="theme-tag">Hogwarts</span>
+              </div>
+              <div class="theme-status">Locked</div>
+            </div>
+          </div>
+        </div>
+
+        <button class="btn btn-primary btn-glow btn-block" style="max-width: 400px; margin: 40px auto 0 auto;" id="btn-submit-theme">⚡ Teleport to Realm →</button>
+      </div>
+    </section>
+
+    <!-- Page 2: Student Dashboard (/dashboard) -->
+    <section id="route-dashboard" class="page-route hidden">
+      <div class="dashboard-hero section-container">
+        <div class="dashboard-welcome">
+          <h2>Welcome back, <span class="accent-text">Python Cadet</span>! 🚀</h2>
+          <p>Ready to level up your programming skills today?</p>
+        </div>
+        
+        <div class="dashboard-stats-row">
+          <div class="dash-stat-card glass-panel">
+            <span class="stat-icon">🎓</span>
+            <div class="stat-info">
+              <h4 id="stat-progress-title">0 Chapters Completed</h4>
+              <p>Overall Level Progress</p>
+            </div>
+          </div>
+          <div class="dash-stat-card glass-panel">
+            <span class="stat-icon">🔥</span>
+            <div class="stat-info">
+              <h4 id="stat-challenges-completed">0 / 6 Solved</h4>
+              <p>Challenges Completed</p>
+            </div>
+          </div>
+          <div class="dash-stat-card glass-panel">
+            <span class="stat-icon">✨</span>
+            <div class="stat-info">
+              <h4 id="stat-tokens-left">10 Tokens Left</h4>
+              <p>Daily Assistant Power</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Coding Journey Horizontal Carousel -->
+      <section class="section-container">
+        <div class="journey-header">
+          <div>
+            <h2 class="section-title">Coding Journey</h2>
+            <p class="section-desc" id="carousel-completion-subtitle">0 chapters completed</p>
+          </div>
+          <div class="carousel-nav">
+            <button class="btn btn-secondary btn-icon-only" id="btn-carousel-left" aria-label="Previous Chapters">◀</button>
+            <button class="btn btn-secondary btn-icon-only" id="btn-carousel-right" aria-label="Next Chapters">▶</button>
+          </div>
+        </div>
+
+        <div class="carousel-viewport">
+          <div class="journey-carousel" id="dashboard-journey-carousel">
+            <!-- Chapter 1 (Unlocked) -->
+            <div class="chapter-card unlocked" data-chapter="1">
+              <div class="chapter-badge">Chapter 1</div>
+              <h3>Jungle of Prints!</h3>
+              <p>Master standard script console outputs, syntax layout basics, and your very first commands.</p>
+              <div class="chapter-footer">
+                <span class="challenge-count">2 challenges</span>
+                <span class="progress-pill" id="chap-1-progress-pill">0% Complete</span>
+              </div>
+            </div>
+
+            <!-- Chapter 2 (Unlocked) -->
+            <div class="chapter-card unlocked" data-chapter="2">
+              <div class="chapter-badge">Chapter 2</div>
+              <h3>Forest Signposts</h3>
+              <p>Meet variables: dynamic storage containers, numerical formats, and simple dynamic calculations.</p>
+              <div class="chapter-footer">
+                <span class="challenge-count">2 challenges</span>
+                <span class="progress-pill" id="chap-2-progress-pill">0% Complete</span>
+              </div>
+            </div>
+
+            <!-- Chapter 3 (Locked) -->
+            <div class="chapter-card locked" data-chapter="3" id="chapter-card-3">
+              <div class="lock-overlay">
+                <span class="lock-icon">🔒</span>
+                <span class="lock-text">Premium Only</span>
+              </div>
+              <div class="chapter-badge">Chapter 3</div>
+              <h3>String Weaving</h3>
+              <p>Manipulate character matrices, run custom format prints, and capture complex user text inputs.</p>
+              <div class="chapter-footer">
+                <span class="challenge-count">1 challenge</span>
+                <span class="progress-pill">Locked</span>
+              </div>
+            </div>
+
+            <!-- Chapter 4 (Locked) -->
+            <div class="chapter-card locked" data-chapter="4" id="chapter-card-4">
+              <div class="lock-overlay">
+                <span class="lock-icon">🔒</span>
+                <span class="lock-text">Premium Only</span>
+              </div>
+              <div class="chapter-badge">Chapter 4</div>
+              <h3>Forest Collections</h3>
+              <p>Learn storage lists, indexing structures, and custom iteration loops across dynamic elements.</p>
+              <div class="chapter-footer">
+                <span class="challenge-count">1 challenge</span>
+                <span class="progress-pill">Locked</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Projects Shelf Section -->
+      <section class="section-container projects-shelf-section">
+        <h2 class="section-title">Your Projects</h2>
+        <p class="section-desc">Create browser-based scripts from scratch, test logic modules, and export clean Python code.</p>
+        <div class="projects-grid">
+          <div class="project-placeholder-card glass-panel text-center">
+            <span class="rocket-icon animate-bounce">🚀</span>
+            <h3>Custom Script Sandbox</h3>
+            <p>Coming soon! We're building a full-featured multi-file script editor with external terminal deployment packages.</p>
+            <span class="badge badge-accent">In Development</span>
+          </div>
+        </div>
+      </section>
+    </section>
+
+    <!-- Page 3: Workspace Environment (/challenge/:id) -->
+    <section id="route-challenge" class="page-route hidden">
+      <div class="workspace-layout">
+        
+        <!-- Left Side Panel (Double State: Challenges List OR AI Chat assistant) -->
+        <aside class="workspace-sidebar glass-panel">
+          <!-- Toggle Panel Headers -->
+          <div class="sidebar-tabs">
+            <button class="sidebar-tab active" id="tab-challenges" data-target="panel-challenges">📝 Level Map</button>
+            <button class="sidebar-tab" id="tab-ai-chat" data-target="panel-ai-chat">
+              ✨ AI Helper 
+              <span class="badge" id="chat-token-pill-sidebar">10</span>
+            </button>
+          </div>
+
+          <!-- Panel 1: Challenges List -->
+          <div class="sidebar-panel active" id="panel-challenges">
+            <div class="sidebar-panel-header">
+              <h3>Chapter Progression</h3>
+            </div>
+            <div class="challenge-menu-list" id="challenge-list-container">
+              <!-- Dynamically populated via JS -->
+            </div>
+            
+            <div class="upgrade-teaser-box" id="sidebar-upgrade-box">
+              <h4>Want more challenges?</h4>
+              <p>Unlock Chapters 3 and 4 with unlimited AI assistance.</p>
+              <button class="btn btn-accent btn-block btn-small" id="sidebar-upgrade-btn">Go Premium 🚀</button>
+            </div>
+          </div>
+
+          <!-- Panel 2: AI Chat assistant -->
+          <div class="sidebar-panel" id="panel-ai-chat">
+            <div class="sidebar-panel-header">
+              <div class="chat-helper-title">
+                <h3>AI Debugger Chat</h3>
+                <span class="text-xs" id="chat-token-status">1 token per message</span>
+              </div>
+            </div>
+            <div class="chat-messages-container" id="chat-messages-wrapper">
+              <div class="chat-msg bot">
+                <div class="chat-bubble">
+                  Hello! I'm your interactive Python assistant. Stuck on this challenge? Ask me about prints, syntax errors, or variables, and I'll explain them cleanly!
+                </div>
+              </div>
+            </div>
+            <div class="chat-input-wrapper">
+              <input type="text" id="chat-user-input" placeholder="Ask AI: e.g. Why am I getting SyntaxError?" />
+              <button class="btn btn-accent btn-small" id="btn-send-chat">Ask</button>
+            </div>
+          </div>
+        </aside>
+
+        <!-- Main Middle Panel (Instructions + Interactive Text Editor) -->
+        <div class="workspace-center">
+          
+          <!-- Navigation header block -->
+          <div class="workspace-nav-bar">
+            <a href="#/dashboard" class="btn-back">← Back to Dashboard</a>
+            <div class="active-challenge-title" id="workspace-challenge-header">Challenge 1: Jungle Intro</div>
+          </div>
+
+          <!-- Instructions Block -->
+          <div class="instructions-card glass-panel">
+            <div class="instructions-header">
+              <h3>Task Instructions</h3>
+            </div>
+            <div class="instructions-body" id="workspace-challenge-instructions">
+              <!-- Dynamically loaded instructions -->
+            </div>
+            <details class="instructions-dropdown">
+              <summary>💡 Why This Matters</summary>
+              <div class="dropdown-content" id="workspace-challenge-why">
+                <!-- Dynamically loaded explanation -->
+              </div>
+            </details>
+          </div>
+
+          <!-- Text Editor Window -->
+          <div class="editor-card glass-panel">
+            <div class="editor-header">
+              <span class="red-dot"></span>
+              <span class="yellow-dot"></span>
+              <span class="green-dot"></span>
+              <span class="window-title">main.py</span>
+            </div>
+            <div class="editor-container">
+              <div class="line-numbers-container" id="editor-line-numbers">
+                <div>1</div>
+                <div>2</div>
+                <div>3</div>
+              </div>
+              <textarea class="code-editor-textarea" id="challenge-editor" spellcheck="false"></textarea>
+            </div>
+            <div class="editor-footer">
+              <button class="btn btn-secondary" id="btn-reset-code">Reset Code</button>
+              <button class="btn btn-primary btn-glow" id="btn-run-code">Run Python Code ⚡</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Side Panel (Dual-screen Output Consoles) -->
+        <aside class="workspace-output glass-panel">
+          <!-- Expected Output Section -->
+          <div class="output-panel expected-panel">
+            <div class="output-header">
+              <h4>🎯 Expected Output Target</h4>
+            </div>
+            <div class="output-console target-console" id="workspace-expected-output">
+              <!-- Dynamically filled -->
+            </div>
+          </div>
+
+          <!-- Actual Code Output Console -->
+          <div class="output-panel actual-panel">
+            <div class="output-header">
+              <h4>💻 Actual Code Output Console</h4>
+            </div>
+            <div class="output-console terminal-console" id="workspace-actual-output">
+              &gt; Ready. Click "Run Python Code" above to check execution output.
+            </div>
+          </div>
+        </aside>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Global Modal: Upsell / Unlock Chapters -->
+  <div class="modal-overlay hidden" id="modal-upsell">
+    <div class="modal-card glass-panel">
+      <div class="modal-header">
+        <span class="modal-icon">🔓</span>
+        <h3>Unlock More Chapters</h3>
+      </div>
+      <div class="modal-body">
+        <p>Unfortunately, you don't have access to Chapter <span id="upsell-chapter-number">3</span>. Upgrade to our Premium membership to unlock all core levels, custom string methods, data arrays, and unlimited AI assistant queries!</p>
+        <div class="pricing-card">
+          <div class="price-title">Premium Access</div>
+          <div class="price-value">$9.99<span class="price-period">/mo</span></div>
+          <ul>
+            <li>✅ Instant access to Chapters 3 & 4</li>
+            <li>✅ Unlimited AI assistant queries</li>
+            <li>✅ Multi-file personal project builder (Beta)</li>
+            <li>✅ Dedicated Discord study group room</li>
+          </ul>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" id="btn-upsell-cancel">Cancel</button>
+        <button class="btn btn-primary btn-glow" id="btn-upsell-upgrade">Upgrade to Premium 🚀</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Global Modal: Challenge Success Overlay -->
+  <div class="modal-overlay hidden" id="modal-success">
+    <div class="modal-card glass-panel success-card">
+      <div class="modal-header">
+        <span class="modal-icon animate-bounce">🎉</span>
+        <h3>Challenge Completed!</h3>
+      </div>
+      <div class="modal-body text-center">
+        <p class="success-text">Awesome work! Your script successfully produced the exact expected output target.</p>
+        <div class="badge badge-success" id="success-bonus-xp">+100 XP gained</div>
+      </div>
+      <div class="modal-footer justify-center">
+        <button class="btn btn-secondary" id="btn-success-close">Stay Here</button>
+        <button class="btn btn-primary btn-glow" id="btn-success-next">Next Challenge 🚀</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main JavaScript File -->
+  <script src="app.js"></script>
+</body>
+</html>
