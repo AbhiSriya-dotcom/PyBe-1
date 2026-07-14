@@ -1,23 +1,30 @@
 const fs = require('fs');
+const path = require('path');
 const mongoose = require('mongoose');
 const Challenge = require('./models/Challenge');
 
-const mdPath = 'C:\\Users\\saisr\\.gemini\\antigravity\\brain\\3810b318-fd39-4f18-8ba9-ada4b098f2d6\\all_questions.md';
-const content = fs.readFileSync(mdPath, 'utf8');
+const casesDir = 'C:\\Users\\saisr\\OneDrive\\Desktop\\Shreya\\Shreya\\backend\\data\\cases';
 
 const conceptToChapterMap = {
   'print() — Output & What is Code?': { num: 1, name: 'Jungle of Prints!' },
+  'print() — Output & What is Code?': { num: 1, name: 'Jungle of Prints!' }, // matching different dash forms
+  'print() - Output & What is Code?': { num: 1, name: 'Jungle of Prints!' },
   'Variables & Data Storage': { num: 2, name: 'Forest Signposts' },
   'Data Types (str, int, float, bool)': { num: 3, name: 'Potion Alchemy Tiers' },
   'String Operations & Indexing': { num: 4, name: 'Rune Slices & Matrices' },
   'Arithmetic & Operators': { num: 5, name: 'Market Calculation Grids' },
   'Comparisons — ==, !=, <, >, <=, >=': { num: 6, name: 'Hero Stat Gates' },
+  'Comparisons — ==, !=, <, >, <=, >= ': { num: 6, name: 'Hero Stat Gates' },
+  'Comparisons - ==, !=, <, >, <=, >=': { num: 6, name: 'Hero Stat Gates' },
   
   'if Statements — The First Decision': { num: 7, name: 'Pathways of Decisions' },
+  'if Statements - The First Decision': { num: 7, name: 'Pathways of Decisions' },
   'if / elif / else — Multi-Choice Decisions': { num: 7, name: 'Pathways of Decisions' },
+  'if / elif / else - Multi-Choice Decisions': { num: 7, name: 'Pathways of Decisions' },
   'Nested Conditionals': { num: 7, name: 'Pathways of Decisions' },
   
   'Logical Operators — and, or, not': { num: 8, name: 'Spells of Logic Gates' },
+  'Logical Operators - and, or, not': { num: 8, name: 'Spells of Logic Gates' },
   
   'for loops + range()': { num: 9, name: 'Infinite Mana Loops' },
   'while loops': { num: 9, name: 'Infinite Mana Loops' },
@@ -26,6 +33,7 @@ const conceptToChapterMap = {
   'Accumulator pattern': { num: 9, name: 'Infinite Mana Loops' },
   
   'Creating & accessing lists': { num: 10, name: 'Party Member Rosters' },
+  'Creating & accessing lists ': { num: 10, name: 'Party Member Rosters' },
   'List methods — append, insert, remove, pop': { num: 10, name: 'Party Member Rosters' },
   'List iteration with for loops': { num: 10, name: 'Party Member Rosters' },
   'List slicing': { num: 10, name: 'Party Member Rosters' },
@@ -180,167 +188,43 @@ const originalChallenges = [
   }
 ];
 
-// Parse MD Sections
-const sections = content.split(/(?=## Case:)/);
+// Load and parse all 150 JSON files
 const parsedChallenges = [];
+const files = fs.readdirSync(casesDir);
 
-sections.forEach(sec => {
-  if (!sec.trim() || !sec.includes('## Case:')) return;
-  
-  const lines = sec.split('\n');
-  let title = '';
-  let concept = '';
-  let levelNum = 0;
-  let quizQuestions = [];
-  let currentQuestion = null;
-  let promptDescription = '';
-  let promptRubric = '';
-  let inPrompt = false;
-  let inQuiz = false;
+files.forEach(file => {
+  if (!file.endsWith('.json')) return;
+  const raw = fs.readFileSync(path.join(casesDir, file), 'utf8');
+  const c = JSON.parse(raw);
 
-  const caseMatch = lines[0].match(/## Case:\s*(.*?)\s*\((.*?)\)/);
-  if (caseMatch) {
-    title = caseMatch[1].trim();
-  }
+  const conceptClean = c.pythonConcept ? c.pythonConcept.trim() : '';
+  const chapInfo = conceptToChapterMap[conceptClean] || { num: 22, name: 'General Practice' };
 
-  for (let i = 1; i < lines.length; i++) {
-    const line = lines[i].trim();
-    if (!line) continue;
-
-    if (line.includes('**Concept:**')) {
-      concept = line.replace(/^\*\s*\*\*Concept:\*\*\s*/, '').replace('**Concept:**', '').trim();
+  parsedChallenges.push({
+    chapter: chapInfo.num,
+    title: c.title,
+    concept: conceptClean,
+    conceptName: chapInfo.name,
+    instructions: c.description || '',
+    whyThisMatters: c.theoryNote || '',
+    template: c.starterCode || '',
+    targetOutput: c.expectedOutput || 'Hello, world',
+    errorTips: Array.isArray(c.hints) ? c.hints.join('<br>') : '',
+    quizQuestions: c.caseStudyQuestions || [],
+    promptChallenge: {
+      description: c.promptChallenge || '',
+      rubric: c.promptScoringRubric || ''
     }
-    else if (line.includes('**Phase/Level:**')) {
-      const pl = line.replace(/^\*\s*\*\*Phase\/Level:\*\*\s*/, '').replace('**Phase/Level:**', '').trim();
-      const parts = pl.split(' - Level ');
-      levelNum = parseInt(parts[1]) || 0;
-    }
-    else if (line.includes('### Case Study Questions:')) {
-      inQuiz = true;
-      inPrompt = false;
-    }
-    else if (line.includes('### Prompt Challenge:')) {
-      inQuiz = false;
-      inPrompt = true;
-    }
-    else if (inQuiz && /^\d+\.\s*\*\*Question:\*\*/.test(line)) {
-      if (currentQuestion) quizQuestions.push(currentQuestion);
-      const qText = line.replace(/^\d+\.\s*\*\*Question:\*\*\s*/, '').trim();
-      currentQuestion = {
-        question: qText,
-        type: 'Multiple Choice',
-        options: [],
-        correctAnswer: '',
-        sampleAnswer: ''
-      };
-    }
-    else if (inQuiz && currentQuestion && line.startsWith('* A)')) {
-      currentQuestion.options.push(line.replace(/^\*\s*A\)\s*/, 'A) ').trim());
-    }
-    else if (inQuiz && currentQuestion && line.startsWith('* B)')) {
-      currentQuestion.options.push(line.replace(/^\*\s*B\)\s*/, 'B) ').trim());
-    }
-    else if (inQuiz && currentQuestion && (line.startsWith('* C)') || line.startsWith('- C)'))) {
-      currentQuestion.options.push(line.replace(/^\*?\-?\s*C\)\s*/, 'C) ').trim());
-    }
-    else if (inQuiz && currentQuestion && (line.startsWith('* D)') || line.startsWith('- D)'))) {
-      currentQuestion.options.push(line.replace(/^\*?\-?\s*D\)\s*/, 'D) ').trim());
-    }
-    else if (inQuiz && currentQuestion && line.startsWith('A)')) {
-      currentQuestion.options.push(line.trim());
-    }
-    else if (inQuiz && currentQuestion && line.startsWith('B)')) {
-      currentQuestion.options.push(line.trim());
-    }
-    else if (inQuiz && currentQuestion && line.startsWith('C)')) {
-      currentQuestion.options.push(line.trim());
-    }
-    else if (inQuiz && currentQuestion && line.startsWith('D)')) {
-      currentQuestion.options.push(line.trim());
-    }
-    else if (inQuiz && currentQuestion && line.startsWith('*') && currentQuestion.options.length < 4 && !line.includes('Correct Answer') && !line.includes('Type') && !line.includes('Sample')) {
-      const cleanOpt = line.replace(/^\*\s*/, '').replace(/^\-\s*/, '').trim();
-      if (/^[A-D]\)/.test(cleanOpt)) {
-        currentQuestion.options.push(cleanOpt);
-      }
-    }
-    else if (inQuiz && currentQuestion && line.includes('**Correct Answer:**')) {
-      currentQuestion.correctAnswer = line.replace(/.*\*\*Correct Answer:\*\*\s*/, '').trim();
-    }
-    else if (inQuiz && currentQuestion && line.includes('**Type:** Short Answer')) {
-      currentQuestion.type = 'Short Answer';
-    }
-    else if (inQuiz && currentQuestion && line.includes('**Sample Answer:**')) {
-      currentQuestion.sampleAnswer = line.replace(/.*\*\*Sample Answer:\*\*\s*/, '').trim();
-    }
-    else if (inPrompt && line.startsWith('>')) {
-      promptDescription += line.replace(/^>\s*/, '').trim() + ' ';
-    }
-    else if (inPrompt && line.includes('**Scoring Rubric:**')) {
-      promptRubric = line.replace(/.*\*\*Scoring Rubric:\*\*\s*/, '').trim();
-    }
-  }
-  if (currentQuestion) {
-    quizQuestions.push(currentQuestion);
-  }
-
-  if (concept) {
-    const chapInfo = conceptToChapterMap[concept] || { num: 22, name: 'General Practice' };
-    
-    // Generate code template/output based on concept
-    let template = 'print("Hello, world")';
-    let targetOutput = 'Hello, world';
-    const cName = concept.toLowerCase();
-    
-    if (cName.includes('variable')) {
-      template = 'x = 10\nprint(x)';
-      targetOutput = '10';
-    } else if (cName.includes('type')) {
-      template = 'x = 3.14\nprint(type(x))';
-      targetOutput = "<class 'float'>";
-    } else if (cName.includes('index') || cName.includes('string')) {
-      template = "text = 'Python'\nprint(text[0])";
-      targetOutput = 'P';
-    } else if (cName.includes('arithmetic') || cName.includes('operator')) {
-      template = 'print(10 + 5)';
-      targetOutput = '15';
-    } else if (cName.includes('comparison')) {
-      template = 'print(10 == 10)';
-      targetOutput = 'True';
-    } else if (cName.includes('if')) {
-      template = 'x = 10\nif x > 5:\n    print("big")';
-      targetOutput = 'big';
-    } else if (cName.includes('loop')) {
-      template = 'for i in range(3):\n    print(i)';
-      targetOutput = '0\n1\n2';
-    }
-
-    parsedChallenges.push({
-      chapter: chapInfo.num,
-      title: title,
-      concept: concept,
-      conceptName: chapInfo.name,
-      instructions: `Master the concept of <strong>${concept}</strong> by executing the code and completing the prompting/quiz tasks.`,
-      whyThisMatters: `This level explores the essential logic of <strong>${concept}</strong>. Understanding this is key to structuring functional Python routines.`,
-      template: template,
-      targetOutput: targetOutput,
-      errorTips: `Verify that your script outputs exactly "${targetOutput}". Check capitalization and parentheses.`,
-      quizQuestions: quizQuestions,
-      promptChallenge: {
-        description: promptDescription.trim(),
-        rubric: promptRubric
-      }
-    });
-  }
+  });
 });
 
 // Sort parsed challenges by chapter number
 parsedChallenges.sort((a, b) => a.chapter - b.chapter);
 
-// Merge: Original 6 challenges come first, then all 150 parsed challenges!
+// Merge: original mock challenges first, then the 150 real parsed ones
 const allChallenges = [...originalChallenges, ...parsedChallenges];
 
-// Assign sequential Level IDs starting from 1 to 156
+// Assign sequential IDs starting from 1
 allChallenges.forEach((c, idx) => {
   c.id = idx + 1;
 });
@@ -348,12 +232,12 @@ allChallenges.forEach((c, idx) => {
 const mongoURI = 'mongodb://127.0.0.1:27017/pybe';
 mongoose.connect(mongoURI)
   .then(async () => {
-    console.log('Connected to MongoDB. Resetting challenges collection...');
+    console.log('Connected to MongoDB. Saving merged challenges...');
     await Challenge.deleteMany({});
     await Challenge.insertMany(allChallenges);
-    console.log(`Seeded ${allChallenges.length} challenges successfully (6 original + 150 parsed).`);
+    console.log(`Seeded ${allChallenges.length} challenges successfully from Shreya folder.`);
     
-    // Also save local json backup
+    // Save to local backup
     fs.writeFileSync('./parsed_challenges.json', JSON.stringify(allChallenges, null, 2));
     console.log('Saved parsed_challenges.json locally.');
     process.exit(0);
