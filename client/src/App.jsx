@@ -1079,7 +1079,6 @@ function WorkspacePage({
         <aside className="workspace-sidebar glass-panel">
           <div className="sidebar-tabs">
             <button className={`sidebar-tab ${workspaceFocus === 'code' || workspaceFocus === 'dyk' ? 'active' : ''}`} onClick={() => setWorkspaceFocus('code')}>📝 Level Map</button>
-            <button className={`sidebar-tab ${workspaceFocus === 'quiz' ? 'active' : ''}`} onClick={() => setWorkspaceFocus('quiz')}>❓ Case Study</button>
             <button className={`sidebar-tab ${workspaceFocus === 'ai_helper' ? 'active' : ''}`} onClick={() => setWorkspaceFocus('ai_helper')}>🤖 AI Helper</button>
           </div>
 
@@ -1108,101 +1107,6 @@ function WorkspacePage({
                     </div>
                   );
                 })}
-              </div>
-            </div>
-          ) : workspaceFocus === 'quiz' ? (
-            <div className="sidebar-panel active">
-              <div className="sidebar-panel-header">
-                <h3>Case Study Quiz</h3>
-              </div>
-              <div className="quiz-questions-list" style={{ padding: '16px', overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: '20px', height: 'calc(100% - 60px)' }}>
-                {(!challenge.quizQuestions || challenge.quizQuestions.length === 0) ? (
-                  <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>No case study questions for this level.</p>
-                ) : (
-                  challenge.quizQuestions.map((q, qIdx) => {
-                    const isMCQ = q.type === 'Multiple Choice';
-                    const answerFeedback = quizFeedback[qIdx]; // 'correct' or 'incorrect'
-                    const isRevealed = revealedShortAnswers[qIdx];
-
-                    return (
-                      <div key={qIdx} className="quiz-card glass-panel" style={{ padding: '12px', border: '1px solid var(--border-color)', borderRadius: '8px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                        <span style={{ fontSize: '0.75rem', fontWeight: 'bold', color: '#00b0ff' }}>Question {qIdx + 1} ({q.type})</span>
-                        <p style={{ fontSize: '0.85rem', color: '#fff', textAlign: 'left', margin: '0' }}>{q.question}</p>
-                        
-                        {isMCQ ? (
-                          <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', marginTop: '6px' }}>
-                            {q.options.map((opt, optIdx) => {
-                              const optLetter = opt.charAt(0); // A, B, C, or D
-                              const isSelected = quizAnswers[qIdx] === optLetter;
-                              return (
-                                <label 
-                                  key={optIdx} 
-                                  style={{ 
-                                    display: 'flex', 
-                                    alignItems: 'center', 
-                                    gap: '8px', 
-                                    fontSize: '0.8rem', 
-                                    color: isSelected ? 'var(--accent-color)' : 'var(--text-muted)',
-                                    cursor: 'pointer',
-                                    padding: '6px',
-                                    borderRadius: '4px',
-                                    background: isSelected ? 'rgba(0, 176, 255, 0.05)' : 'transparent',
-                                    border: isSelected ? '1px solid rgba(0, 176, 255, 0.2)' : '1px solid transparent'
-                                  }}
-                                >
-                                  <input 
-                                    type="radio" 
-                                    name={`mcq-${qIdx}`} 
-                                    checked={isSelected}
-                                    onChange={() => setQuizAnswers(prev => ({ ...prev, [qIdx]: optLetter }))}
-                                    style={{ accentColor: 'var(--accent-color)' }}
-                                  />
-                                  <span>{opt}</span>
-                                </label>
-                              );
-                            })}
-                            <button 
-                              className="btn btn-secondary btn-small" 
-                              style={{ marginTop: '4px', width: 'max-content' }}
-                              onClick={() => {
-                                const selected = quizAnswers[qIdx];
-                                if (!selected) return;
-                                const isCorrect = selected === q.correctAnswer;
-                                setQuizFeedback(prev => ({ ...prev, [qIdx]: isCorrect ? 'correct' : 'incorrect' }));
-                              }}
-                            >
-                              Check Answer
-                            </button>
-                            {answerFeedback === 'correct' && <span style={{ color: '#00E676', fontSize: '0.8rem', fontWeight: 'bold' }}>🎉 Correct Answer!</span>}
-                            {answerFeedback === 'incorrect' && <span style={{ color: '#ff5f56', fontSize: '0.8rem', fontWeight: 'bold' }}>❌ Incorrect, try again.</span>}
-                          </div>
-                        ) : (
-                          // Short Answer
-                          <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', marginTop: '6px' }}>
-                            <textarea 
-                              style={{ width: '100%', minHeight: '60px', background: 'rgba(0,0,0,0.2)', border: '1px solid var(--border-color)', borderRadius: '4px', color: '#fff', padding: '6px', fontSize: '0.8rem' }}
-                              placeholder="Type your explanation..."
-                              value={quizAnswers[qIdx] || ''}
-                              onChange={e => setQuizAnswers(prev => ({ ...prev, [qIdx]: e.target.value }))}
-                            />
-                            <button 
-                              className="btn btn-secondary btn-small" 
-                              style={{ width: 'max-content' }}
-                              onClick={() => setRevealedShortAnswers(prev => ({ ...prev, [qIdx]: !prev[qIdx] }))}
-                            >
-                              {isRevealed ? 'Hide Sample Answer' : 'Reveal Sample Answer'}
-                            </button>
-                            {isRevealed && (
-                              <div style={{ padding: '8px', background: 'rgba(255,255,255,0.03)', borderLeft: '3px solid #00b0ff', borderRadius: '4px', fontSize: '0.8rem', color: 'var(--text-muted)' }}>
-                                <strong>💡 Sample Answer:</strong><br />{q.sampleAnswer}
-                              </div>
-                            )}
-                          </div>
-                        )}
-                      </div>
-                    );
-                  })
-                )}
               </div>
             </div>
           ) : (
