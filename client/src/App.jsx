@@ -34,6 +34,7 @@ export default function App() {
 
   // Layout focus Toggles for Workspace (Header links: Code, Prompt, Did You Know)
   const [workspaceFocus, setWorkspaceFocus] = useState('code'); // 'code', 'prompt', 'dyk'
+  const [dykNotification, setDykNotification] = useState(false);
 
   // Profile menu dropdown toggle
   const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
@@ -42,6 +43,15 @@ export default function App() {
   const [upsellModalOpen, setUpsellModalOpen] = useState(false);
   const [upsellChapter, setUpsellChapter] = useState(3);
   const [successModalOpen, setSuccessModalOpen] = useState(false);
+  const [dykUnlockModalOpen, setDykUnlockModalOpen] = useState(false);
+  const [unlockedChapterNum, setUnlockedChapterNum] = useState(1);
+  const [dykDisplayModalOpen, setDykDisplayModalOpen] = useState(false);
+
+  const handleDykUnlockTrigger = (chapterNum) => {
+    setUnlockedChapterNum(chapterNum);
+    setDykUnlockModalOpen(true);
+    setDykNotification(true);
+  };
 
   // Sync Hash changes
   useEffect(() => {
@@ -110,11 +120,16 @@ export default function App() {
                 className="nav-link" 
                 onClick={(e) => {
                   e.preventDefault();
+                  setDykNotification(false);
                   const el = document.getElementById('dyk-section');
                   if (el) el.scrollIntoView({ behavior: 'smooth' });
                 }}
+                style={{ position: 'relative' }}
               >
                 💡 Did You Know?
+                {dykNotification && (
+                  <span className="notification-dot" style={{ position: 'absolute', top: '8px', right: '-8px', width: '8px', height: '8px', backgroundColor: '#FF5F56', borderRadius: '50%', boxShadow: '0 0 6px #FF5F56' }}></span>
+                )}
               </a>
             )}
             
@@ -134,10 +149,14 @@ export default function App() {
                   ✨ Prompt Workspace
                 </button>
                 <button 
-                  className={`btn btn-secondary btn-small ${workspaceFocus === 'dyk' ? 'active' : ''}`}
-                  onClick={() => setWorkspaceFocus('dyk')}
+                  className="btn btn-secondary btn-small"
+                  onClick={() => { setDykDisplayModalOpen(true); setDykNotification(false); }}
+                  style={{ position: 'relative' }}
                 >
                   💡 Did You Know?
+                  {dykNotification && (
+                    <span className="notification-dot" style={{ position: 'absolute', top: '-4px', right: '-4px', width: '10px', height: '10px', backgroundColor: '#FF5F56', borderRadius: '50%', boxShadow: '0 0 8px #FF5F56' }}></span>
+                  )}
                 </button>
               </div>
             )}
@@ -209,6 +228,7 @@ export default function App() {
             setWorkspaceFocus={setWorkspaceFocus}
             successModalOpen={successModalOpen}
             setSuccessModalOpen={setSuccessModalOpen}
+            onDykUnlockTrigger={handleDykUnlockTrigger}
           />
         )}
         {route === 'prompt-workspace' && (
@@ -226,6 +246,7 @@ export default function App() {
             setWorkspaceFocus={setWorkspaceFocus}
             successModalOpen={successModalOpen}
             setSuccessModalOpen={setSuccessModalOpen}
+            onDykUnlockTrigger={handleDykUnlockTrigger}
           />
         )}
 
@@ -259,6 +280,124 @@ export default function App() {
           </div>
         </div>
       )}
+
+      {/* Did You Know Unlock Modal */}
+      {dykUnlockModalOpen && (
+        <div className="modal-overlay" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', background: 'rgba(10, 10, 18, 0.85)', backdropFilter: 'blur(10px)', zIndex: 3000 }}>
+          <div className="modal-card glass-panel" style={{ maxWidth: '480px', padding: '32px', borderRadius: '16px', border: '1px solid var(--accent-green)', boxShadow: '0 0 30px rgba(0, 230, 118, 0.25)', textAlign: 'center', animation: 'scaleUp 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)' }}>
+            <div style={{ position: 'relative', width: '120px', height: '120px', margin: '0 auto 24px auto', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <div className="unlock-ring" style={{ position: 'absolute', width: '100%', height: '100%', border: '2px dashed var(--accent-green)', borderRadius: '50%', animation: 'spinRing 8s linear infinite' }}></div>
+              <div className="unlock-glow" style={{ position: 'absolute', width: '80px', height: '80px', background: 'rgba(0, 230, 118, 0.15)', filter: 'blur(15px)', borderRadius: '50%', animation: 'glowPulse 2s ease-in-out infinite' }}></div>
+              
+              {/* Chest SVG */}
+              <svg width="70" height="70" viewBox="0 0 64 64" fill="none" style={{ filter: 'drop-shadow(0 0 10px rgba(0, 230, 118, 0.5))', zIndex: 1 }}>
+                {/* Chest Base */}
+                <path d="M8 32H56V52C56 54.2091 54.2091 56 52 56H12C9.79086 56 8 54.2091 8 52V32Z" fill="#2d3748" stroke="#00E676" strokeWidth="3" />
+                {/* Lock Plate */}
+                <rect x="26" y="32" width="12" height="12" rx="2" fill="#1a202c" stroke="#00E676" strokeWidth="2" />
+                {/* Padlock */}
+                <g className="padlock-group" style={{ transformOrigin: '32px 30px', animation: 'unlockBox 1.5s cubic-bezier(0.6, -0.28, 0.735, 0.045) forwards' }}>
+                  {/* Padlock Body */}
+                  <rect x="28" y="26" width="8" height="8" rx="1.5" fill="#fbd38d" stroke="#d69e2e" strokeWidth="1.5" />
+                  {/* Shackle */}
+                  <path d="M29 26V23C29 21.3431 30.3431 20 32 20C33.6569 20 35 21.3431 35 23V26" stroke="#d69e2e" strokeWidth="1.5" strokeLinecap="round" />
+                </g>
+              </svg>
+            </div>
+            
+            <h3 style={{ fontSize: '1.8rem', color: '#fff', margin: '0 0 12px 0' }}>🔓 Theory Unlocked!</h3>
+            <p style={{ color: 'var(--text-muted)', fontSize: '0.95rem', lineHeight: '1.6', margin: '0 0 24px 0' }}>
+              Awesome work completing 2 levels of this chapter! A new **Did You Know** python theory guide has been unlocked.
+            </p>
+            <div style={{ display: 'flex', gap: '12px', justifyContent: 'center' }}>
+              <button 
+                className="btn btn-secondary" 
+                onClick={() => {
+                  setDykUnlockModalOpen(false);
+                }}
+              >
+                Keep Coding
+              </button>
+              <button 
+                className="btn btn-accent btn-glow" 
+                onClick={() => {
+                  setDykUnlockModalOpen(false);
+                  setDykDisplayModalOpen(true);
+                }}
+              >
+                Read Theory Now 💡
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Did You Know Display Modal */}
+      {dykDisplayModalOpen && (() => {
+        const activeChallenge = challenges.find(c => c.id === activeChallengeId) || challenges[0];
+        const activeChCompleted = challenges.filter(x => x.chapter === activeChallenge.chapter && completedChallenges.includes(x.id)).length;
+        const activeChTotal = challenges.filter(x => x.chapter === activeChallenge.chapter).length;
+        const activeChUnlocked = activeChTotal >= 2 ? activeChCompleted >= 2 : activeChCompleted >= activeChTotal;
+
+        return (
+          <div className="modal-overlay" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', background: 'rgba(10, 10, 18, 0.8)', backdropFilter: 'blur(8px)', zIndex: 3000 }}>
+            <div className="modal-card glass-panel" style={{ maxWidth: '540px', padding: '28px', borderRadius: '12px', border: '1px solid var(--border-color)', position: 'relative', textAlign: 'left', animation: 'scaleUp 0.3s ease-out' }}>
+              <button 
+                onClick={() => setDykDisplayModalOpen(false)}
+                style={{ position: 'absolute', top: '16px', right: '20px', background: 'none', border: 'none', color: 'var(--text-muted)', fontSize: '1.2rem', cursor: 'pointer', outline: 'none' }}
+              >
+                ✕
+              </button>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '16px', borderBottom: '1px solid rgba(255,255,255,0.08)', paddingBottom: '12px' }}>
+                <span style={{ fontSize: '1.5rem' }}>💡</span>
+                <h3 style={{ margin: 0, color: 'var(--accent-color)', fontSize: '1.4rem' }}>
+                  Chapter {activeChallenge.chapter} Did You Know
+                </h3>
+              </div>
+              <div style={{ maxHeight: '380px', overflowY: 'auto', paddingRight: '8px' }}>
+                {!activeChUnlocked ? (
+                  <div style={{ textAlign: 'center', color: '#ff5f56', padding: '24px', border: '1px dashed #ff5f56', borderRadius: '8px', background: 'rgba(255, 95, 86, 0.04)' }}>
+                    <span style={{ fontSize: '2.5rem' }}>🔒</span>
+                    <h4 style={{ marginTop: '12px', fontSize: '1.1rem' }}>Theory Guide Locked</h4>
+                    <p style={{ fontSize: '0.85rem', marginTop: '8px', color: 'rgba(255, 95, 86, 0.75)', lineHeight: '1.5' }}>
+                      Complete at least 2 levels in Chapter {activeChallenge.chapter} to unlock the "Did You Know" python theory guides for this chapter.
+                    </p>
+                  </div>
+                ) : activeChallenge.chapter === 1 ? (
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                    <div style={{ borderBottom: '1px solid rgba(255,255,255,0.08)', paddingBottom: '12px' }}>
+                      <h4 style={{ color: '#00E676', fontSize: '0.95rem', margin: '0 0 6px 0' }}>1. Input/Output (I/O) Theory</h4>
+                      <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', margin: 0, lineHeight: '1.5' }}>
+                        In computer science, programs interact with the outside world through I/O operations.<br/>Input &rarr; data coming into the program.<br/>Output &rarr; data going out.<br/>print() is Python's simplest output function.
+                      </p>
+                    </div>
+                    <div style={{ borderBottom: '1px solid rgba(255,255,255,0.08)', paddingBottom: '12px' }}>
+                      <h4 style={{ color: '#00E676', fontSize: '0.95rem', margin: '0 0 6px 0' }}>2. Standard Streams</h4>
+                      <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', margin: 0, lineHeight: '1.5' }}>
+                        Most OS define three default streams:<br/>stdin &rarr; standard input<br/>stdout &rarr; standard output<br/>stderr &rarr; standard error<br/>By default, print() writes to stdout.
+                      </p>
+                    </div>
+                    <div>
+                      <h4 style={{ color: '#00E676', fontSize: '0.95rem', margin: '0 0 6px 0' }}>3. String Representation</h4>
+                      <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', margin: 0, lineHeight: '1.5' }}>
+                        When you call print(), Python internally converts objects into their string representation using str() or repr().<br/>Example: print(42) internally does str(42) &rarr; "42".
+                      </p>
+                    </div>
+                  </div>
+                ) : (
+                  <div>
+                    <h4 style={{ color: 'var(--accent-color)', fontSize: '0.95rem', margin: '0 0 10px 0' }}>💡 Why This Matters</h4>
+                    <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', lineHeight: '1.6', margin: 0 }} dangerouslySetInnerHTML={{ __html: activeChallenge.whyThisMatters }}></p>
+                  </div>
+                )}
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '20px', borderTop: '1px solid rgba(255,255,255,0.08)', paddingTop: '12px' }}>
+                <button className="btn btn-secondary btn-small" onClick={() => setDykDisplayModalOpen(false)}>Close</button>
+              </div>
+            </div>
+          </div>
+        );
+      })()}
     </div>
   );
 }
@@ -961,7 +1100,8 @@ function DashboardPage({ username, membership, tokens, completedChallenges, chal
 function WorkspacePage({ 
   id, challenges, completedChallenges, setCompletedChallenges, 
   tokens, setTokens, membership, setUpsellChapter, setUpsellModalOpen, 
-  workspaceFocus, setWorkspaceFocus, successModalOpen, setSuccessModalOpen 
+  workspaceFocus, setWorkspaceFocus, successModalOpen, setSuccessModalOpen,
+  onDykUnlockTrigger
 }) {
   const challenge = challenges.find(c => c.id === id) || challenges[0];
   const [code, setCode] = useState(challenge.template);
@@ -1079,7 +1219,25 @@ function WorkspacePage({
         setIsError(false);
         if (res.output.trim() === challenge.targetOutput) {
           if (!completedChallenges.includes(challenge.id)) {
-            setCompletedChallenges([...completedChallenges, challenge.id]);
+            const nextCompleted = [...completedChallenges, challenge.id];
+            const chCompletedBefore = completedChallenges.filter(x => {
+              const ch = challenges.find(item => item.id === x);
+              return ch && ch.chapter === challenge.chapter;
+            }).length;
+            const chTotal = challenges.filter(x => x.chapter === challenge.chapter).length;
+            const chCompletedAfter = nextCompleted.filter(x => {
+              const ch = challenges.find(item => item.id === x);
+              return ch && ch.chapter === challenge.chapter;
+            }).length;
+
+            const isUnlockedBefore = chTotal >= 2 ? chCompletedBefore >= 2 : chCompletedBefore >= chTotal;
+            const isUnlockedAfter = chTotal >= 2 ? chCompletedAfter >= 2 : chCompletedAfter >= chTotal;
+
+            if (!isUnlockedBefore && isUnlockedAfter) {
+              onDykUnlockTrigger(challenge.chapter);
+            }
+
+            setCompletedChallenges(nextCompleted);
           }
           setSuccessModalOpen(true);
         } else {
@@ -1209,7 +1367,6 @@ function WorkspacePage({
               </div>
               <div className="challenge-menu-list">
                 {challenges.filter(c => c.chapter === challenge.chapter).map(c => {
-                  const isLocked = false;
                   const isDone = completedChallenges.includes(c.id);
                   return (
                     <div 
@@ -1280,52 +1437,7 @@ function WorkspacePage({
               </div>
               <div className="instructions-body" dangerouslySetInnerHTML={{ __html: challenge.instructions }}></div>
               
-              {/* DYK toggle focus pane */}
-              {(workspaceFocus === 'dyk' || workspaceFocus === 'code') && (() => {
-                const chCompleted = challenges.filter(x => x.chapter === challenge.chapter && completedChallenges.includes(x.id)).length;
-                const chTotal = challenges.filter(x => x.chapter === challenge.chapter).length;
-                const isUnlocked = chTotal >= 2 ? chCompleted >= 2 : chCompleted >= chTotal;
 
-                if (!isUnlocked) {
-                  return (
-                    <div className="instructions-dropdown" style={{ border: workspaceFocus === 'dyk' ? '1px solid #FF5F56' : '1px solid rgba(255,255,255,0.08)' }}>
-                      <div style={{ padding: '4px', fontWeight: 'bold', color: '#ff5f56' }}>💡 Locked: Why This Matters (Did You Know?)</div>
-                      <div style={{ marginTop: '8px', fontSize: '0.8rem', color: '#ff5f56', fontStyle: 'italic' }}>
-                        Complete at least 2 levels of this chapter to unlock the "Did You Know" python theory guides.
-                      </div>
-                    </div>
-                  );
-                }
-
-                if (challenge.chapter === 1) {
-                  return (
-                    <div className="instructions-dropdown" style={{ border: workspaceFocus === 'dyk' ? '1px solid #00E676' : '1px solid rgba(255,255,255,0.08)' }}>
-                      <div style={{ padding: '4px', fontWeight: 'bold', color: '#00E676' }}>💡 Unlocked: Jungle of Prints (Did You Know?)</div>
-                      <div style={{ marginTop: '8px', fontSize: '0.8rem', color: '#8a8aa3', display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                        <div>
-                          <strong style={{ color: '#fff' }}>1. Input/Output (I/O) Theory</strong>
-                          <p style={{ marginTop: '4px' }}>In computer science, programs interact with the outside world through I/O operations.<br/>Input &rarr; data coming into the program (keyboard, file, sensor).<br/>Output &rarr; data going out (screen, file, network).<br/>print() is Python’s simplest output function, sending text to the standard output stream (usually the console).</p>
-                        </div>
-                        <div>
-                          <strong style={{ color: '#fff' }}>2. Standard Streams</strong>
-                          <p style={{ marginTop: '4px' }}>Most operating systems define three default streams:<br/>stdin &rarr; standard input<br/>stdout &rarr; standard output<br/>stderr &rarr; standard error<br/>By default, print() writes to stdout. This is why you see results in the terminal.</p>
-                        </div>
-                        <div>
-                          <strong style={{ color: '#fff' }}>3. String Representation</strong>
-                          <p style={{ marginTop: '4px' }}>When you call print(), Python internally converts objects into their string representation using str() or repr().<br/>Example: print(42) # internally does str(42) &rarr; "42"</p>
-                        </div>
-                      </div>
-                    </div>
-                  );
-                }
-
-                return (
-                  <div className="instructions-dropdown" style={{ border: workspaceFocus === 'dyk' ? '1px solid #00E676' : '1px solid rgba(255,255,255,0.08)' }}>
-                    <div style={{ padding: '4px', fontWeight: 'bold', color: '#00b0ff' }}>💡 Why This Matters (Did You Know?)</div>
-                    <div style={{ marginTop: '8px', fontSize: '0.8rem', color: '#8a8aa3' }} dangerouslySetInnerHTML={{ __html: challenge.whyThisMatters }}></div>
-                  </div>
-                );
-              })()}
             </div>
           </div>
 
@@ -1504,7 +1616,8 @@ function WorkspacePage({
 function PromptWorkspacePage({ 
   id, challenges, completedChallenges, setCompletedChallenges, 
   tokens, setTokens, membership, setUpsellChapter, setUpsellModalOpen, 
-  workspaceFocus, setWorkspaceFocus, successModalOpen, setSuccessModalOpen 
+  workspaceFocus, setWorkspaceFocus, successModalOpen, setSuccessModalOpen,
+  onDykUnlockTrigger
 }) {
   const challenge = challenges.find(c => c.id === id) || challenges[0];
   const [promptText, setPromptText] = useState('');
@@ -1602,7 +1715,25 @@ function PromptWorkspacePage({
         setActualOut(`> Prompt accepted by model!\n> LLM Output: "${challenge.targetOutput}"\n\n🎉 Prompting target match succeeded!`);
         setIsError(false);
         if (!completedChallenges.includes(challenge.id)) {
-          setCompletedChallenges([...completedChallenges, challenge.id]);
+          const nextCompleted = [...completedChallenges, challenge.id];
+          const chCompletedBefore = completedChallenges.filter(x => {
+            const ch = challenges.find(item => item.id === x);
+            return ch && ch.chapter === challenge.chapter;
+          }).length;
+          const chTotal = challenges.filter(x => x.chapter === challenge.chapter).length;
+          const chCompletedAfter = nextCompleted.filter(x => {
+            const ch = challenges.find(item => item.id === x);
+            return ch && ch.chapter === challenge.chapter;
+          }).length;
+
+          const isUnlockedBefore = chTotal >= 2 ? chCompletedBefore >= 2 : chCompletedBefore >= chTotal;
+          const isUnlockedAfter = chTotal >= 2 ? chCompletedAfter >= 2 : chCompletedAfter >= chTotal;
+
+          if (!isUnlockedBefore && isUnlockedAfter) {
+            onDykUnlockTrigger(challenge.chapter);
+          }
+
+          setCompletedChallenges(nextCompleted);
         }
         setSuccessModalOpen(true);
       } else {
@@ -1699,52 +1830,7 @@ function PromptWorkspacePage({
               </div>
               <div className="instructions-body" dangerouslySetInnerHTML={{ __html: challenge.instructions }}></div>
               
-              {/* DYK toggle focus pane */}
-              {(workspaceFocus === 'dyk' || workspaceFocus === 'code') && (() => {
-                const chCompleted = challenges.filter(x => x.chapter === challenge.chapter && completedChallenges.includes(x.id)).length;
-                const chTotal = challenges.filter(x => x.chapter === challenge.chapter).length;
-                const isUnlocked = chTotal >= 2 ? chCompleted >= 2 : chCompleted >= chTotal;
 
-                if (!isUnlocked) {
-                  return (
-                    <div className="instructions-dropdown" style={{ border: workspaceFocus === 'dyk' ? '1px solid #FF5F56' : '1px solid rgba(255,255,255,0.08)' }}>
-                      <div style={{ padding: '4px', fontWeight: 'bold', color: '#ff5f56' }}>💡 Locked: Why This Matters (Did You Know?)</div>
-                      <div style={{ marginTop: '8px', fontSize: '0.8rem', color: '#ff5f56', fontStyle: 'italic' }}>
-                        Complete at least 2 levels of this chapter to unlock the "Did You Know" python theory guides.
-                      </div>
-                    </div>
-                  );
-                }
-
-                if (challenge.chapter === 1) {
-                  return (
-                    <div className="instructions-dropdown" style={{ border: workspaceFocus === 'dyk' ? '1px solid #00E676' : '1px solid rgba(255,255,255,0.08)' }}>
-                      <div style={{ padding: '4px', fontWeight: 'bold', color: '#00E676' }}>💡 Unlocked: Jungle of Prints (Did You Know?)</div>
-                      <div style={{ marginTop: '8px', fontSize: '0.8rem', color: '#8a8aa3', display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                        <div>
-                          <strong style={{ color: '#fff' }}>1. Input/Output (I/O) Theory</strong>
-                          <p style={{ marginTop: '4px' }}>In computer science, programs interact with the outside world through I/O operations.<br/>Input &rarr; data coming into the program (keyboard, file, sensor).<br/>Output &rarr; data going out (screen, file, network).<br/>print() is Python’s simplest output function, sending text to the standard output stream (usually the console).</p>
-                        </div>
-                        <div>
-                          <strong style={{ color: '#fff' }}>2. Standard Streams</strong>
-                          <p style={{ marginTop: '4px' }}>Most operating systems define three default streams:<br/>stdin &rarr; standard input<br/>stdout &rarr; standard output<br/>stderr &rarr; standard error<br/>By default, print() writes to stdout. This is why you see results in the terminal.</p>
-                        </div>
-                        <div>
-                          <strong style={{ color: '#fff' }}>3. String Representation</strong>
-                          <p style={{ marginTop: '4px' }}>When you call print(), Python internally converts objects into their string representation using str() or repr().<br/>Example: print(42) # internally does str(42) &rarr; "42"</p>
-                        </div>
-                      </div>
-                    </div>
-                  );
-                }
-
-                return (
-                  <div className="instructions-dropdown" style={{ border: workspaceFocus === 'dyk' ? '1px solid #00E676' : '1px solid rgba(255,255,255,0.08)' }}>
-                    <div style={{ padding: '4px', fontWeight: 'bold', color: '#00b0ff' }}>💡 Why This Matters (Did You Know?)</div>
-                    <div style={{ marginTop: '8px', fontSize: '0.8rem', color: '#8a8aa3' }} dangerouslySetInnerHTML={{ __html: challenge.whyThisMatters }}></div>
-                  </div>
-                );
-              })()}
             </div>
           </div>
 

@@ -2045,3 +2045,34 @@ a:hover {
 .animate-bounce {
   animation: bounce 2s infinite ease-in-out;
 }
+
+@keyframes unlockBox {
+  0% { transform: translateY(0) rotate(0deg); }
+  30% { transform: translateY(-4px) rotate(-10deg); }
+  60% { transform: translateY(-16px) rotate(15deg); opacity: 0.9; }
+  100% { transform: translateY(-30px) rotate(45deg); opacity: 0; }
+}
+
+@keyframes spinRing {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes glowPulse {
+  0%, 100% { opacity: 0.15; transform: scale(1); }
+  50% { opacity: 0.35; transform: scale(1.15); }
+}
+
+@keyframes scaleUp {
+  from { transform: scale(0.8); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.notification-dot {
+  animation: notificationPulse 1.5s infinite alternate;
+}
+
+@keyframes notificationPulse {
+  0% { transform: scale(0.9); box-shadow: 0 0 4px rgba(255, 95, 86, 0.5); }
+  100% { transform: scale(1.15); box-shadow: 0 0 12px rgba(255, 95, 86, 0.9); }
+}
