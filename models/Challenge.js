@@ -5,6 +5,7 @@ const ChallengeSchema = new mongoose.Schema({
   chapter: { type: Number, required: true },
   title: { type: String, required: true },
   concept: { type: String, default: '' },
+  conceptName: { type: String, default: '' },
   instructions: { type: String, required: true },
   whyThisMatters: { type: String, required: true },
   template: { type: String, default: '' },

@@ -14,9 +14,20 @@ export default function App() {
   const [authMode, setAuthMode] = useState(localStorage.getItem('pybe-auth') || 'guest');
   const [membership, setMembership] = useState('Premium'); // Free or Premium
   const [tokens, setTokens] = useState(10);
-  const [completedChallenges, setCompletedChallenges] = useState([]);
+  const [completedChallenges, setCompletedChallenges] = useState(() => {
+    try {
+      const saved = localStorage.getItem('pybe-completed-challenges');
+      return saved ? JSON.parse(saved) : [];
+    } catch (e) {
+      return [];
+    }
+  });
   const [selectedTheme, setSelectedTheme] = useState(localStorage.getItem('pybe-theme') || 'general');
   const [role, setRole] = useState(localStorage.getItem('pybe-role') || 'Student'); // Student or Admin
+
+  useEffect(() => {
+    localStorage.setItem('pybe-completed-challenges', JSON.stringify(completedChallenges));
+  }, [completedChallenges]);
 
   // DB Challenges list
   const [challenges, setChallenges] = useState(defaultChallenges);
@@ -46,12 +57,7 @@ export default function App() {
         setRoute('theme-selector');
       } else if (hash === '#/dashboard') {
         setRoute('dashboard');
-      } else if (hash === '#/admin') {
-        if (role !== 'Admin') {
-          window.location.hash = '#/dashboard';
-        } else {
-          setRoute('admin');
-        }
+
       } else if (hash.startsWith('#/challenge/')) {
         const id = parseInt(hash.split('/').pop());
         const chall = challenges.find(c => c.id === id);
@@ -136,7 +142,7 @@ export default function App() {
               </div>
             )}
 
-            {role === 'Admin' && <a href="#/admin" className={`nav-link ${route === 'admin' ? 'active' : ''}`}>Admin Panel</a>}
+
           </nav>
 
           <div className="header-status-panel">
@@ -152,10 +158,15 @@ export default function App() {
                   </div>
                   <hr className="dropdown-divider" />
                   <button className="dropdown-item" onClick={() => {
+                    localStorage.clear();
+                    setUsername('');
+                    setAuthMode('guest');
+                    setRole('Student');
                     setCompletedChallenges([]);
                     setTokens(10);
                     setProfileDropdownOpen(false);
-                    alert("Session successfully reset.");
+                    alert("All data and progress cleared successfully.");
+                    window.location.hash = '#/home';
                   }}>🔄 Reset Progress</button>
                   <hr className="dropdown-divider" />
                   <button className="dropdown-item logout" onClick={() => { setProfileDropdownOpen(false); localStorage.removeItem('pybe-role'); setRole('Student'); window.location.hash = '#/home'; }}>🚪 Sign Out</button>
@@ -217,7 +228,7 @@ export default function App() {
             setSuccessModalOpen={setSuccessModalOpen}
           />
         )}
-        {route === 'admin' && <AdminPage challenges={challenges} setChallenges={setChallenges} />}
+
       </main>
 
       {/* Premium Upsell Modal */}
@@ -338,7 +349,10 @@ function LandingPage() {
         <canvas ref={canvasRef} className="hero-canvas"></canvas>
         <div className="hero-content">
           <div className="hero-badge animate-pulse">✨ Introducing PyBe 2.0</div>
-          <h1 class="hero-title">Code <span class="gradient-text">🐍 Python</span> with your <span class="accent-text glow-text">AI assistant!</span></h1>
+          <h1 className="hero-title">
+            Python adventures start here.<br />
+            <span className="gradient-text">Game on. Code on</span>
+          </h1>
           <p className="hero-subtitle">Interactive playground, gamified challenges, and immediate smart AI debugging guidance.</p>
           <button className="btn btn-primary btn-large btn-glow" onClick={() => window.location.hash = '#/login'}>
             Continue Coding <span className="arrow">→</span>
@@ -405,9 +419,7 @@ function LandingPage() {
 // 2. Login & Credentials Page
 // ==========================================================================
 function LoginPage({ setUsername, setAuthMode, setRole }) {
-  const [activeTab, setActiveTab] = useState('guest');
   const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
   const [statusMsg, setStatusMsg] = useState('');
   const [statusType, setStatusType] = useState('');
 
@@ -450,26 +462,13 @@ function LoginPage({ setUsername, setAuthMode, setRole }) {
       setStatusType('error');
       return;
     }
-    if (activeTab !== 'guest' && !email.trim()) {
-      setStatusMsg("Please enter an email address.");
-      setStatusType('error');
-      return;
-    }
-
-    // Determine role implicitly (hide role fields from public UI)
-    let determinedRole = 'Student';
-    const lowerName = name.trim().toLowerCase();
-    const lowerEmail = email.trim().toLowerCase();
-    if (lowerName === 'admin' || lowerEmail === 'admin@pybe.com' || lowerEmail.endsWith('@pybe.admin') || lowerEmail.endsWith('.admin')) {
-      determinedRole = 'Admin';
-    }
 
     setUsername(name);
-    setAuthMode(activeTab);
-    setRole(determinedRole);
+    setAuthMode('guest');
+    setRole('Student');
     localStorage.setItem('pybe-username', name);
-    localStorage.setItem('pybe-auth', activeTab);
-    localStorage.setItem('pybe-role', determinedRole);
+    localStorage.setItem('pybe-auth', 'guest');
+    localStorage.setItem('pybe-role', 'Student');
 
     setStatusMsg(`Identity verified! Loading...`);
     setStatusType('success');
@@ -498,19 +497,6 @@ function LoginPage({ setUsername, setAuthMode, setRole }) {
             <div className="input-group">
               <label>Your Name</label>
               <input type="text" value={name} onChange={e => setName(e.target.value)} placeholder="Enter name or nickname" />
-            </div>
-
-            {activeTab !== 'guest' && (
-              <div className="input-group">
-                <label>Email Address</label>
-                <input type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="name@domain.com" />
-              </div>
-            )}
-
-            <div className="action-row">
-              <button className={`btn btn-secondary ${activeTab === 'guest' ? 'active' : ''}`} onClick={() => setActiveTab('guest')}>Guest</button>
-              <button className={`btn btn-secondary ${activeTab === 'signin' ? 'active' : ''}`} onClick={() => setActiveTab('signin')}>Sign In</button>
-              <button className={`btn btn-secondary ${activeTab === 'signup' ? 'active' : ''}`} onClick={() => setActiveTab('signup')}>Sign Up</button>
             </div>
 
             {statusMsg && <div className={`msg-display ${statusType}`}>{statusMsg}</div>}
@@ -561,7 +547,10 @@ function AssessmentPage({ username, setCompletedChallenges }) {
     });
   }, []);
 
+  const [isNewToPython, setIsNewToPython] = useState(false);
+
   const toggleModule = (id) => {
+    setIsNewToPython(false);
     if (selected.includes(id)) {
       setSelected(selected.filter(x => x !== id));
     } else {
@@ -569,14 +558,23 @@ function AssessmentPage({ username, setCompletedChallenges }) {
     }
   };
 
+  const toggleNewToPython = () => {
+    setIsNewToPython(!isNewToPython);
+    if (!isNewToPython) {
+      setSelected([]);
+    }
+  };
+
   const handleNext = () => {
     // If topics selected, pre-complete core challenge chapters
     const completed = [];
-    if (selected.includes(1)) {
-      completed.push(1, 2); // Chapter 1
-    }
-    if (selected.includes(2)) {
-      completed.push(3, 4); // Chapter 2
+    if (!isNewToPython) {
+      if (selected.includes(1)) {
+        completed.push(1, 2); // Chapter 1
+      }
+      if (selected.includes(2)) {
+        completed.push(3, 4); // Chapter 2
+      }
     }
     setCompletedChallenges(completed);
     window.location.hash = '#/theme-selector';
@@ -629,11 +627,22 @@ function AssessmentPage({ username, setCompletedChallenges }) {
                 <div className="card-left">
                   <div className="custom-checkbox"></div>
                   <div className="module-info">
-                    <span class="module-title">Loops (while/for)</span>
+                    <span className="module-title">Loops (while/for)</span>
                     <span className="module-subtitle">MODULE_03 // ITERATION</span>
                   </div>
                 </div>
                 <div className="module-icon">🔄</div>
+              </div>
+
+              <div className={`assessment-card ${isNewToPython ? 'checked' : ''}`} onClick={toggleNewToPython}>
+                <div className="card-left">
+                  <div className="custom-checkbox"></div>
+                  <div className="module-info">
+                    <span className="module-title">I am new to Python</span>
+                    <span className="module-subtitle">START_FROM_SCRATCH // NO_PREVIOUS_KNOWLEDGE</span>
+                  </div>
+                </div>
+                <div className="module-icon">🚀</div>
               </div>
             </div>
 
@@ -776,25 +785,34 @@ function DashboardPage({ username, membership, tokens, completedChallenges, chal
   };
 
   return (
-    <section className="dashboard-container">
-      
-      {/* Top Banner Row */}
-      <div className="dashboard-banner glass-panel animate-fade-in">
-        <div className="banner-left">
-          <span className="user-avatar-glow">🚀</span>
-          <div>
-            <h1>Welcome back, {username || 'Hero'}!</h1>
-            <p>Ready to continue your Python logic campaign?</p>
-          </div>
+    <section id="route-dashboard" className="page-route">
+      <div className="dashboard-hero section-container">
+        <div className="dashboard-welcome">
+          <h2>Welcome back, <span className="accent-text">{username || 'Python Cadet'}</span>! 🚀</h2>
+          <p>Ready to continue your Python logic campaign?</p>
         </div>
-        <div className="banner-right">
-          <div className="stat-card">
-            <span className="stat-label">Membership Status</span>
-            <span className="stat-value text-accent">{membership} Pro</span>
+
+        <div className="dashboard-stats-row">
+          <div className="dash-stat-card glass-panel">
+            <span className="stat-icon">🎓</span>
+            <div className="stat-info">
+              <h4>{completedChapsCount} Chapters Completed</h4>
+              <p>Overall Level Progress</p>
+            </div>
           </div>
-          <div className="stat-card">
-            <span className="stat-label">AI Prompt Tokens</span>
-            <span className="stat-value text-glow">{tokens} left</span>
+          <div className="dash-stat-card glass-panel">
+            <span className="stat-icon">🔥</span>
+            <div className="stat-info">
+              <h4>{completedChallenges.length} / {challenges.length} Solved</h4>
+              <p>Challenges Completed</p>
+            </div>
+          </div>
+          <div className="dash-stat-card glass-panel">
+            <span className="stat-icon">✨</span>
+            <div className="stat-info">
+              <h4>{membership === 'Premium' ? '∞' : tokens} Tokens Left</h4>
+              <p>Daily Assistant Power</p>
+            </div>
           </div>
         </div>
       </div>
@@ -837,11 +855,69 @@ function DashboardPage({ username, membership, tokens, completedChallenges, chal
       {/* Unlocked Did You Know Theories section */}
       <section id="dyk-section" className="section-container" style={{ borderTop: '1px solid var(--border-color)', marginTop: '40px' }}>
         <h2 className="section-title">💡 Unlocked Coding Theories</h2>
-        <p className="section-desc" style={{ marginBottom: '24px' }}>Review the "Did You Know?" concepts from challenge levels you have successfully solved.</p>
+        <p className="section-desc" style={{ marginBottom: '24px' }}>Review the "Did You Know?" concepts from challenge chapters you have successfully unlocked.</p>
         
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '20px' }}>
-          {challenges.map(c => {
-            const isCompleted = completedChallenges.includes(c.id);
+          {/* Chapter 1 Custom Did You Know items */}
+          {(() => {
+            const ch1Completed = challenges.filter(c => c.chapter === 1 && completedChallenges.includes(c.id)).length;
+            const ch1Total = challenges.filter(c => c.chapter === 1).length;
+            const ch1Unlocked = ch1Total >= 2 ? ch1Completed >= 2 : ch1Completed >= ch1Total;
+
+            const ch1DykItems = [
+              {
+                id: 'ch1_dyk_a',
+                title: 'Input/Output (I/O) Theory',
+                body: 'In computer science, programs interact with the outside world through I/O operations.<br/><br/>Input &rarr; data coming into the program (keyboard, file, sensor).<br/><br/>Output &rarr; data going out (screen, file, network).<br/><br/><code>print()</code> is Python’s simplest output function, sending text to the standard output stream (usually the console).'
+              },
+              {
+                id: 'ch1_dyk_b',
+                title: 'Standard Streams',
+                body: 'Most operating systems define three default streams:<br/><br/><code>stdin</code> &rarr; standard input<br/><br/><code>stdout</code> &rarr; standard output<br/><br/><code>stderr</code> &rarr; standard error<br/><br/>By default, <code>print()</code> writes to <code>stdout</code>. This is why you see results in the terminal.'
+              },
+              {
+                id: 'ch1_dyk_c',
+                title: 'String Representation',
+                body: 'When you call <code>print()</code>, Python internally converts objects into their string representation using <code>str()</code> or <code>repr()</code>.<br/><br/>Example:<br/><code>print(42)</code>   # internally does str(42) &rarr; "42"'
+              }
+            ];
+
+            return ch1DykItems.map(item => (
+              <div 
+                key={item.id} 
+                className="glass-panel" 
+                style={{ 
+                  padding: '20px', 
+                  textAlign: 'left', 
+                  display: 'flex', 
+                  flexDirection: 'column', 
+                  gap: '10px',
+                  opacity: ch1Unlocked ? 1 : 0.5,
+                  border: ch1Unlocked ? '1px solid var(--accent-green)' : '1px solid var(--border-color)',
+                  boxShadow: ch1Unlocked ? '0 0 10px rgba(0, 230, 118, 0.1)' : 'none'
+                }}
+              >
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <span className={`badge ${ch1Unlocked ? 'badge-success' : 'badge-accent'}`}>
+                    Jungle of Prints {ch1Unlocked ? '• Unlocked' : '• Locked'}
+                  </span>
+                  <span>{ch1Unlocked ? '💡' : '🔒'}</span>
+                </div>
+                <h4 style={{ color: ch1Unlocked ? '#fff' : 'var(--text-muted)' }}>{ch1Unlocked ? item.title : 'Locked Concept'}</h4>
+                {ch1Unlocked ? (
+                  <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', lineHeight: '1.5' }} dangerouslySetInnerHTML={{ __html: item.body }}></p>
+                ) : (
+                  <p style={{ fontSize: '0.85rem', color: 'var(--text-dark)', fontStyle: 'italic' }}>Complete at least 2 levels of Chapter 1 to unlock this Python theory guide.</p>
+                )}
+              </div>
+            ));
+          })()}
+
+          {/* Remaining Chapters' Did You Know items */}
+          {challenges.filter(c => c.chapter !== 1).map(c => {
+            const chCompleted = challenges.filter(x => x.chapter === c.chapter && completedChallenges.includes(x.id)).length;
+            const chTotal = challenges.filter(x => x.chapter === c.chapter).length;
+            const isCompleted = chTotal >= 2 ? chCompleted >= 2 : chCompleted >= chTotal;
             const relLvl = getRelativeLevel(c);
             return (
               <div 
@@ -868,7 +944,7 @@ function DashboardPage({ username, membership, tokens, completedChallenges, chal
                 {isCompleted ? (
                   <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', lineHeight: '1.5' }} dangerouslySetInnerHTML={{ __html: c.whyThisMatters }}></p>
                 ) : (
-                  <p style={{ fontSize: '0.85rem', color: 'var(--text-dark)', fontStyle: 'italic' }}>Complete challenge Level {relLvl} to unlock this Python theory guide.</p>
+                  <p style={{ fontSize: '0.85rem', color: 'var(--text-dark)', fontStyle: 'italic' }}>Complete at least 2 levels of Chapter {c.chapter} to unlock this Python theory guide.</p>
                 )}
               </div>
             );
@@ -951,16 +1027,10 @@ function WorkspacePage({
     setQuizFeedback({});
     setRevealedShortAnswers({});
 
-    // Auto-pop Concept Guide modal only if entering a new chapter for the first time at Level 1!
+    // Auto-pop Concept Guide modal if entering a new chapter
     if (prevChapterRef.current !== challenge.chapter) {
-      if (getRelativeLevel(challenge) === 1) {
-        setConceptModalOpen(true);
-      } else {
-        setConceptModalOpen(false);
-      }
+      setConceptModalOpen(true);
       prevChapterRef.current = challenge.chapter;
-    } else {
-      setConceptModalOpen(false);
     }
     setCurrentStep(0);
   }, [challenge]);
@@ -1211,12 +1281,51 @@ function WorkspacePage({
               <div className="instructions-body" dangerouslySetInnerHTML={{ __html: challenge.instructions }}></div>
               
               {/* DYK toggle focus pane */}
-              {(workspaceFocus === 'dyk' || workspaceFocus === 'code') && (
-                <div className="instructions-dropdown" style={{ border: workspaceFocus === 'dyk' ? '1px solid #00E676' : '1px solid rgba(255,255,255,0.08)' }}>
-                  <summary style={{ padding: '4px', fontWeight: 'bold', color: '#00b0ff' }}>💡 Why This Matters (Did You Know?)</summary>
-                  <div style={{ marginTop: '8px', fontSize: '0.8rem', color: '#8a8aa3' }} dangerouslySetInnerHTML={{ __html: challenge.whyThisMatters }}></div>
-                </div>
-              )}
+              {(workspaceFocus === 'dyk' || workspaceFocus === 'code') && (() => {
+                const chCompleted = challenges.filter(x => x.chapter === challenge.chapter && completedChallenges.includes(x.id)).length;
+                const chTotal = challenges.filter(x => x.chapter === challenge.chapter).length;
+                const isUnlocked = chTotal >= 2 ? chCompleted >= 2 : chCompleted >= chTotal;
+
+                if (!isUnlocked) {
+                  return (
+                    <div className="instructions-dropdown" style={{ border: workspaceFocus === 'dyk' ? '1px solid #FF5F56' : '1px solid rgba(255,255,255,0.08)' }}>
+                      <div style={{ padding: '4px', fontWeight: 'bold', color: '#ff5f56' }}>💡 Locked: Why This Matters (Did You Know?)</div>
+                      <div style={{ marginTop: '8px', fontSize: '0.8rem', color: '#ff5f56', fontStyle: 'italic' }}>
+                        Complete at least 2 levels of this chapter to unlock the "Did You Know" python theory guides.
+                      </div>
+                    </div>
+                  );
+                }
+
+                if (challenge.chapter === 1) {
+                  return (
+                    <div className="instructions-dropdown" style={{ border: workspaceFocus === 'dyk' ? '1px solid #00E676' : '1px solid rgba(255,255,255,0.08)' }}>
+                      <div style={{ padding: '4px', fontWeight: 'bold', color: '#00E676' }}>💡 Unlocked: Jungle of Prints (Did You Know?)</div>
+                      <div style={{ marginTop: '8px', fontSize: '0.8rem', color: '#8a8aa3', display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                        <div>
+                          <strong style={{ color: '#fff' }}>1. Input/Output (I/O) Theory</strong>
+                          <p style={{ marginTop: '4px' }}>In computer science, programs interact with the outside world through I/O operations.<br/>Input &rarr; data coming into the program (keyboard, file, sensor).<br/>Output &rarr; data going out (screen, file, network).<br/>print() is Python’s simplest output function, sending text to the standard output stream (usually the console).</p>
+                        </div>
+                        <div>
+                          <strong style={{ color: '#fff' }}>2. Standard Streams</strong>
+                          <p style={{ marginTop: '4px' }}>Most operating systems define three default streams:<br/>stdin &rarr; standard input<br/>stdout &rarr; standard output<br/>stderr &rarr; standard error<br/>By default, print() writes to stdout. This is why you see results in the terminal.</p>
+                        </div>
+                        <div>
+                          <strong style={{ color: '#fff' }}>3. String Representation</strong>
+                          <p style={{ marginTop: '4px' }}>When you call print(), Python internally converts objects into their string representation using str() or repr().<br/>Example: print(42) # internally does str(42) &rarr; "42"</p>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                }
+
+                return (
+                  <div className="instructions-dropdown" style={{ border: workspaceFocus === 'dyk' ? '1px solid #00E676' : '1px solid rgba(255,255,255,0.08)' }}>
+                    <div style={{ padding: '4px', fontWeight: 'bold', color: '#00b0ff' }}>💡 Why This Matters (Did You Know?)</div>
+                    <div style={{ marginTop: '8px', fontSize: '0.8rem', color: '#8a8aa3' }} dangerouslySetInnerHTML={{ __html: challenge.whyThisMatters }}></div>
+                  </div>
+                );
+              })()}
             </div>
           </div>
 
@@ -1387,204 +1496,7 @@ function WorkspacePage({
 }
 
 // ==========================================================================
-// 7. Admin CRUD Panel Route (React Level Editor interface)
-// ==========================================================================
-function AdminPage({ challenges, setChallenges }) {
-  const [selectedChallenge, setSelectedChallenge] = useState(null);
-  const [title, setTitle] = useState('');
-  const [chapter, setChapter] = useState(1);
-  const [instructions, setInstructions] = useState('');
-  const [whyThisMatters, setWhyThisMatters] = useState('');
-  const [template, setTemplate] = useState('');
-  const [targetOutput, setTargetOutput] = useState('');
-  const [errorTips, setErrorTips] = useState('');
-
-  const [statusMsg, setStatusMsg] = useState('');
-
-  const loadChallenge = (c) => {
-    setSelectedChallenge(c);
-    setTitle(c.title);
-    setChapter(c.chapter);
-    setInstructions(c.instructions);
-    setWhyThisMatters(c.whyThisMatters);
-    setTemplate(c.template);
-    setTargetOutput(c.targetOutput);
-    setErrorTips(c.errorTips);
-    setStatusMsg('');
-  };
-
-  const clearForm = () => {
-    setSelectedChallenge(null);
-    setTitle('');
-    setChapter(1);
-    setInstructions('');
-    setWhyThisMatters('');
-    setTemplate('');
-    setTargetOutput('');
-    setErrorTips('');
-    setStatusMsg('');
-  };
-
-  const handleSave = () => {
-    if (!title || !instructions || !targetOutput) {
-      alert("Please fill in Title, Instructions and Target Output!");
-      return;
-    }
-
-    const payload = { title, chapter, instructions, whyThisMatters, template, targetOutput, errorTips };
-
-    if (selectedChallenge) {
-      // Edit Challenge
-      fetch(`/api/challenges/${selectedChallenge.id}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      })
-      .then(res => res.json())
-      .then(updated => {
-        setChallenges(challenges.map(c => c.id === selectedChallenge.id ? updated : c));
-        setStatusMsg("Challenge updated successfully!");
-      })
-      .catch(() => {
-        // Local Fallback
-        setChallenges(challenges.map(c => c.id === selectedChallenge.id ? { ...c, ...payload } : c));
-        setStatusMsg("Updated challenge locally (MERN backend offline).");
-      });
-    } else {
-      // Add Challenge
-      fetch('/api/challenges', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      })
-      .then(res => res.json())
-      .then(added => {
-        setChallenges([...challenges, added]);
-        clearForm();
-        setStatusMsg("New challenge created successfully!");
-      })
-      .catch(() => {
-        // Local Fallback
-        const newId = challenges.length > 0 ? Math.max(...challenges.map(c => c.id)) + 1 : 1;
-        setChallenges([...challenges, { id: newId, ...payload }]);
-        clearForm();
-        setStatusMsg("Created challenge locally (MERN backend offline).");
-      });
-    }
-  };
-
-  const handleDelete = () => {
-    if (!selectedChallenge) return;
-    if (!confirm("Are you sure you want to delete this level?")) return;
-
-    fetch(`/api/challenges/${selectedChallenge.id}`, {
-      method: 'DELETE'
-    })
-    .then(res => res.json())
-    .then(() => {
-      setChallenges(challenges.filter(c => c.id !== selectedChallenge.id));
-      clearForm();
-      setStatusMsg("Challenge deleted successfully!");
-    })
-    .catch(() => {
-      // Local Fallback
-      setChallenges(challenges.filter(c => c.id !== selectedChallenge.id));
-      clearForm();
-      setStatusMsg("Deleted challenge locally (MERN backend offline).");
-    });
-  };
-
-  return (
-    <div className="admin-container">
-      <div className="admin-header-row">
-        <h2>PyBe Levels Admin Dashboard</h2>
-        <button className="btn btn-secondary" onClick={clearForm}>➕ Create New Level</button>
-      </div>
-
-      {statusMsg && <div className="msg-display success" style={{ marginBottom: '20px' }}>{statusMsg}</div>}
-
-      <div className="admin-layout">
-        
-        {/* Left Side: Challenge selection cards */}
-        <div className="admin-card-list">
-          {challenges.map(c => (
-            <div 
-              key={c.id} 
-              className={`admin-challenge-item ${selectedChallenge?.id === c.id ? 'active' : ''}`}
-              onClick={() => loadChallenge(c)}
-            >
-              <div className="admin-challenge-meta">
-                <h4>{c.title}</h4>
-                <span>Chapter {c.chapter} • Lvl {c.id}</span>
-              </div>
-              <span className="logo-icon">📝</span>
-            </div>
-          ))}
-        </div>
-
-        {/* Right Side: Level editing forms */}
-        <div className="admin-form-panel glass-panel">
-          <h3>{selectedChallenge ? `Edit Level ${selectedChallenge.id}` : 'Create New Level'}</h3>
-          <div className="admin-form" style={{ marginTop: '20px' }}>
-            <div className="admin-form-row">
-              <div className="input-group">
-                <label>Level Title</label>
-                <input type="text" value={title} onChange={e => setTitle(e.target.value)} placeholder="e.g. Printing Math" />
-              </div>
-              <div className="input-group">
-                <label>Chapter Location</label>
-                <select value={chapter} onChange={e => setChapter(Number(e.target.value))}>
-                  <option value={1}>Chapter 1 (Unlocked)</option>
-                  <option value={2}>Chapter 2 (Unlocked)</option>
-                  <option value={3}>Chapter 3 (Premium)</option>
-                  <option value={4}>Chapter 4 (Premium)</option>
-                </select>
-              </div>
-            </div>
-
-            <div className="input-group">
-              <label>Instructions Description (HTML supported)</label>
-              <textarea value={instructions} onChange={e => setInstructions(e.target.value)} placeholder="e.g. Use print() statement..." />
-            </div>
-
-            <div className="input-group">
-              <label>Why This Matters (Did You Know?)</label>
-              <textarea value={whyThisMatters} onChange={e => setWhyThisMatters(e.target.value)} placeholder="Explain the real-world value of this skill..." />
-            </div>
-
-            <div className="admin-form-row">
-              <div className="input-group">
-                <label>Template Code</label>
-                <textarea value={template} onChange={e => setTemplate(e.target.value)} placeholder="Initial editor template..." style={{ fontFamily: 'monospace' }} />
-              </div>
-              <div className="input-group">
-                <label>Target Expected Output</label>
-                <textarea value={targetOutput} onChange={e => setTargetOutput(e.target.value)} placeholder="Exact output target comparison string..." style={{ fontFamily: 'monospace' }} />
-              </div>
-            </div>
-
-            <div className="input-group">
-              <label>AI Helper Error Advice Tips</label>
-              <textarea value={errorTips} onChange={e => setErrorTips(e.target.value)} placeholder="Helpful debugging context text when syntax or test checks fail..." />
-            </div>
-
-            <div className="admin-form-buttons">
-              {selectedChallenge && (
-                <button className="btn btn-secondary" style={{ backgroundColor: 'rgba(255, 95, 86, 0.1)', color: '#ff5f56' }} onClick={handleDelete}>
-                  🗑️ Delete Level
-                </button>
-              )}
-              <button className="btn btn-primary btn-glow" onClick={handleSave}>
-                💾 Save Challenge Level
-              </button>
-            </div>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  );
-}
+// Admin panel removed
 
 // ==========================================================================
 // 8. Prompt Workspace Environment Page Component (Twin Workspace Layout)
@@ -1662,7 +1574,31 @@ function PromptWorkspacePage({
     setActualOut('> Evaluating prompt using LLM solver...');
     setTimeout(() => {
       const promptLower = promptText.toLowerCase();
-      if (promptLower.includes('print') || promptLower.includes('output') || promptLower.length > 25) {
+      const cleanPrompt = promptLower.replace(/[^\w\s]/g, '');
+
+      // Get keywords from targetOutput
+      const targetKeywords = challenge.targetOutput ? challenge.targetOutput.toLowerCase().replace(/[^\w\s]/g, '').split(/\s+/).filter(w => w.length > 1) : [];
+
+      // Get keywords from title or instructions
+      const titleKeywords = challenge.title ? challenge.title.toLowerCase().replace(/[^\w\s]/g, '').split(/\s+/).filter(w => w.length > 2) : [];
+      const instructionsKeywords = challenge.instructions ? challenge.instructions.toLowerCase().replace(/<[^>]*>/g, '').replace(/[^\w\s]/g, '').split(/\s+/).filter(w => w.length > 3) : [];
+
+      // Check if prompt matches key terms
+      const hasTargetKeyword = targetKeywords.some(w => cleanPrompt.includes(w));
+      const hasTitleKeyword = titleKeywords.some(w => cleanPrompt.includes(w));
+      const hasInstructionKeyword = instructionsKeywords.some(w => cleanPrompt.includes(w));
+
+      // Reject too generic prompt (e.g. just "print" or "output" or very short)
+      const isTooGeneric = promptLower.trim() === 'print' || promptLower.trim() === 'output' || promptLower.trim().length < 8;
+
+      const isAccepted = !isTooGeneric && (
+        promptLower.includes(challenge.targetOutput.toLowerCase()) ||
+        hasTargetKeyword ||
+        (hasTitleKeyword && (promptLower.includes('print') || promptLower.includes('output') || promptLower.includes('show'))) ||
+        (hasInstructionKeyword && (promptLower.includes('print') || promptLower.includes('output') || promptLower.includes('show')))
+      );
+
+      if (isAccepted) {
         setActualOut(`> Prompt accepted by model!\n> LLM Output: "${challenge.targetOutput}"\n\n🎉 Prompting target match succeeded!`);
         setIsError(false);
         if (!completedChallenges.includes(challenge.id)) {
@@ -1670,7 +1606,7 @@ function PromptWorkspacePage({
         }
         setSuccessModalOpen(true);
       } else {
-        setActualOut(`> Prompt rejected.\n> Advice: Your prompt is too brief. Describe specifically to the AI what you want it to output or compute (e.g. "Write a Python script to print ${challenge.targetOutput}").`);
+        setActualOut(`> Prompt rejected.\n> Advice: Your prompt does not match the question requirements or is too generic. Describe specifically to the AI what you want it to output or compute (e.g. "Write a Python script to print ${challenge.targetOutput}").`);
         setIsError(true);
       }
     }, 1000);
@@ -1764,12 +1700,51 @@ function PromptWorkspacePage({
               <div className="instructions-body" dangerouslySetInnerHTML={{ __html: challenge.instructions }}></div>
               
               {/* DYK toggle focus pane */}
-              {(workspaceFocus === 'dyk' || workspaceFocus === 'code') && (
-                <div className="instructions-dropdown" style={{ border: workspaceFocus === 'dyk' ? '1px solid #00E676' : '1px solid rgba(255,255,255,0.08)' }}>
-                  <summary style={{ padding: '4px', fontWeight: 'bold', color: '#00b0ff' }}>💡 Why This Matters (Did You Know?)</summary>
-                  <div style={{ marginTop: '8px', fontSize: '0.8rem', color: '#8a8aa3' }} dangerouslySetInnerHTML={{ __html: challenge.whyThisMatters }}></div>
-                </div>
-              )}
+              {(workspaceFocus === 'dyk' || workspaceFocus === 'code') && (() => {
+                const chCompleted = challenges.filter(x => x.chapter === challenge.chapter && completedChallenges.includes(x.id)).length;
+                const chTotal = challenges.filter(x => x.chapter === challenge.chapter).length;
+                const isUnlocked = chTotal >= 2 ? chCompleted >= 2 : chCompleted >= chTotal;
+
+                if (!isUnlocked) {
+                  return (
+                    <div className="instructions-dropdown" style={{ border: workspaceFocus === 'dyk' ? '1px solid #FF5F56' : '1px solid rgba(255,255,255,0.08)' }}>
+                      <div style={{ padding: '4px', fontWeight: 'bold', color: '#ff5f56' }}>💡 Locked: Why This Matters (Did You Know?)</div>
+                      <div style={{ marginTop: '8px', fontSize: '0.8rem', color: '#ff5f56', fontStyle: 'italic' }}>
+                        Complete at least 2 levels of this chapter to unlock the "Did You Know" python theory guides.
+                      </div>
+                    </div>
+                  );
+                }
+
+                if (challenge.chapter === 1) {
+                  return (
+                    <div className="instructions-dropdown" style={{ border: workspaceFocus === 'dyk' ? '1px solid #00E676' : '1px solid rgba(255,255,255,0.08)' }}>
+                      <div style={{ padding: '4px', fontWeight: 'bold', color: '#00E676' }}>💡 Unlocked: Jungle of Prints (Did You Know?)</div>
+                      <div style={{ marginTop: '8px', fontSize: '0.8rem', color: '#8a8aa3', display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                        <div>
+                          <strong style={{ color: '#fff' }}>1. Input/Output (I/O) Theory</strong>
+                          <p style={{ marginTop: '4px' }}>In computer science, programs interact with the outside world through I/O operations.<br/>Input &rarr; data coming into the program (keyboard, file, sensor).<br/>Output &rarr; data going out (screen, file, network).<br/>print() is Python’s simplest output function, sending text to the standard output stream (usually the console).</p>
+                        </div>
+                        <div>
+                          <strong style={{ color: '#fff' }}>2. Standard Streams</strong>
+                          <p style={{ marginTop: '4px' }}>Most operating systems define three default streams:<br/>stdin &rarr; standard input<br/>stdout &rarr; standard output<br/>stderr &rarr; standard error<br/>By default, print() writes to stdout. This is why you see results in the terminal.</p>
+                        </div>
+                        <div>
+                          <strong style={{ color: '#fff' }}>3. String Representation</strong>
+                          <p style={{ marginTop: '4px' }}>When you call print(), Python internally converts objects into their string representation using str() or repr().<br/>Example: print(42) # internally does str(42) &rarr; "42"</p>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                }
+
+                return (
+                  <div className="instructions-dropdown" style={{ border: workspaceFocus === 'dyk' ? '1px solid #00E676' : '1px solid rgba(255,255,255,0.08)' }}>
+                    <div style={{ padding: '4px', fontWeight: 'bold', color: '#00b0ff' }}>💡 Why This Matters (Did You Know?)</div>
+                    <div style={{ marginTop: '8px', fontSize: '0.8rem', color: '#8a8aa3' }} dangerouslySetInnerHTML={{ __html: challenge.whyThisMatters }}></div>
+                  </div>
+                );
+              })()}
             </div>
           </div>
 

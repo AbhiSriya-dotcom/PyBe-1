@@ -1668,7 +1668,7 @@ a:hover {
   flex-grow: 1;
   font-family: var(--font-mono);
   font-size: 0.95rem;
-  min-height: 200px;
+  min-height: 140px;
   background-color: #030308;
 }
 
@@ -1812,7 +1812,7 @@ a:hover {
 
 .split-right {
   height: 100%;
-  overflow-y: auto;
+  overflow-y: hidden;
   display: flex;
   flex-direction: column;
 }
